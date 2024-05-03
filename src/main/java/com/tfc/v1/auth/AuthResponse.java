@@ -1,14 +1,21 @@
 package com.tfc.v1.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuthResponse {
-    String token; 
+    String token;
+
+	public AuthResponse(String token) {
+		super();
+		this.token = token;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	} 
+    
+    
+    
 }

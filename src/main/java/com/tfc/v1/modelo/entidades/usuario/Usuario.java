@@ -40,6 +40,19 @@ public class Usuario implements UserDetails {
 	public Usuario() {
 		super();
 	}
+	
+
+	public Usuario(String nomUsr, String pass, String nombre, String apellido, String email, Rol rol) {
+		super();
+		this.nomUsr = nomUsr;
+		this.pass = pass;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.rol = rol;
+		
+	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,6 +88,88 @@ public class Usuario implements UserDetails {
 	public String getUsername() {
 		return this.nomUsr;
 	}
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getNomUsr() {
+		return nomUsr;
+	}
+
+
+	public void setNomUsr(String nomUsr) {
+		this.nomUsr = nomUsr;
+	}
+
+
+	public String getPass() {
+		return pass;
+	}
+
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getApellido() {
+		return apellido;
+	}
+
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public Date getFecha_alta() {
+		return fecha_alta;
+	}
+
+
+	public void setFecha_alta(Date fecha_alta) {
+		this.fecha_alta = fecha_alta;
+	}
+
+
+	public Rol getRol() {
+		return rol;
+	}
+
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+	
+	
 	
 	
 	

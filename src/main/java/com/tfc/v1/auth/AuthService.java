@@ -26,27 +26,19 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails user=userRepository.findByUsername(request.getUsername()).orElseThrow();
         String token=jwtService.getToken(user);
-        return AuthResponse.builder()
-            .token(token)
-            .build();
+        return new AuthResponse(token);
 
     }
 
     public AuthResponse register(RegisterRequest request) {
-        Usuario user = Usuario.builder()
-            .username(request.getUsername())
-            .password(passwordEncoder.encode( request.getPassword()))
-            .firstname(request.getFirstname())
-            .lastname(request.lastname)
-            .country(request.getCountry())
-            .role(Rol.USER)
-            .build();
+    	// modificar algoritmo para registrar los roles aparte
+    	Usuario usr = new Usuario(request.getNomUsr(), passwordEncoder.encode( request.getPass()), request.getNombre(), request.getApellido(), request.getEmail(), Rol.ADMIN);
+        
 
-        userRepository.save(user);
-
-        return AuthResponse.builder()
-            .token(jwtService.getToken(user))
-            .build();
+        userRepository.save(usr);
+        
+        return new AuthResponse(jwtService.getToken(usr));
+        
         
     }
 
