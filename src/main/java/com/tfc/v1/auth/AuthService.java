@@ -11,20 +11,26 @@ import com.tfc.v1.modelo.entidades.usuario.Rol;
 import com.tfc.v1.modelo.entidades.usuario.Usuario;
 import com.tfc.v1.modelo.persistencia.RepositorioUsuario;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
     private  RepositorioUsuario userRepository;
     private  JwtService jwtService;
     private  PasswordEncoder passwordEncoder;
     private  AuthenticationManager authenticationManager;
+    
+    public AuthService(RepositorioUsuario userRepository, JwtService jwtService, PasswordEncoder passwordEncoder,
+			AuthenticationManager authenticationManager) {
+		super();
+		this.userRepository = userRepository;
+		this.jwtService = jwtService;
+		this.passwordEncoder = passwordEncoder;
+		this.authenticationManager = authenticationManager;
+	}
 
-    public AuthResponse login(LoginRequest request) {
+	public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user=userRepository.findByUsername(request.getUsername()).orElseThrow();
+        UserDetails user=userRepository.findByNomUsr(request.getUsername()).orElseThrow();
         String token=jwtService.getToken(user);
         return new AuthResponse(token);
 

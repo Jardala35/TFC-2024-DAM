@@ -9,5 +9,5 @@ import com.tfc.v1.modelo.entidades.usuario.Usuario;
 
 @Repository
 public interface RepositorioUsuario extends JpaRepository<Usuario, Integer>{
-	Optional<Usuario> findByUsername(String username); 
+	Optional<Usuario> findByNomUsr(String username); 
 }

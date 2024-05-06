@@ -1,6 +1,6 @@
 package com.tfc.v1.modelo.entidades.usuario;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,9 +16,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nomUsr"})})
 public class Usuario implements UserDetails {
 	/**
 	 * 
@@ -33,7 +34,8 @@ public class Usuario implements UserDetails {
 	private String nombre;
 	private String apellido;
 	private String email;
-	private Date fecha_alta;
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime fecha_alta;
 	@Enumerated(EnumType.STRING)
 	private Rol rol;
 	
@@ -50,7 +52,7 @@ public class Usuario implements UserDetails {
 		this.apellido = apellido;
 		this.email = email;
 		this.rol = rol;
-		
+		this.fecha_alta = LocalDateTime.now();
 	}
 
 
@@ -150,12 +152,12 @@ public class Usuario implements UserDetails {
 	}
 
 
-	public Date getFecha_alta() {
+	public LocalDateTime getFecha_alta() {
 		return fecha_alta;
 	}
 
 
-	public void setFecha_alta(Date fecha_alta) {
+	public void setFecha_alta(LocalDateTime fecha_alta) {
 		this.fecha_alta = fecha_alta;
 	}
 

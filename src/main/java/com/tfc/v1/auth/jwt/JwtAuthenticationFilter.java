@@ -2,6 +2,7 @@ package com.tfc.v1.auth.jwt;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,10 +20,18 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
+	@Autowired
 	    private JwtService jwtService;
+	@Autowired
 	    private UserDetailsService userDetailsService;
+	    
+	    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+			super();
+			this.jwtService = jwtService;
+			this.userDetailsService = userDetailsService;
+		}
 
-	    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+		protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 	            throws ServletException, IOException, java.io.IOException {
 	       
 	        final String token = getTokenFromRequest(request);
