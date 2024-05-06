@@ -28,6 +28,7 @@ public class AuthService {
 		this.authenticationManager = authenticationManager;
 	}
 
+    
 	public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails user=userRepository.findByNomUsr(request.getUsername()).orElseThrow();
