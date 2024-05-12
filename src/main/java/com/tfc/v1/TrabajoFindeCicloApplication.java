@@ -9,5 +9,4 @@ public class TrabajoFindeCicloApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TrabajoFindeCicloApplication.class, args);
 	}
-
 }
