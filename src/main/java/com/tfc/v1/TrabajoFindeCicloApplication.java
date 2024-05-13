@@ -22,7 +22,7 @@ public class TrabajoFindeCicloApplication extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		contexto = SpringApplication.run(TrabajoFindeCicloApplication.class);
-	    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/ini_sesion.fxml"));	
+	    FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/vistas/ini_sesion.fxml"));	
 	    fxmlloader.setControllerFactory(contexto::getBean);
 	    rootNode = fxmlloader.load();
 		primaryStage.setScene(new Scene(rootNode));
