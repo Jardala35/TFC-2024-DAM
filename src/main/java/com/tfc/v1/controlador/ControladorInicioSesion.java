@@ -2,11 +2,14 @@ package com.tfc.v1.controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.springframework.stereotype.Component;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+@Component
 public class ControladorInicioSesion implements Initializable {
 
     @FXML

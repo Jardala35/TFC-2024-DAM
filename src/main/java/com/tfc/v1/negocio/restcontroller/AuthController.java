@@ -17,9 +17,7 @@ import com.tfc.v1.auth.RegisterRequest;
 public class AuthController {
     
 	@Autowired
-    private AuthService authService;
-	
-	
+    private AuthService authService;	
     
     public AuthController() {
 		super();
