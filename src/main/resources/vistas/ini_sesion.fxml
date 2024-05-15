@@ -15,7 +15,7 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bf7f17" height="400.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bf7f17" height="95.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
-      <TextField layoutX="272.0" layoutY="213.0" />
+      <TextField fx:id="usuarioTextField" layoutX="272.0" layoutY="213.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="169.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="207.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="245.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
@@ -41,8 +41,8 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button layoutX="320.0" layoutY="307.0" mnemonicParsing="false" text="Iniciar sesión" />
-      <PasswordField layoutX="272.0" layoutY="257.0" />
+      <Button fx:id="iniciarSesionButton" layoutX="320.0" layoutY="307.0" mnemonicParsing="false" onAction="#handleIniciarSesion" text="Iniciar sesión" />
+      <PasswordField fx:id="contrasenaTextField" layoutX="272.0" layoutY="257.0" />
       <Button layoutX="428.0" layoutY="257.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" />
    </children>
 </Pane>

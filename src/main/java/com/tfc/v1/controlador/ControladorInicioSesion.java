@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -25,14 +26,13 @@ public class ControladorInicioSesion implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // Inicialización del controlador, se llama automáticamente después de cargar la vista
     }
-
-    @FXML
-    private void handleIniciarSesion() {
+   
+    public void handleIniciarSesion(ActionEvent e) {
         String usuario = usuarioTextField.getText();
         String contrasena = contrasenaTextField.getText();
 
    
-        System.out.println("Iniciando sesión para usuario: " + usuario);
+        System.out.println("Iniciando sesión para usuario: " + usuario + contrasena);
     }
 
 }
