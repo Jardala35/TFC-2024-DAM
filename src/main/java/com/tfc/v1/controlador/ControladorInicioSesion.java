@@ -3,7 +3,14 @@ package com.tfc.v1.controlador;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.tfc.v1.auth.AuthResponse;
+import com.tfc.v1.auth.LoginRequest;
+import com.tfc.v1.auth.RegisterRequest;
+import com.tfc.v1.negocio.Gestor;
+import org.springframework.http.ResponseEntity;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +28,8 @@ public class ControladorInicioSesion implements Initializable {
 
     @FXML
     private Button iniciarSesionButton;
+    @Autowired
+    private Gestor gestor;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -31,8 +40,17 @@ public class ControladorInicioSesion implements Initializable {
         String usuario = usuarioTextField.getText();
         String contrasena = contrasenaTextField.getText();
 
-   
-        System.out.println("Iniciando sesión para usuario: " + usuario + contrasena);
+        ResponseEntity<AuthResponse> re = gestor.getAuthcontroller().login(new LoginRequest(usuario, contrasena));
+        System.out.println(re.getStatusCode());
+//        System.out.println("Iniciando sesión para usuario: " + usuario + contrasena);
+    }
+    
+    public void registro(ActionEvent e) {
+    	 String usuario = usuarioTextField.getText();
+         String contrasena = contrasenaTextField.getText();
+         
+         gestor.getAuthcontroller().register(new RegisterRequest(usuario,
+        		 contrasena, "Pablo", "Navarro", "pablo@uknown.com"));
     }
 
 }

@@ -1,5 +1,27 @@
 package com.tfc.v1.negocio;
 
-public class Gestor {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.tfc.v1.negocio.restcontroller.AuthController;
+
+@Service
+public class Gestor {
+	@Autowired
+	private AuthController authcontroller;
+
+	public Gestor(AuthController authcontroller) {
+		super();
+		this.authcontroller = authcontroller;
+	}
+
+	public AuthController getAuthcontroller() {
+		return authcontroller;
+	}
+
+	public void setAuthcontroller(AuthController authcontroller) {
+		this.authcontroller = authcontroller;
+	}
+	
+	
 }
