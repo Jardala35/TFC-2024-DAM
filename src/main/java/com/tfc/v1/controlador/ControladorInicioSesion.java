@@ -67,10 +67,26 @@ public class ControladorInicioSesion implements Initializable {
     }
     
     public void abrirVentanaRegistro(ActionEvent event) throws IOException {  
-        root = FXMLLoader.load(getClass().getResource("/vistas/Tabla.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/vistas/Registro.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }	
+    
+    public void abrirVentanaInicioSesion_Registro(ActionEvent event) throws IOException {  
+        root = FXMLLoader.load(getClass().getResource("/vistas/ini_sesion.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public void abrirVentanaInicioSesion_RegistroCancel(ActionEvent event) throws IOException {  
+        root = FXMLLoader.load(getClass().getResource("/vistas/ini_sesion.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }
