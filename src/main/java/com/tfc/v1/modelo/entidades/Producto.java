@@ -1,5 +1,11 @@
 package com.tfc.v1.modelo.entidades;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 @Entity
 public class Producto {
@@ -72,7 +80,32 @@ public class Producto {
 		this.descripcion = descripcion;
 	}
 	
-	
-	
-	
+	public ObservableList<Producto> getTabla() {
+        ObservableList<Producto> productos = FXCollections.observableArrayList();
+
+        String url = "jdbc:mysql://database-tfc.c7ueouasy3yg.us-east-1.rds.amazonaws.com/StockMaven";
+        String user = "admin";
+        String password = "TFCdam2024";
+        
+        String query = "SELECT id, nombre_producto, peso, valor_producto_unidad, descripcion FROM producto";
+        
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nombreProducto = resultSet.getString("nombre_producto");
+                double peso = resultSet.getDouble("peso");
+                double valorProductoUnidad = resultSet.getDouble("valor_producto_unidad");
+                String descripcion = resultSet.getString("descripcion");
+                productos.add(new Producto(id, nombreProducto, peso, valorProductoUnidad, descripcion));
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return productos;
+    }
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorTabla">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b98214" height="400.0" stroke="#ee8522" strokeType="INSIDE" strokeWidth="0.0" width="102.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b98214" height="90.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
@@ -28,14 +28,14 @@
       <Text layoutX="390.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Inicio" />
       <Text layoutX="506.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Fin" />
       <Text layoutX="151.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Busqueda" />
-      <TableView layoutX="116.0" layoutY="140.0" prefHeight="237.0" prefWidth="461.0">
+      <TableView fx:id="tabla" layoutX="116.0" layoutY="140.0" prefHeight="237.0" prefWidth="461.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Nombre" />
-          <TableColumn prefWidth="55.0" text="ID" />
-            <TableColumn prefWidth="95.0" text="Categoria" />
-            <TableColumn prefWidth="63.0" text="Tipo" />
-            <TableColumn prefWidth="79.0" text="Fecha Inicio" />
-            <TableColumn prefWidth="83.0" text="Fecha Fin" />
+          <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
+          <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
+            <TableColumn fx:id="descripcionColumn" prefWidth="95.0" text="Descripcion" />
+            <TableColumn fx:id="pesoColumn" prefWidth="63.0" text="Peso" />
+            <TableColumn fx:id="valorColumn" prefWidth="79.0" text="Valor" />
+            <TableColumn prefWidth="83.0" text="Seccion" />
         </columns>
       </TableView>
       <Button layoutX="236.0" layoutY="110.0" mnemonicParsing="false" text="Button" />
