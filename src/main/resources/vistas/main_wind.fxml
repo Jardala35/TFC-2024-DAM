@@ -17,7 +17,7 @@
       <Circle fill="WHITE" layoutX="554.0" layoutY="48.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
       <ImageView fitHeight="159.0" fitWidth="102.0" layoutX="-2.0" layoutY="-63.0">
          <image>
-            <Image url="@/img/Logo.png" />
+            <Image url="@/vistas/img/Logo.png" />
          </image>
       </ImageView>
    </children>

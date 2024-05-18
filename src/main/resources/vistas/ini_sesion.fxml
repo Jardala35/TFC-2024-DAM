@@ -18,7 +18,7 @@
       <TextField fx:id="usuarioTextField" layoutX="271.0" layoutY="175.0" />
       <ImageView fitHeight="87.0" fitWidth="99.0" layoutX="9.0" layoutY="9.0">
          <image>
-            <Image url="@/img/Logo.png" />
+            <Image url="@/vistas/img/Logo.png" />
          </image>
       </ImageView>
       <Text layoutX="144.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" textAlignment="CENTER" wrappingWidth="81.0">
@@ -40,5 +40,6 @@
             <Font name="Book Antiqua" size="40.0" />
          </font>
       </Label>
+      <Label fx:id="lblerroracceso" layoutX="255.0" layoutY="313.0" prefHeight="17.0" prefWidth="180.0" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
    </children>
 </Pane>

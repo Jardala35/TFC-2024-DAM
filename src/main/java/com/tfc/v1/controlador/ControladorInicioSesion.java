@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -27,65 +28,72 @@ import javafx.stage.Stage;
 @Component
 public class ControladorInicioSesion implements Initializable {
 
-    @FXML
-    private TextField usuarioTextField;
+	@FXML
+	private TextField usuarioTextField;
 
-    @FXML
-    private TextField contrasenaTextField;
+	@FXML
+	private TextField contrasenaTextField;
 
-    @FXML
-    private Button iniciarSesionButton;
+	@FXML
+	private Button iniciarSesionButton;
 
-    @Autowired
-    private Gestor gestor;
+	@Autowired
+	private Gestor gestor;
 
-    @Autowired
-    private SpringFXMLLoader springFXMLLoader;
+	@Autowired
+	private SpringFXMLLoader springFXMLLoader;
 
-    @FXML
-    private Text registro;
+	@FXML
+	private Text registro;
+	@FXML
+	private Label lblerroracceso;
 
-    private Stage stage;
-    private Scene scene;
+	private Stage stage;
+	private Scene scene;
 
-    public ControladorInicioSesion() {
-        super();
-        System.out.println("Controlador inicio creado");
-        System.out.println(this.gestor);
-    }
+	public ControladorInicioSesion() {
+		super();
+		System.out.println("Controlador inicio creado");
+		System.out.println(this.gestor);
+	}
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Gestor inyectado en ControladorInicioSesion: " + (gestor != null));
-    }
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		System.out.println("Gestor inyectado en ControladorInicioSesion: " + (gestor != null));
+	}
 
-    public void handleIniciarSesion(ActionEvent e) throws IOException {
-        String usuario = usuarioTextField.getText();
-        String contrasena = contrasenaTextField.getText();
+	public void handleIniciarSesion(ActionEvent e) throws IOException {
+		String usuario = usuarioTextField.getText();
+		String contrasena = contrasenaTextField.getText();
 
-        // Aquí puedes manejar el inicio de sesión con el gestor
-        
-         ResponseEntity<AuthResponse> re = gestor.getAuthcontroller().login(new LoginRequest(usuario, contrasena));
-         System.out.println(re.getBody());
+		// Aquí puedes manejar el inicio de sesión con el gestor
+		try {
+			ResponseEntity<AuthResponse> re = gestor.getAuthcontroller().login(new LoginRequest(usuario, contrasena));
 
-        System.out.println("Iniciando sesión para usuario: " + usuario + contrasena);
+			System.out.println(re.getBody() + " " + re.getStatusCodeValue());
 
-        // Usar SpringFXMLLoader para cargar la nueva vista
-        Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+			System.out.println("Iniciando sesión para usuario: " + usuario + contrasena);
+			this.lblerroracceso.setVisible(false);
+			// Usar SpringFXMLLoader para cargar la nueva vista
+			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e2) {
+			this.lblerroracceso.setVisible(true);
+		}
 
-    public void abrirVentanaRegistro(ActionEvent event) throws IOException {
-        // Usar SpringFXMLLoader para cargar la nueva vista
-        Parent root = springFXMLLoader.load("/vistas/Registro.fxml");
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+	}
+
+	public void abrirVentanaRegistro(ActionEvent event) throws IOException {
+		// Usar SpringFXMLLoader para cargar la nueva vista
+		Parent root = springFXMLLoader.load("/vistas/Registro.fxml");
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
 }
 
 //	public Gestor getGestor() {
@@ -95,9 +103,7 @@ public class ControladorInicioSesion implements Initializable {
 //	public void setGestor(Gestor gestor) {
 //		this.gestor = gestor;
 //	}	    
-    
-    
-    
+
 //    public void tablaBBDD (ActionEvent event) throws IOException {
 //    	getTabla();
 //    }
@@ -130,4 +136,3 @@ public class ControladorInicioSesion implements Initializable {
 //        
 //        return productos;
 //    }
-
