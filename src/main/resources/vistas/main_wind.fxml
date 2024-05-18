@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bf7f17" height="400.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bf7f17" height="95.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="169.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="207.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="245.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="25.0" layoutX="15.0" layoutY="282.0" stroke="BLACK" strokeType="INSIDE" width="81.0" />
+      <Circle fill="WHITE" layoutX="554.0" layoutY="48.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fitHeight="159.0" fitWidth="102.0" layoutX="-2.0" layoutY="-63.0">
+         <image>
+            <Image url="@/img/Logo.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

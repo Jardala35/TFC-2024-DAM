@@ -6,18 +6,16 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorRegistro">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b98214" height="400.0" stroke="#ee8522" strokeType="INSIDE" strokeWidth="0.0" width="102.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b98214" height="90.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
-      <Circle fill="WHITE" layoutX="541.0" layoutY="45.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" />
-      <ImageView fitHeight="165.0" fitWidth="92.0" layoutY="-61.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="96.0" fitWidth="95.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Captura%20de%20pantalla%202024-04-28%20123734.png" />
+            <Image url="@/img/Logo.png" />
          </image>
       </ImageView>
       <TextField fx:id="textFieldNombre" layoutX="151.0" layoutY="137.0" />
@@ -28,8 +26,8 @@
       <Text layoutX="353.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Usuario" />
       <TextField fx:id="textFieldPassword" layoutX="353.0" layoutY="188.0" />
       <Text layoutX="353.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
-      <Text layoutX="353.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repita la contraseña" />
-      <TextField fx:id="textFieldPassword2" layoutX="353.0" layoutY="243.0" />
+      <Text layoutX="353.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+      <TextField fx:id="textFieldEmail" layoutX="353.0" layoutY="243.0" />
       <Text layoutX="151.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rol" />
       <ChoiceBox layoutX="150.0" layoutY="243.0" prefWidth="150.0" />
       <Button layoutX="199.0" layoutY="307.0" mnemonicParsing="false" onAction="#abrirVentanaInicioSesion_Registro" text="Registro" />

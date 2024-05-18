@@ -9,10 +9,13 @@ import com.tfc.v1.negocio.restcontroller.AuthController;
 public class Gestor {
 	@Autowired
 	private AuthController authcontroller;
+	
+	
 
 	public Gestor(AuthController authcontroller) {
 		super();
 		this.authcontroller = authcontroller;
+		System.out.println("Gestor creado");
 	}
 
 	public AuthController getAuthcontroller() {
