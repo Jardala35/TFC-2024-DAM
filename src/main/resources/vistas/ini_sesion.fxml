@@ -60,7 +60,8 @@
                <children>
                   <Pane prefHeight="88.0" prefWidth="493.0">
                      <children>
-                        <Button fx:id="registroButton" layoutX="332.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-insets: 0; -fx-border-image-width: 0;" text="Registrate Aquí" />
+                        <Label fx:id="lblerroracceso" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" prefHeight="33.0" prefWidth="197.0" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
+                        <Button fx:id="registroButton" layoutX="333.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-insets: 0; -fx-border-image-width: 0;" text="Registrate Aquí" />
                      </children>
                   </Pane>
                </children>
