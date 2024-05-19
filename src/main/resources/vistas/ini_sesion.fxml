@@ -4,42 +4,68 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
+<AnchorPane prefHeight="425.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bf7f17" height="400.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bf7f17" height="95.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
-      <TextField fx:id="usuarioTextField" layoutX="271.0" layoutY="175.0" />
-      <ImageView fitHeight="87.0" fitWidth="99.0" layoutX="9.0" layoutY="9.0">
-         <image>
-            <Image url="@/vistas/img/Logo.png" />
-         </image>
-      </ImageView>
-      <Text layoutX="144.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" textAlignment="CENTER" wrappingWidth="81.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="156.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" textAlignment="CENTER" wrappingWidth="81.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Button fx:id="iniciarSesionButton" layoutX="303.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleIniciarSesion" text="Iniciar sesión" />
-      <PasswordField fx:id="contrasenaTextField" layoutX="271.0" layoutY="219.0" />
-      <Button layoutX="427.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" />
-      <Button fx:id="registroButton" layoutX="426.0" layoutY="351.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-insets: 0; -fx-border-image-width: 0;" text="Registrate Aquí" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="15.0" prefHeight="60.0" prefWidth="490.0" text="Stock Maven" textAlignment="CENTER">
-         <font>
-            <Font name="Book Antiqua" size="40.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblerroracceso" layoutX="255.0" layoutY="313.0" prefHeight="17.0" prefWidth="180.0" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
+      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label accessibleRole="PARENT" alignment="CENTER" contentDisplay="CENTER" text="Stock Maven">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox prefHeight="425.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <VBox alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="71.0" prefWidth="493.0" />
+            <HBox alignment="CENTER" prefHeight="13.0" prefWidth="493.0" />
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="493.0">
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="499.0">
+                     <children>
+                        <Label accessibleRole="PARENT" layoutX="112.0" layoutY="19.0" text="Usuario" />
+                        <TextField fx:id="usuarioTextField" layoutX="180.0" layoutY="15.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="77.0" prefWidth="493.0">
+               <children>
+                  <Pane prefHeight="77.0" prefWidth="493.0">
+                     <children>
+                        <Label layoutX="112.0" layoutY="27.0" text="Contraseña" />
+                        <PasswordField fx:id="contrasenaTextField" accessibleRole="PARENT" alignment="CENTER" layoutX="182.0" layoutY="23.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
+                        <Button layoutX="336.0" layoutY="23.0" mnemonicParsing="false" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="33.0" prefWidth="493.0">
+               <children>
+                  <Pane prefHeight="27.0" prefWidth="91.0">
+                     <children>
+                        <Button fx:id="iniciarSesionButton" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleIniciarSesion" text="Iniciar Sesion" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="84.0" prefWidth="493.0">
+               <children>
+                  <Pane prefHeight="88.0" prefWidth="493.0">
+                     <children>
+                        <Button fx:id="registroButton" layoutX="332.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-insets: 0; -fx-border-image-width: 0;" text="Registrate Aquí" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
-</Pane>
+</AnchorPane>
