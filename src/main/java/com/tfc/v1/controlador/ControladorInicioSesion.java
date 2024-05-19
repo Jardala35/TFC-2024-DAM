@@ -44,7 +44,7 @@ public class ControladorInicioSesion implements Initializable {
 	private SpringFXMLLoader springFXMLLoader;
 
 	@FXML
-	private Text registro;
+	private Button registroButton;
 	@FXML
 	private Label lblerroracceso;
 
