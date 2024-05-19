@@ -7,6 +7,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 @SpringBootApplication(scanBasePackages = "com.tfc.v1")
@@ -30,11 +33,31 @@ public class TrabajoFindeCicloApplication extends Application {
         primaryStage.setScene(new Scene(rootNode));
         primaryStage.setTitle("Stock Maven");
         primaryStage.show();
+        
+        primaryStage.setOnCloseRequest(event -> {
+        	event.consume();
+        	try {
+				salir(primaryStage);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        });
     }
 
     @Override
     public void stop() throws Exception {
         contexto.close();
         System.exit(0);
+    }
+    
+    public void salir(Stage stage) throws Exception {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Salir");
+    	alert.setHeaderText("¿Seguro que desea salir?");
+    	
+    	if(alert.showAndWait().get() == ButtonType.OK) {
+    		stop();
+    	}
     }
 }

@@ -66,13 +66,11 @@ public class ControladorInicioSesion implements Initializable {
 		String usuario = usuarioTextField.getText();
 		String contrasena = contrasenaTextField.getText();
 
-		// Aquí puedes manejar el inicio de sesión con el gestor
 		try {
 			ResponseEntity<AuthResponse> re = gestor.getAuthcontroller().login(new LoginRequest(usuario, contrasena));
 
 			System.out.println(re.getBody() + " " + re.getStatusCodeValue());
 
-			System.out.println("Iniciando sesión para usuario: " + usuario + contrasena);
 			this.lblerroracceso.setVisible(false);
 			// Usar SpringFXMLLoader para cargar la nueva vista
 			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
@@ -96,43 +94,3 @@ public class ControladorInicioSesion implements Initializable {
 	}
 }
 
-//	public Gestor getGestor() {
-//		return gestor;
-//	}
-//
-//	public void setGestor(Gestor gestor) {
-//		this.gestor = gestor;
-//	}	    
-
-//    public void tablaBBDD (ActionEvent event) throws IOException {
-//    	getTabla();
-//    }
-//    
-//    public ObservableList<Producto> getTabla() {
-//        ObservableList<Producto> productos = FXCollections.observableArrayList();
-//
-//        String url = "database-tfc.c7ueouasy3yg.us-east-1.rds.amazonaws.com";
-//        String user = "admin";
-//        String password = "TFCdam2024";
-//        
-//        String query = "SELECT id, descripcion, nombre_producto, peso, valor_producto_unidad FROM productos";
-//        
-//        try (Connection connection = DriverManager.getConnection(url, user, password);
-//             PreparedStatement statement = connection.prepareStatement(query);
-//             ResultSet resultSet = statement.executeQuery()) {
-//            
-//            while (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                String nombre_producto = resultSet.getString("Nombre producto");
-//                double peso = resultSet.getDouble("Peso");
-//                double valor_producto_unidad = resultSet.getDouble("valor_producto_unidad");
-//                String descripcion = resultSet.getString("Descripcion");
-//                productos.add(new Producto(id, nombre_producto, peso, valor_producto_unidad, descripcion));
-//            }
-//            
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        
-//        return productos;
-//    }

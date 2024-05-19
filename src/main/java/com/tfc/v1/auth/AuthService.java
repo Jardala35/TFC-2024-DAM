@@ -38,7 +38,8 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
     	// modificar algoritmo para registrar los roles aparte
-    	Usuario usr = new Usuario(request.getNomUsr(), passwordEncoder.encode( request.getPass()), request.getNombre(), request.getApellido(), request.getEmail(), Rol.ADMIN);
+    	Usuario usr = new Usuario(request.getNomUsr(), passwordEncoder.encode( request.getPass()), 
+    			request.getNombre(), request.getApellido(), request.getEmail(), request.getRol());
         
 
         userRepository.save(usr);
