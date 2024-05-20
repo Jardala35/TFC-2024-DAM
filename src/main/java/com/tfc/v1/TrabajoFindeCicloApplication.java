@@ -25,7 +25,7 @@ public class TrabajoFindeCicloApplication extends Application {
     public void init() throws Exception {
         contexto = SpringApplication.run(TrabajoFindeCicloApplication.class);
     }
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         SpringFXMLLoader springFXMLLoader = contexto.getBean(SpringFXMLLoader.class);

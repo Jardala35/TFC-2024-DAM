@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.tfc.v1.SpringFXMLLoader;
@@ -22,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -51,6 +53,9 @@ public class ControladorRegistro implements Initializable {
 
 	@FXML
 	private ChoiceBox<String> cbxRol;
+
+	@FXML
+	private Label lblerrorusr;
 
 	public ControladorRegistro() {
 		super();
@@ -92,20 +97,32 @@ public class ControladorRegistro implements Initializable {
 		btnRegistro.setDisable(disableButton);
 	}
 
-	public void registro() {
-		gestor.getAuthcontroller()
-				.register(new RegisterRequest(textFieldUser.getText(), textFieldPassword.getText(),
-						textFieldNombre.getText(), textFieldApellido.getText(), textFieldEmail.getText(),
-						Rol.valueOf(cbxRol.getValue())));
+	public Boolean registro() {
+		try {
+			gestor.getAuthcontroller()
+					.register(new RegisterRequest(textFieldUser.getText(), textFieldPassword.getText(),
+							textFieldNombre.getText(), textFieldApellido.getText(), textFieldEmail.getText(),
+							Rol.valueOf(cbxRol.getValue())));
+			this.lblerrorusr.setVisible(false);
+			return true;
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("Error, usuario duplicado");
+			this.lblerrorusr.setVisible(true);
+
+		} catch (Exception e) {
+			System.out.println("Error buscate la vida");
+		}
+		return false;
 	}
 
 	public void abrirVentanaInicioSesion_Registro(ActionEvent event) throws IOException {
-		registro();
-		Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		if (registro()) {
+			Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 
 	public void abrirVentanaInicioSesion_RegistroCancel(ActionEvent event) throws IOException {

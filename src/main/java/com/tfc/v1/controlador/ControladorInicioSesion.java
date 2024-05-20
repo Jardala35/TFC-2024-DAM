@@ -47,6 +47,8 @@ public class ControladorInicioSesion implements Initializable {
 	private Button registroButton;
 	@FXML
 	private Label lblerroracceso;
+	
+	
 
 	private Stage stage;
 	private Scene scene;

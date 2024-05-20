@@ -33,7 +33,7 @@
                         <Label accessibleRole="PARENT" layoutX="65.0" layoutY="6.0" prefHeight="17.0" prefWidth="49.0" text="Nombre" />
                         <TextField fx:id="textFieldNombre" layoutX="65.0" layoutY="24.0" />
                         <Label layoutX="244.0" layoutY="5.0" text="Nombre de Usuario" />
-                        <PasswordField fx:id="textFieldUser" accessibleRole="PARENT" alignment="CENTER" layoutX="244.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
+                        <TextField fx:id="textFieldUser" layoutX="244.0" layoutY="24.0" />
                      </children>
                   </Pane>
                </children>
@@ -56,7 +56,7 @@
                      <children>
                         <Label accessibleRole="PARENT" layoutX="65.0" layoutY="6.0" text="Rol" />
                         <Label layoutX="244.0" layoutY="5.0" text="Email" />
-                        <PasswordField fx:id="textFieldEmail" accessibleRole="PARENT" alignment="CENTER" layoutX="244.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
+                        <TextField fx:id="textFieldEmail" accessibleRole="PARENT" alignment="CENTER" layoutX="244.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
                         <ChoiceBox fx:id="cbxRol" layoutX="65.0" layoutY="24.0" prefWidth="150.0" />
                      </children>
                   </Pane>
@@ -75,6 +75,11 @@
                         <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#abrirVentanaInicioSesion_RegistroCancel" text="Cancelar" />
                      </children>
                   </Pane>
+               </children>
+            </HBox>
+            <HBox prefHeight="47.0" prefWidth="494.0">
+               <children>
+                  <Label fx:id="lblerrorusr" alignment="CENTER" prefHeight="49.0" prefWidth="494.0" text="El usuario ya existe" textAlignment="CENTER" textFill="RED" visible="false" />
                </children>
             </HBox>
          </children>
