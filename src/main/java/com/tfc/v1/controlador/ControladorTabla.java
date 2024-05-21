@@ -69,7 +69,7 @@ public class ControladorTabla {
                 double peso = resultSet.getDouble("peso");
                 double valorProductoUnidad = resultSet.getDouble("valor_producto_unidad");
                 String descripcion = resultSet.getString("descripcion");
-                productos.add(new Producto(id, nombreProducto, peso, valorProductoUnidad, descripcion));
+                //productos.add(new Producto(id, nombreProducto, peso, valorProductoUnidad, descripcion));
             }
             
         } catch (SQLException e) {

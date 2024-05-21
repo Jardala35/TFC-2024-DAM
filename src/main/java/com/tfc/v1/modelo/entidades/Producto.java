@@ -1,11 +1,5 @@
 package com.tfc.v1.modelo.entidades;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,31 +7,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nombre_producto"})})
 public class Producto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column
 	private String nombre_producto;	
-	private double peso;
 	private double valor_producto_unidad;
+	private int cantidad;
 	private String descripcion;
+
 	@ManyToOne
 	@JoinColumn(name="fk_seccion", referencedColumnName="id")
 	private Seccion seccion;
 	
-	public Producto(int id, String nombre_producto, double peso, double valor_producto_unidad,
-			String descripcion) {
+	public Producto(int id, String nombre_producto, double valor_producto_unidad, int cantidad, String descripcion,
+			Seccion seccion) {
 		super();
 		this.id = id;
-		this.nombre_producto = nombre_producto;		
-		this.peso = peso;
+		this.nombre_producto = nombre_producto;
 		this.valor_producto_unidad = valor_producto_unidad;
+		this.cantidad = cantidad;
 		this.descripcion = descripcion;
+		this.seccion = seccion;
 	}
 
 	public int getId() {
@@ -55,14 +52,6 @@ public class Producto {
 	public void setNombre_producto(String nombre_producto) {
 		this.nombre_producto = nombre_producto;
 	}
-	
-	public double getPeso() {
-		return peso;
-	}
-
-	public void setPeso(double peso) {
-		this.peso = peso;
-	}
 
 	public double getValor_producto_unidad() {
 		return valor_producto_unidad;
@@ -72,6 +61,14 @@ public class Producto {
 		this.valor_producto_unidad = valor_producto_unidad;
 	}
 
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -79,33 +76,15 @@ public class Producto {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	public ObservableList<Producto> getTabla() {
-        ObservableList<Producto> productos = FXCollections.observableArrayList();
 
-        String url = "jdbc:mysql://database-tfc.c7ueouasy3yg.us-east-1.rds.amazonaws.com/StockMaven";
-        String user = "admin";
-        String password = "TFCdam2024";
-        
-        String query = "SELECT id, nombre_producto, peso, valor_producto_unidad, descripcion FROM producto";
-        
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String nombreProducto = resultSet.getString("nombre_producto");
-                double peso = resultSet.getDouble("peso");
-                double valorProductoUnidad = resultSet.getDouble("valor_producto_unidad");
-                String descripcion = resultSet.getString("descripcion");
-                productos.add(new Producto(id, nombreProducto, peso, valorProductoUnidad, descripcion));
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return productos;
-    }
+	public Seccion getSeccion() {
+		return seccion;
+	}
+
+	public void setSeccion(Seccion seccion) {
+		this.seccion = seccion;
+	}
+	
+	
+	
 }

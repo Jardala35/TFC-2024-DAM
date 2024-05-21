@@ -17,6 +17,7 @@ public class Movimiento {
 	private String tipo;
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime fecha_alta;
+	
 	public Movimiento(int id, String tipo, LocalDateTime fecha_alta) {
 		super();
 		this.id = id;
