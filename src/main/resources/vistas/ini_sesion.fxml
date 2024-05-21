@@ -55,7 +55,6 @@
                      <children>
                         <Label layoutX="112.0" layoutY="27.0" text="Contraseña" />
                         <PasswordField fx:id="contrasenaTextField" accessibleRole="PARENT" layoutX="182.0" layoutY="23.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
-                        <Button layoutX="336.0" layoutY="23.0" mnemonicParsing="false" />
                      </children>
                   </Pane>
                </children>

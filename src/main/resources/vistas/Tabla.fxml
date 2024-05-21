@@ -23,6 +23,11 @@
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#archivosSubir" text="Sube tu propio CSV" />
+                  <Button mnemonicParsing="false" onAction="#abrirVentanaprincipal" text="Ver informes" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets />

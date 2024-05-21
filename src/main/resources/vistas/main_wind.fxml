@@ -6,18 +6,24 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="425.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Circle fill="DODGERBLUE" radius="32.0" stroke="BLACK" strokeType="INSIDE" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin></Circle>
+            <Pane prefHeight="86.0" prefWidth="612.0">
+               <children>
+                  <ImageView fitHeight="67.0" fitWidth="53.0" layoutX="535.0" layoutY="7.0" onMouseClicked="#tooglePestaña" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/vistas/img/usuario.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="cerrarSesion" layoutX="372.0" layoutY="21.0" mnemonicParsing="false" text="Cerrar Sesión" />
+               </children>
+            </Pane>
          </children>
       </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="425.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -68,7 +74,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Informes">
+                  <Button mnemonicParsing="false" onAction="#abrirInforme" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Informes">
                      <font>
                         <Font size="11.0" />
                      </font>

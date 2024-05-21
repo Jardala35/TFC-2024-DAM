@@ -9,25 +9,45 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.tfc.v1.SpringFXMLLoader;
+import com.tfc.v1.negocio.Gestor;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 @Component
 public class ControladorTabla {
-
+	@Autowired
+	private Gestor gestor;
+	@FXML
+	private Stage stage;
+	@FXML
+	private Scene scene;
+	@Autowired
+	SpringFXMLLoader springFXMLLoader;
     @FXML
     private TableView<String[]> tableView;
     @FXML
     private Button archivos;
+    
+    @FXML
+    private LineChart<Number, Number> lineChart;
 
     private File file;
 
@@ -102,6 +122,7 @@ public class ControladorTabla {
     }
     @FXML
     public void exportarCSV(ActionEvent e) {
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo CSV");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
@@ -123,4 +144,43 @@ public class ControladorTabla {
             }
         }
     }
+    @FXML
+    public void enseñarTabla(ActionEvent e) {
+        lineChart.getData().clear();
+
+        if (tableView.getItems().isEmpty() || tableView.getColumns().isEmpty()) {
+        	System.out.println("No hay datos para mostrar");
+            return; // No hay datos para mostrar
+            
+        }
+
+        // Crear una serie para cada columna
+        for (int i = 1; i < 1; i++) { // Comenzar en 1 para evitar usar la primera columna como eje X
+            TableColumn<String[], ?> column = tableView.getColumns().get(i);
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            series.setName(column.getText());
+
+            for (int j = 0; j < 2; j++) {
+                String[] row = tableView.getItems().get(j);
+                try {
+                    series.getData().add(new XYChart.Data<>(j + 1, Double.parseDouble(row[i])));
+                } catch (NumberFormatException ex) {
+                    System.err.println("Error al convertir el dato '" + row[i] + "' a un número en la fila " + (j + 1) + ", columna " + (i + 1));
+                    ex.printStackTrace();
+                }
+            }
+
+            lineChart.getData().add(series);
+        }
+    }
+    @FXML
+	public void abrirVentanaprincipal(ActionEvent event) throws IOException {
+
+		// Usar SpringFXMLLoader para cargar la nueva vista
+		Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
 }
