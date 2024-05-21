@@ -1,83 +1,126 @@
 package com.tfc.v1.controlador;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.tfc.v1.modelo.entidades.Producto;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.util.Callback;
 
 @Component
 public class ControladorTabla {
-    
-    @FXML
-    private TableView<Producto> tableView;
-    @FXML
-    private TableColumn<Producto, Integer> idColumn;
-    @FXML
-    private TableColumn<Producto, String> nombreColumn;
-    @FXML
-    private TableColumn<Producto, Double> pesoColumn;
-    @FXML
-    private TableColumn<Producto, Double> valorColumn;
-    @FXML
-    private TableColumn<Producto, String> descripcionColumn;
 
     @FXML
-    public void initialize() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-        pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
-        valorColumn.setCellValueFactory(new PropertyValueFactory<>("valorProductoUnidad"));
-        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-    }
+    private TableView<String[]> tableView;
+    @FXML
+    private Button archivos;
+
+    private File file;
+
+    private String delimiter = ",";
 
     @FXML
-    public void tablaBBDD(ActionEvent event) throws IOException {
-        ObservableList<Producto> productos = getTabla();
-        tableView.setItems(productos);
-    }
-    
-    public ObservableList<Producto> getTabla() {
-        ObservableList<Producto> productos = FXCollections.observableArrayList();
+    public void archivosSubir(ActionEvent e) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona los archivos a subir");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+        List<File> archivos = fileChooser.showOpenMultipleDialog(null);
 
-        String url = "jdbc:mysql://database-tfc.c7ueouasy3yg.us-east-1.rds.amazonaws.com/StockMaven";
-        String user = "admin";
-        String password = "TFCdam2024";
-        
-        String query = "SELECT id, nombre_producto, peso, valor_producto_unidad, descripcion FROM producto";
-        
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String nombreProducto = resultSet.getString("nombre_producto");
-                double peso = resultSet.getDouble("peso");
-                double valorProductoUnidad = resultSet.getDouble("valor_producto_unidad");
-                String descripcion = resultSet.getString("descripcion");
-                //productos.add(new Producto(id, nombreProducto, peso, valorProductoUnidad, descripcion));
+        if (archivos != null && !archivos.isEmpty()) {
+            // Tomar el primer archivo seleccionado (podrías manejar múltiples archivos de otra manera)
+            file = archivos.get(0);
+            try {
+                CSVTableView();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                // Manejar la excepción
             }
-            
-        } catch (SQLException e) {
+        }
+    }
+
+    @FXML
+    public void CSVTableView() throws IOException {
+        tableView.getColumns().clear(); 
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean firstLine = true;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(delimiter);
+                if (firstLine) {
+                    for (String columnName : data) {
+                        TableColumn<String[], String> column = new TableColumn<>(columnName);
+                        final int index = Arrays.asList(data).indexOf(columnName);
+                        column.setCellValueFactory(param -> {
+                            String[] rowData = param.getValue();
+                            return new SimpleStringProperty(rowData[index]);
+                        });
+                        // Alinear el contenido al centro
+                        column.setCellFactory(getCenteredCellFactory());
+                        tableView.getColumns().add(column);
+                    }
+                    firstLine = false;
+                } else {
+                    tableView.getItems().add(data);
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        return productos;
     }
-    
-    
+
+    private Callback<TableColumn<String[], String>, TableCell<String[], String>> getCenteredCellFactory() {
+        return column -> {
+            TableCell<String[], String> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item);
+                    }
+                    setStyle("-fx-alignment: CENTER;");
+                }
+            };
+            return cell;
+        };
+    }
+    @FXML
+    public void exportarCSV(ActionEvent e) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar archivo CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (TableColumn<String[], ?> column : tableView.getColumns()) {
+                    bw.write(column.getText() + delimiter);
+                }
+                bw.newLine();
+
+                for (String[] row : tableView.getItems()) {
+                    bw.write(String.join(delimiter, row));
+                    bw.newLine();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }
