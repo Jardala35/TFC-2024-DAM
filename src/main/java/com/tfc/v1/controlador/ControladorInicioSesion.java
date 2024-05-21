@@ -47,8 +47,6 @@ public class ControladorInicioSesion implements Initializable {
 	private Button registroButton;
 	@FXML
 	private Label lblerroracceso;
-	
-	
 
 	private Stage stage;
 	private Scene scene;
@@ -94,5 +92,16 @@ public class ControladorInicioSesion implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	public void abrirInventario(ActionEvent event) throws IOException {
+		// Usar SpringFXMLLoader para cargar la nueva vista
+		Parent root = springFXMLLoader.load("/vistas/Tabla.fxml");
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	
 }
 
