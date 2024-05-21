@@ -20,19 +20,21 @@ public class Producto {
 	private String nombre_producto;	
 	private double valor_producto_unidad;
 	private int cantidad;
+	private double peso;
 	private String descripcion;
 
 	@ManyToOne
 	@JoinColumn(name="fk_seccion", referencedColumnName="id")
 	private Seccion seccion;
-	
-	public Producto(int id, String nombre_producto, double valor_producto_unidad, int cantidad, String descripcion,
-			Seccion seccion) {
+
+	public Producto(int id, String nombre_producto, double valor_producto_unidad, int cantidad, double peso,
+			String descripcion, Seccion seccion) {
 		super();
 		this.id = id;
 		this.nombre_producto = nombre_producto;
 		this.valor_producto_unidad = valor_producto_unidad;
 		this.cantidad = cantidad;
+		this.peso = peso;
 		this.descripcion = descripcion;
 		this.seccion = seccion;
 	}
@@ -69,6 +71,14 @@ public class Producto {
 		this.cantidad = cantidad;
 	}
 
+	public double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -84,6 +94,7 @@ public class Producto {
 	public void setSeccion(Seccion seccion) {
 		this.seccion = seccion;
 	}
+	
 	
 	
 	

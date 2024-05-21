@@ -7,5 +7,6 @@ import com.tfc.v1.modelo.entidades.Seccion;
 
 @Repository
 public interface RepositorioSeccion extends JpaRepository<Seccion, Integer> {
+		public Seccion findByNombre(String nombre);
 
 }
