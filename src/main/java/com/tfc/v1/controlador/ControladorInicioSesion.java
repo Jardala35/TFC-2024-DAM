@@ -15,6 +15,7 @@ import com.tfc.v1.negocio.Gestor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,9 +23,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 @Component
@@ -41,6 +39,8 @@ public class ControladorInicioSesion implements Initializable {
 
 	@Autowired
 	private Gestor gestor;
+	@Autowired
+	private ControladorMainWindow cmw;
 
 	@Autowired
 	private SpringFXMLLoader springFXMLLoader;
@@ -48,16 +48,7 @@ public class ControladorInicioSesion implements Initializable {
 	@FXML
 	private Button registroButton;
 	@FXML
-	private Label lblerroracceso;
-	
-	@FXML
-	private Button cerrarSesion;
-	@FXML
-	private ImageView imgCerrarSesion;
-	@FXML
-	private Rectangle rectCerrarSesion;
-	
-	private Boolean cambioCerrarSesion;
+	private Label lblerroracceso;		
 
 	private Stage stage;
 	private Scene scene;
@@ -65,27 +56,25 @@ public class ControladorInicioSesion implements Initializable {
 	public ControladorInicioSesion() {
 		super();
 		System.out.println("Controlador inicio creado");
-		System.out.println(this.gestor);
-		this.cambioCerrarSesion = true;
+		System.out.println(this.gestor);		
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		System.out.println("Gestor inyectado en ControladorInicioSesion: " + (gestor != null));
 	}
-	@FXML
+	
 	public void handleIniciarSesion(ActionEvent e) throws IOException {
 		String usuario = usuarioTextField.getText();
 		String contrasena = contrasenaTextField.getText();
 
 		try {
 			ResponseEntity<AuthResponse> re = gestor.getAuthcontroller().login(new LoginRequest(usuario, contrasena));
-
 			System.out.println(re.getBody() + " " + re.getStatusCodeValue());
-
-			this.lblerroracceso.setVisible(false);
-			// Usar SpringFXMLLoader para cargar la nueva vista
-			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
+			this.lblerroracceso.setVisible(false);	
+			cmw.setUsuario(usuario);
+			 // Usar SpringFXMLLoader para cargar la nueva vista
+			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");			
 			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);
@@ -98,7 +87,7 @@ public class ControladorInicioSesion implements Initializable {
 	
 	
 
-	@FXML
+	
 	public void abrirVentanaRegistro(ActionEvent event) throws IOException {
 
 		// Usar SpringFXMLLoader para cargar la nueva vista
@@ -109,29 +98,6 @@ public class ControladorInicioSesion implements Initializable {
 		stage.show();
 	}
 	
-	@FXML
-	public void abrirInventario(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/Tabla.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 	
-	@FXML
-	public void tooglePestaña(MouseEvent e) {
-		cerrarSesion.setVisible(!cambioCerrarSesion);
-	}
-	
-	@FXML
-	public void abrirInforme(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/Grafico.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 }
 

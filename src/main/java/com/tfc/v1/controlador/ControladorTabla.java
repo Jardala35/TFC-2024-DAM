@@ -6,18 +6,24 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tfc.v1.SpringFXMLLoader;
+import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.negocio.Gestor;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,12 +33,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 @Component
-public class ControladorTabla {
+public class ControladorTabla implements Initializable {
 	@Autowired
 	private Gestor gestor;
 	@FXML
@@ -43,6 +50,8 @@ public class ControladorTabla {
 	SpringFXMLLoader springFXMLLoader;
     @FXML
     private TableView<String[]> tableView;
+    @FXML
+    private TableView<Producto> tableView2;
     @FXML
     private Button archivos;
     
@@ -182,5 +191,50 @@ public class ControladorTabla {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+	}
+    
+    @SuppressWarnings("unchecked")
+	@FXML
+    public void cargarProductos() {
+        // Fetch data from the database through REST controller
+        List<Producto> productos = gestor.getContRest().listarProductos().getBody();
+
+        if (productos != null) {
+            // Create columns dynamically based on the Producto class fields
+        	 tableView2.getColumns().clear();
+             tableView2.getItems().clear();
+             if (!productos.isEmpty()) {
+            	 TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
+                 idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+                 TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+                 nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+
+                 TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
+                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+                 
+                 TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
+                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+                 
+                 TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
+                 
+                 TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
+                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+                 // Add columns to the TableView
+                 tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+            	 ObservableList<Producto> items = FXCollections.observableArrayList(productos);
+            	 
+                 tableView2.setItems(items);
+             }
+           
+        }
+    }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		cargarProductos();
+		
 	}
 }

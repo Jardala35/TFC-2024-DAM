@@ -1,5 +1,8 @@
 package com.tfc.v1.modelo.entidades;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +29,10 @@ public class Producto {
 	@ManyToOne
 	@JoinColumn(name="fk_seccion", referencedColumnName="id")
 	private Seccion seccion;
+	
+	public Producto() {
+		
+	}
 
 	public Producto(int id, String nombre_producto, double valor_producto_unidad, int cantidad, double peso,
 			String descripcion, Seccion seccion) {

@@ -33,7 +33,7 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableView" prefHeight="343.0" prefWidth="498.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView2" prefHeight="343.0" prefWidth="498.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
                 <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
