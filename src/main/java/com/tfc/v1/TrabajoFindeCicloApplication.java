@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 @SpringBootApplication(scanBasePackages = "com.tfc.v1")
@@ -33,6 +34,11 @@ public class TrabajoFindeCicloApplication extends Application {
         primaryStage.setScene(new Scene(rootNode));
         primaryStage.setTitle("Stock Maven");
         primaryStage.show();
+        
+        Image icon = new Image(getClass().getResourceAsStream("/vistas/img/logo.png"));
+        primaryStage.getIcons().add(icon);
+        
+        
         
         primaryStage.setOnCloseRequest(event -> {
         	event.consume();
