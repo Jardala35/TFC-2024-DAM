@@ -3,10 +3,13 @@ package com.tfc.v1.controlador;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -236,5 +239,35 @@ public class ControladorTabla implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		cargarProductos();
 		
+	}
+	
+	@FXML
+    public void exportarCSV2(ActionEvent e) {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar archivo CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
+                for (TableColumn<Producto, ?> column : tableView2.getColumns()) {
+                    bw.write(column.getText() + delimiter);
+                }
+                bw.newLine();
+
+                for (Producto row : tableView2.getItems()) {
+                    bw.write(getProdStringValues(row, delimiter));
+                    bw.newLine();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+	private String getProdStringValues(Producto p, String delimiter) {
+		return String.valueOf(p.getId()) + delimiter + p.getNombre_producto() + delimiter
+				+ String.valueOf(p.getValor_producto_unidad()) + delimiter + String.valueOf(p.getCantidad()) + delimiter
+				+ String.valueOf(p.getPeso()) + delimiter + p.getDescripcion();
 	}
 }

@@ -17,7 +17,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="29.0" prefWidth="496.0" VBox.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#exportarCSV" text="Exportar">
+                  <Button mnemonicParsing="false" onAction="#exportarCSV2" text="Exportar">
                      <HBox.margin>
                         <Insets right="50.0" />
                      </HBox.margin>

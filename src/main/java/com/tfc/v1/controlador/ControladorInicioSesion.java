@@ -38,9 +38,7 @@ public class ControladorInicioSesion implements Initializable {
 	private Button iniciarSesionButton;
 
 	@Autowired
-	private Gestor gestor;
-	@Autowired
-	private ControladorMainWindow cmw;
+	private Gestor gestor;	
 
 	@Autowired
 	private SpringFXMLLoader springFXMLLoader;
@@ -72,7 +70,7 @@ public class ControladorInicioSesion implements Initializable {
 			ResponseEntity<AuthResponse> re = gestor.getAuthcontroller().login(new LoginRequest(usuario, contrasena));
 			System.out.println(re.getBody() + " " + re.getStatusCodeValue());
 			this.lblerroracceso.setVisible(false);	
-			cmw.setUsuario(usuario);
+			ControladorMainWindow.usuario = usuario;
 			 // Usar SpringFXMLLoader para cargar la nueva vista
 			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");			
 			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
