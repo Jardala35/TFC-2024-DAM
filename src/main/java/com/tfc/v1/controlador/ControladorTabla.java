@@ -24,6 +24,7 @@ import com.tfc.v1.negocio.Gestor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +32,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -39,6 +39,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,14 +50,14 @@ import javafx.util.Callback;
 
 @Component
 public class ControladorTabla implements Initializable {
-	@Autowired
-	private Gestor gestor;
-	@FXML
-	private Stage stage;
-	@FXML
-	private Scene scene;
-	@Autowired
-	SpringFXMLLoader springFXMLLoader;
+    @Autowired
+    private Gestor gestor;
+    @FXML
+    private Stage stage;
+    @FXML
+    private Scene scene;
+    @Autowired
+    SpringFXMLLoader springFXMLLoader;
     @FXML
     private TableView<String[]> tableView;
     @FXML
@@ -69,16 +70,17 @@ public class ControladorTabla implements Initializable {
     private Label lblusr;
     @FXML
     private MenuButton menuBtn;
-
     @FXML
     private MenuItem menuItem1;
-    
     @FXML
     private LineChart<Number, Number> lineChart;
+    @FXML
+    private TextField filterField = null;  // Añadido TextField para el filtro
 
     private File file;
-
     private String delimiter = ",";
+
+    private ObservableList<Producto> productosList;
 
     @FXML
     public void archivosSubir(ActionEvent e) {
@@ -147,9 +149,9 @@ public class ControladorTabla implements Initializable {
             return cell;
         };
     }
+
     @FXML
     public void exportarCSV(ActionEvent e) {
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo CSV");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
@@ -171,88 +173,84 @@ public class ControladorTabla implements Initializable {
             }
         }
     }
+    
     @FXML
-    public void enseñarTabla(ActionEvent e) {
-        lineChart.getData().clear();
-
-        if (tableView.getItems().isEmpty() || tableView.getColumns().isEmpty()) {
-        	System.out.println("No hay datos para mostrar");
-            return; // No hay datos para mostrar
-            
-        }
-
-        // Crear una serie para cada columna
-        for (int i = 1; i < 1; i++) { // Comenzar en 1 para evitar usar la primera columna como eje X
-            TableColumn<String[], ?> column = tableView.getColumns().get(i);
-            XYChart.Series<Number, Number> series = new XYChart.Series<>();
-            series.setName(column.getText());
-
-            for (int j = 0; j < 2; j++) {
-                String[] row = tableView.getItems().get(j);
-                try {
-                    series.getData().add(new XYChart.Data<>(j + 1, Double.parseDouble(row[i])));
-                } catch (NumberFormatException ex) {
-                    System.err.println("Error al convertir el dato '" + row[i] + "' a un número en la fila " + (j + 1) + ", columna " + (i + 1));
-                    ex.printStackTrace();
-                }
-            }
-
-            lineChart.getData().add(series);
-        }
+    public void abrirVentanaprincipal(ActionEvent event) throws IOException {
+        // Usar SpringFXMLLoader para cargar la nueva vista
+        Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
-    @FXML
-	public void abrirVentanaprincipal(ActionEvent event) throws IOException {
-
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
     
     @SuppressWarnings("unchecked")
-	@FXML
+    @FXML
     public void cargarProductos() {
         // Fetch data from the database through REST controller
         List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
         if (productos != null) {
-            // Create columns dynamically based on the Producto class fields
-        	 tableView2.getColumns().clear();
-             tableView2.getItems().clear();
-             if (!productos.isEmpty()) {
-            	 TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
-                 idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        	
+            tableView2.getColumns().clear();
+            tableView2.getItems().clear();
+            if (!productos.isEmpty()) {
+                TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
+                idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-                 TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
-                 nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+                TableColumn<Producto, String> nombreColumn = new TableColumn<>("nombre_producto");
+                nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
 
-                 TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
-                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
-                 
-                 TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
-                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-                 
-                 TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
-                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
-                 
-                 TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
-                 precioColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+                TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
+                precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+                
+                TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
+                cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+                
+                TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+                pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
+                
+                TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
+                descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
-                 // Add columns to the TableView
-                 tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
-            	 ObservableList<Producto> items = FXCollections.observableArrayList(productos);
-            	 
-                 tableView2.setItems(items);
-             }
-           
+                tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+                
+                productosList = FXCollections.observableArrayList(productos);
+                tableView2.setItems(productosList);
+
+                setupFilter();
+            }
         }
     }
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
+    private void setupFilter() {
+        FilteredList<Producto> filteredData = new FilteredList<>(productosList, p -> true);
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(producto -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (producto.getNombre_producto().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; 
+                } else if (String.valueOf(producto.getId()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true; 
+                } else if (producto.getDescripcion().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; 
+                }
+                return false; 
+            });
+        });
+
+        tableView2.setItems(filteredData);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
         imageView.setFitWidth(50); // Ajusta el ancho de la imagen
         imageView.setFitHeight(50); // Ajusta la altura de la imagen
         lblusr = new Label(ControladorMainWindow.usuario);
@@ -266,40 +264,38 @@ public class ControladorTabla implements Initializable {
 
         // Configurar el manejador de acción para el MenuItem
         menuItem1.setOnAction(event -> {
-			try {
-				logout(event);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-        
+            try {
+                logout(event);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+
         ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
         btnAtras.setGraphic(imageAtras);
-		
-		cargarProductos();
-		
-	}
-	
-	private void logout(ActionEvent event) throws IOException {
-		 try {
-	            // Cargar la nueva vista usando SpringFXMLLoader
-	            Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
 
-	            // Obtener el Stage desde cualquier nodo de la escena
-	            Stage stage = (Stage) menuBtn.getScene().getWindow();
-	            Scene scene = new Scene(root);
-	            stage.setScene(scene);
-	            stage.show();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            // Manejar la excepción según sea necesario
-	        }
-	}
-	
-	@FXML
+        cargarProductos();
+    }
+    
+    private void logout(ActionEvent event) throws IOException {
+        try {
+            // Cargar la nueva vista usando SpringFXMLLoader
+            Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+
+            // Obtener el Stage desde cualquier nodo de la escena
+            Stage stage = (Stage) menuBtn.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar la excepción según sea necesario
+        }
+    }
+
+    @FXML
     public void exportarCSV2(ActionEvent e) {
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo CSV");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
@@ -321,9 +317,10 @@ public class ControladorTabla implements Initializable {
             }
         }
     }
-	private String getProdStringValues(Producto p, String delimiter) {
-		return String.valueOf(p.getId()) + delimiter + p.getNombre_producto() + delimiter
-				+ String.valueOf(p.getValor_producto_unidad()) + delimiter + String.valueOf(p.getCantidad()) + delimiter
-				+ String.valueOf(p.getPeso()) + delimiter + p.getDescripcion();
-	}
+
+    private String getProdStringValues(Producto p, String delimiter) {
+        return String.valueOf(p.getId()) + delimiter + p.getNombre_producto() + delimiter
+                + String.valueOf(p.getValor_producto_unidad()) + delimiter + String.valueOf(p.getCantidad()) + delimiter
+                + String.valueOf(p.getPeso()) + delimiter + p.getDescripcion();
+    }
 }
