@@ -20,7 +20,7 @@
                <children>
                   <MenuButton fx:id="menuBtn" layoutX="517.0" layoutY="7.0" mnemonicParsing="false">
                     <items>
-                      <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="cerrar sesion" />
+                      <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
                     </items>
                   </MenuButton>
                </children>
@@ -56,7 +56,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Movimientos">
+                  <Button mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Movimientos">
                      <HBox.margin>
                         <Insets left="75.0" />
                      </HBox.margin>
@@ -75,7 +75,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#abrirInforme" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Informes">
+                  <Button mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Informes">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -86,7 +86,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Ajustes">
+                  <Button mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Ajustes">
                      <HBox.margin>
                         <Insets left="75.0" />
                      </HBox.margin>
