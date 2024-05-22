@@ -207,7 +207,7 @@ public class ControladorTabla implements Initializable {
                 TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
                 cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
                 
-                TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+                TableColumn<Producto, Double> pesoColumn = new TableColumn<>("peso");
                 pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
                 
                 TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
