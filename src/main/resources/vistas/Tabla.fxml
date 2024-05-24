@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
@@ -29,13 +30,21 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="496.0" VBox.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#commitearCambios" text="Button" />
+                  <ComboBox fx:id="cbxSeccion" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </ComboBox>
                   <Button mnemonicParsing="false" onAction="#exportarCSV2" text="Exportar">
                      <HBox.margin>
-                        <Insets right="50.0" />
+                        <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
                   <TextField fx:id="filterField" />
+                  <Button mnemonicParsing="false" onAction="#commitearCambios" text="Actualizar">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Button>
                </children>
                <VBox.margin>
                   <Insets />
