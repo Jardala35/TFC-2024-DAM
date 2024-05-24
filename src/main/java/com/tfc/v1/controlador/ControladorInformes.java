@@ -2,6 +2,7 @@ package com.tfc.v1.controlador;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,36 +21,31 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 @Component
 public class ControladorInformes implements Initializable {
     @Autowired
     private Gestor gestor;
-    @FXML
-    private Stage stage;
-    @FXML
-    private Scene scene;
     @Autowired
-    SpringFXMLLoader springFXMLLoader;
+    private SpringFXMLLoader springFXMLLoader;
 
     @FXML
     private Button btnAtras;
     @FXML
-    private Label lblusr;
+    private Label lblusr = new Label();
     @FXML
     private MenuButton menuBtn;
     @FXML
-    private PieChart pieChart = new PieChart();
-
+    private BarChart<String, Number> barChart;
     @FXML
     private MenuItem menuItem1;
 
@@ -58,12 +54,8 @@ public class ControladorInformes implements Initializable {
         ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
-        lblusr = new Label(ControladorMainWindow.usuario);
-
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(imageView, lblusr);
-
-        menuBtn.setGraphic(vbox);
+        lblusr.setGraphic(imageView);
+        lblusr.setText(ControladorMainWindow.usuario);
 
         menuItem1.setOnAction(event -> {
             try {
@@ -80,22 +72,18 @@ public class ControladorInformes implements Initializable {
     }
 
     private void logout(ActionEvent event) throws IOException {
-        try {
-            Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
-            Stage stage = (Stage) menuBtn.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+        Stage stage = (Stage) menuBtn.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     public void abrirVentanaprincipal(ActionEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
@@ -105,27 +93,26 @@ public class ControladorInformes implements Initializable {
         List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
         if (productos != null && !productos.isEmpty()) {
-            // Limpiar los datos existentes en el gráfico
-            pieChart.getData().clear();
+            ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
 
-            // Crear una lista de datos para el gráfico
-            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+            // Ordenar la lista de productos por cantidad de forma descendente
+            productos.sort(Comparator.comparingInt(Producto::getCantidad).reversed());
 
-            // Recorrer la lista de productos y agregar los datos al gráfico
-            for (Producto producto : productos) {
-                // Obtener el nombre del producto y su valor
+            // Tomar solo los primeros 5 productos
+            List<Producto> top5Productos = productos.subList(0, Math.min(5, productos.size()));
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            for (Producto producto : top5Productos) {
                 String nombreProducto = producto.getNombre_producto();
-                double valorProducto = producto.getValor_producto_unidad();
-
-                // Agregar los datos al gráfico
-                pieChartData.add(new PieChart.Data(nombreProducto, valorProducto));
+                int cantidadProducto = producto.getCantidad();
+                series.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
             }
 
-            // Agregar los datos al gráfico
-            pieChart.setData(pieChartData);
+            barChartData.add(series);
+
+            barChart.setData(barChartData);
         } else {
-            // Si no hay productos, limpiar los datos del gráfico
-            pieChart.getData().clear();
+            barChart.setData(FXCollections.observableArrayList());
         }
     }
 }

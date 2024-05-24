@@ -3,6 +3,7 @@ package com.tfc.v1.negocio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.negocio.restcontroller.AuthController;
 import com.tfc.v1.negocio.restcontroller.ControladorRest;
 
@@ -36,7 +37,9 @@ public class Gestor {
 		this.contRest = contRest;
 	}
 	
-	
+	 public Producto actualizarProducto(int id, Producto producto) {
+	        return contRest.updateProducto(id, producto).getBody();
+	    }
 	
 	
 }

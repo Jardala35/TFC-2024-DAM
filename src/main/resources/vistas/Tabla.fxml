@@ -17,7 +17,7 @@
    <children>
       <VBox layoutX="106.0" layoutY="86.0" prefHeight="352.0" prefWidth="496.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
          <children>
-            <TableView fx:id="tableView2" prefHeight="343.0" prefWidth="498.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView2" editable="true" prefHeight="343.0" prefWidth="498.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
                 <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
@@ -29,6 +29,7 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="496.0" VBox.vgrow="NEVER">
                <children>
+                  <Button mnemonicParsing="false" onAction="#commitearCambios" text="Button" />
                   <Button mnemonicParsing="false" onAction="#exportarCSV2" text="Exportar">
                      <HBox.margin>
                         <Insets right="50.0" />

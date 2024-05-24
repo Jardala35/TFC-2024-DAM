@@ -48,10 +48,10 @@ public class ControladorRest {
 			return new ResponseEntity<Seccion>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 	@GetMapping(value = "secciones")
 	public ResponseEntity<List<Seccion>> listarSecciones() {
-		List<Seccion> listaSecciones = null;
-		listaSecciones = repoSeccion.findAll();
+		List<Seccion> listaSecciones = repoSeccion.findAll();
 		return new ResponseEntity<List<Seccion>>(listaSecciones, HttpStatus.OK);
 	}
 
@@ -64,24 +64,23 @@ public class ControladorRest {
 			return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@GetMapping(value = "productos")
 	public ResponseEntity<List<Producto>> listarProductos() {
-		List<Producto> listaProductos = null;
-		listaProductos = repoProducto.findAll();
+		List<Producto> listaProductos = repoProducto.findAll();
 		return new ResponseEntity<List<Producto>>(listaProductos, HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = "seccion/{id}")
 	public ResponseEntity<Seccion> updateSeccion(@PathVariable("id") int id, 
 			@RequestBody Seccion s) {
 		s.setId(id);
 		Optional<Seccion> sUpdate = repoSeccion.findById(id);			
-		if(sUpdate.isPresent()) {
+		if (sUpdate.isPresent()) {
 			repoSeccion.save(s);
-			return new ResponseEntity<Seccion>(HttpStatus.OK);//200 OK
-		}else {
-			return new ResponseEntity<Seccion>(HttpStatus.NOT_FOUND);//404 NOT FOUND
+			return new ResponseEntity<Seccion>(s, HttpStatus.OK); // 200 OK
+		} else {
+			return new ResponseEntity<Seccion>(HttpStatus.NOT_FOUND); // 404 NOT FOUND
 		}
 	}
 
@@ -90,12 +89,11 @@ public class ControladorRest {
 			@RequestBody Producto p){
 		p.setId(id);
 		Optional<Producto> pUpdate = repoProducto.findById(id);			
-		if(pUpdate.isPresent()) {
+		if (pUpdate.isPresent()) {
 			repoProducto.save(p);
-			return new ResponseEntity<Producto>(HttpStatus.OK);//200 OK
-		}else {
-			return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);//404 NOT FOUND
+			return new ResponseEntity<Producto>(p, HttpStatus.OK); // 200 OK
+		} else {
+			return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND); // 404 NOT FOUND
 		}
 	}
-
 }
