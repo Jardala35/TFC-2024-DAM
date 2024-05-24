@@ -10,6 +10,7 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -47,6 +48,7 @@
          </children></VBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <Button fx:id="exportar" mnemonicParsing="false" onAction="#exportarGraficoAPDF" text="Exportar a PDF" />
             <RadioButton fx:id="rbCantidad" mnemonicParsing="false" text="Cantidad" />
             <RadioButton fx:id="rbPrecio" mnemonicParsing="false" text="precio" />
             <MenuButton mnemonicParsing="false" text="Elije el tipo de gráfico">
@@ -80,6 +82,7 @@
                   <Image url="@/vistas/img/Logo.png" />
                </image>
             </ImageView>
+            <Slider fx:id="sliderGraficos" />
             <Button fx:id="btnAtras" mnemonicParsing="false" onAction="#abrirVentanaprincipal">
                <VBox.margin>
                   <Insets top="290.0" />
