@@ -28,9 +28,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -51,13 +51,14 @@ public class ControladorAjustes implements Initializable {
     @FXML
     private MenuButton menuBtn;
     @FXML
-    private MenuItem menuItem1;
-    @FXML
-    private AnchorPane pane1, pane2;
+    private MenuItem menuItem1;   
     @FXML
     private ImageView logo;
     @FXML
-    private TableView<String[]> tableView;
+    private TableView<String[]> tblProductos;
+    @FXML
+    private TextArea txtarea_secciones;
+    
     private File file;
     private String delimiter = ",";
     
@@ -92,6 +93,14 @@ public class ControladorAjustes implements Initializable {
 			e.printStackTrace();
 		}
     }
+    
+    public void salir() {
+    	vbox_ini.getChildren().remove(0);
+    }
+    
+    public void guardarSalir() {
+    	vbox_ini.getChildren().remove(0);
+    }
 
 
     @Override
@@ -123,6 +132,10 @@ public class ControladorAjustes implements Initializable {
         stage.show();
     }
     
+    public void guardarSeccion() {
+//    	gestor.getContRest().altaSeccion(null)
+    }
+    
     @FXML
     public void archivosSubir(ActionEvent e) {
         FileChooser fileChooser = new FileChooser();
@@ -142,7 +155,7 @@ public class ControladorAjustes implements Initializable {
 
     @FXML
     public void CSVTableView() throws IOException {
-        tableView.getColumns().clear();
+    	tblProductos.getColumns().clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -158,11 +171,11 @@ public class ControladorAjustes implements Initializable {
                             return new SimpleStringProperty(rowData[index]);
                         });
                         column.setCellFactory(getCenteredCellFactory());
-                        tableView.getColumns().add(column);
+                        tblProductos.getColumns().add(column);
                     }
                     firstLine = false;
                 } else {
-                    tableView.getItems().add(data);
+                	tblProductos.getItems().add(data);
                 }
             }
         } catch (IOException e) {

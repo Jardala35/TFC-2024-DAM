@@ -18,7 +18,7 @@
             <HBox prefHeight="41.0" prefWidth="600.0">
                <children>
                   <Label alignment="CENTER" prefHeight="41.0" prefWidth="519.0" text="Configuración incial" textAlignment="CENTER" />
-                  <Button fx:id="btnsalir" mnemonicParsing="false" prefHeight="23.0" prefWidth="82.0" text="Salir">
+                  <Button fx:id="btnsalir" mnemonicParsing="false" onAction="#salir" prefHeight="23.0" prefWidth="82.0" text="Salir">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -49,7 +49,7 @@
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
                                           <TextArea fx:id="txtarea_secciones" prefHeight="82.0" prefWidth="216.0" />
-                                          <Button fx:id="btnguardarSecciones" mnemonicParsing="false" text="guardar">
+                                          <Button fx:id="btnguardarSecciones" mnemonicParsing="false" onAction="#guardarSeccion" text="guardar">
                                              <HBox.margin>
                                                 <Insets left="30.0" top="20.0" />
                                              </HBox.margin>
@@ -73,7 +73,7 @@
                                     <Label layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="590.0" text="Se recomienda cargar los productos desde un archivo csv" />
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button fx:id="btncsv_productos" mnemonicParsing="false" text="subir csv">
+                                          <Button fx:id="btncsv_productos" mnemonicParsing="false" onAction="#archivosSubir" text="subir csv">
                                              <HBox.margin>
                                                 <Insets left="160.0" />
                                              </HBox.margin>
@@ -99,7 +99,7 @@
                         </HBox>
                         <HBox prefHeight="66.0" prefWidth="584.0">
                            <children>
-                              <Button fx:id="btnguardarysalir" mnemonicParsing="false" text="Guardar y salir">
+                              <Button fx:id="btnguardarysalir" mnemonicParsing="false" onAction="#guardarSalir" text="Guardar y salir">
                                  <HBox.margin>
                                     <Insets top="30.0" />
                                  </HBox.margin>
