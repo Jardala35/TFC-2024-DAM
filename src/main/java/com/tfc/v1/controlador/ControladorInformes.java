@@ -1,26 +1,41 @@
 package com.tfc.v1.controlador;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.negocio.Gestor;
+import com.itextpdf.layout.element.AreaBreak;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -36,8 +51,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 
 @Component
 public class ControladorInformes implements Initializable {
@@ -111,6 +129,8 @@ public class ControladorInformes implements Initializable {
                 actualizarGraficaPrecio();
             }
         });
+        
+        
 
         cargarProductos();
     }
@@ -297,6 +317,32 @@ public class ControladorInformes implements Initializable {
             lineChart.setData(null);
             barChart.setData(null);
             areaChart.setData(null);
+        }
+    }
+
+    @FXML
+    public void exportarGraficoAPDF(ActionEvent e) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar gráfico como PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(chartContainer.getScene().getWindow());
+
+        if (file != null) {
+            WritableImage snapshot = chartContainer.snapshot(new SnapshotParameters(), null);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", byteArrayOutputStream);
+
+            try (PdfWriter writer = new PdfWriter(new FileOutputStream(file))) {
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf);
+                document.add(new Paragraph("Gráfico" + toggleGroup.getSelectedToggle().getUserData().toString()));
+                document.add(new AreaBreak());
+
+                ImageData imageData = ImageDataFactory.create(byteArrayOutputStream.toByteArray());
+                com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(imageData);
+                document.add(image);
+                document.close();
+            }
         }
     }
 }

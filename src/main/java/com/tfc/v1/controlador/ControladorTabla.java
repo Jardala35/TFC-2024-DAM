@@ -77,7 +77,7 @@ public class ControladorTabla implements Initializable {
     @FXML
     private TextField filterField;
     @FXML
-    private Button addRowButton =  new Button (); 
+    private Button addRowButton = new Button (); 
 
     private File file;
     private String delimiter = ",";
@@ -326,6 +326,6 @@ public class ControladorTabla implements Initializable {
         stage.show();
     }
     
-  
+       
    
 }
