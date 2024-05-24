@@ -38,7 +38,7 @@
                </image>
             </ImageView>
          </children></VBox>
-      <VBox alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+      <VBox fx:id="chartContainer" alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
             <HBox alignment="CENTER" prefHeight="178.0" prefWidth="493.0">
                <children>
