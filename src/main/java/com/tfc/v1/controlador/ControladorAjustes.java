@@ -14,6 +14,8 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -22,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 @Component
@@ -44,6 +47,38 @@ public class ControladorAjustes implements Initializable {
     private AnchorPane pane1, pane2;
     @FXML
     private ImageView logo;
+    
+    @FXML
+    private VBox vbox_ini;
+    
+    private void showScrollPane(String fxmlPath) throws IOException {        
+        Parent panel = springFXMLLoader.load(fxmlPath);
+
+        // Remueve el último hijo del VBox si es un ScrollPane
+        if (vbox_ini.getChildren().size() == 1 && vbox_ini.getChildren().get(0) instanceof Parent) {
+            vbox_ini.getChildren().remove(0);
+        }
+        // Agrega el nuevo ScrollPane
+        vbox_ini.getChildren().add(panel);
+    }
+    
+    public void confInicial() {
+    	try {
+			showScrollPane("/vistas/panel_conf_ini.fxml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void confUsuarios() {
+    	try {
+			showScrollPane("/vistas/panel_usuarios.fxml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
 
     @Override
@@ -68,7 +103,10 @@ public class ControladorAjustes implements Initializable {
     }
 
     private void logout(ActionEvent event) throws IOException {
-        // Manejo del cierre de sesión
-        System.out.println("Cerrar sesión");
+    	Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+        Stage stage = (Stage) menuBtn.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
