@@ -26,11 +26,14 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -44,11 +47,19 @@ public class ControladorInformes implements Initializable {
     private SpringFXMLLoader springFXMLLoader;
 
     @FXML
+    private RadioButton rbCantidad;
+
+    @FXML
+    private RadioButton rbPrecio;
+
+    @FXML
     private Button btnAtras;
     @FXML
     private Label lblusr = new Label();
     @FXML
     private MenuButton menuBtn;
+    @FXML
+    private MenuButton menuBtn_Columnas = new MenuButton();
     @FXML
     private VBox chartContainer = new VBox();
     @FXML
@@ -57,10 +68,15 @@ public class ControladorInformes implements Initializable {
     private MenuItem barChartItem = new MenuItem();
     @FXML
     private MenuItem areaChartItem = new MenuItem();
+    @FXML
+    private MenuItem pieChartItem = new MenuItem();
 
     private LineChart<String, Number> lineChart = null;
     private BarChart<String, Number> barChart = null;
     private AreaChart<String, Number> areaChart = null;
+    private PieChart pieChart = null;
+
+    private final ToggleGroup toggleGroup = new ToggleGroup();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -68,6 +84,9 @@ public class ControladorInformes implements Initializable {
         imageView.setFitWidth(50); // Ajusta el ancho de la imagen
         imageView.setFitHeight(50); // Ajusta la altura de la imagen
         lblusr = new Label(ControladorMainWindow.usuario);
+
+        rbCantidad.setToggleGroup(toggleGroup);
+        rbPrecio.setToggleGroup(toggleGroup);
 
         // Crear el VBox y agregar la imagen y el texto
         VBox vbox = new VBox();
@@ -80,9 +99,18 @@ public class ControladorInformes implements Initializable {
         lineChartItem.setOnAction(event -> mostrarLineChart());
         barChartItem.setOnAction(event -> mostrarBarChart());
         areaChartItem.setOnAction(event -> mostrarAreaChart());
+        pieChartItem.setOnAction(event -> mostrarPieChart());
 
         ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
         btnAtras.setGraphic(imageAtras);
+
+        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == rbCantidad) {
+                actualizarGraficaCantidad();
+            } else if (newValue == rbPrecio) {
+                actualizarGraficaPrecio();
+            }
+        });
 
         cargarProductos();
     }
@@ -96,15 +124,23 @@ public class ControladorInformes implements Initializable {
         }
     }
 
-    
     @FXML
     public void mostrarBarChart() {
         chartContainer.getChildren().setAll(barChart);
     }
-    
+
     @FXML
     public void mostrarAreaChart() {
         chartContainer.getChildren().setAll(areaChart);
+    }
+
+    @FXML
+    public void mostrarPieChart() {
+        if (pieChart != null) {
+            chartContainer.getChildren().setAll(pieChart);
+        } else {
+            System.out.println("El gráfico de pastel no está inicializado.");
+        }
     }
 
     @FXML
@@ -133,23 +169,19 @@ public class ControladorInformes implements Initializable {
             ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
-
-            // Ordenar la lista de productos por cantidad de forma descendente
-            productos.sort(Comparator.comparingInt(Producto::getCantidad).reversed());
-
-            // Tomar solo los primeros 5 productos
-            List<Producto> top5Productos = productos.subList(0, Math.min(5, productos.size()));
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
             XYChart.Series<String, Number> lineChartSeries = new XYChart.Series<>();
             XYChart.Series<String, Number> barChartSeries = new XYChart.Series<>();
             XYChart.Series<String, Number> areaChartSeries = new XYChart.Series<>();
 
-            for (Producto producto : top5Productos) {
+            for (Producto producto : productos) {
                 String nombreProducto = producto.getNombre_producto();
                 int cantidadProducto = producto.getCantidad();
                 lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
+                pieChartData.add(new PieChart.Data(nombreProducto, cantidadProducto));
             }
 
             lineChartData.add(lineChartSeries);
@@ -175,13 +207,96 @@ public class ControladorInformes implements Initializable {
                 areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
             }
 
+            if (pieChart == null) {
+                pieChart = new PieChart(pieChartData);
+            }
+
             // Mostrar el gráfico inicial
-            mostrarLineChart();
+            mostrarPieChart();
         } else {
             // Si no hay datos, limpiar el contenedor
             chartContainer.getChildren().clear();
         }
     }
 
+    @FXML
+    private void actualizarGraficaCantidad() {
+        List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
+        if (productos != null && !productos.isEmpty()) {
+            ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+            ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
+            ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+            XYChart.Series<String, Number> lineChartSeries = new XYChart.Series<>();
+            XYChart.Series<String, Number> barChartSeries = new XYChart.Series<>();
+            XYChart.Series<String, Number> areaChartSeries = new XYChart.Series<>();
+
+            for (Producto producto : productos) {
+                String nombreProducto = producto.getNombre_producto();
+                int cantidadProducto = producto.getCantidad();
+                lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
+                barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
+                areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
+                pieChartData.add(new PieChart.Data(nombreProducto, cantidadProducto));
+            }
+
+            lineChartData.add(lineChartSeries);
+            barChartData.add(barChartSeries);
+            areaChartData.add(areaChartSeries);
+
+            // Actualizar los datos en los gráficos
+            lineChart.setData(lineChartData);
+            barChart.setData(barChartData);
+            areaChart.setData(areaChartData);
+            pieChart.setData(pieChartData);
+        } else {
+            // Si no hay datos, limpiar los gráficos
+            lineChart.setData(null);
+            barChart.setData(null);
+            areaChart.setData(null);
+            pieChart.setData(null);
+        }
+    }
+
+    @FXML
+    private void actualizarGraficaPrecio() {
+        List<Producto> productos = gestor.getContRest().listarProductos().getBody();
+
+        if (productos != null && !productos.isEmpty()) {
+            ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+            ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
+            ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
+
+            XYChart.Series<String, Number> lineChartSeries = new XYChart.Series<>();
+            XYChart.Series<String, Number> barChartSeries = new XYChart.Series<>();
+            XYChart.Series<String, Number> areaChartSeries = new XYChart.Series<>();
+
+            // Ordenar la lista de productos por precio de forma descendente
+            productos.sort(Comparator.comparingDouble(Producto::getValor_producto_unidad).reversed());
+
+            for (Producto producto : productos) {
+                String nombreProducto = producto.getNombre_producto();
+                double precioProducto = producto.getValor_producto_unidad();
+                lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
+                barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
+                areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
+            }
+
+            lineChartData.add(lineChartSeries);
+            barChartData.add(barChartSeries);
+            areaChartData.add(areaChartSeries);
+
+            // Actualizar los datos en los gráficos
+            lineChart.setData(lineChartData);
+            barChart.setData(barChartData);
+            areaChart.setData(areaChartData);
+        } else {
+            // Si no hay datos, limpiar los gráficos
+            lineChart.setData(null);
+            barChart.setData(null);
+            areaChart.setData(null);
+        }
+    }
 }

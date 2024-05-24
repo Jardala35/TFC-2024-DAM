@@ -48,4 +48,12 @@ public class Gestor {
 	 public void eliminarProducto(int id) {
 		    contRest.eliminarProducto(id);
 		}
+	 
+	 public int obtenerCantidadProducto(int idProducto) {
+	        return contRest.obtenerCantidadProducto(idProducto).getBody();
+	    }
+
+	    public double obtenerPrecioProducto(int idProducto) {
+	        return contRest.obtenerPrecioProducto(idProducto).getBody();
+	    }
 }

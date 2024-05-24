@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -46,11 +47,14 @@
          </children></VBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <RadioButton fx:id="rbCantidad" mnemonicParsing="false" text="Cantidad" />
+            <RadioButton fx:id="rbPrecio" mnemonicParsing="false" text="precio" />
             <MenuButton mnemonicParsing="false" text="Elije el tipo de gráfico">
               <items>
                 <MenuItem fx:id="barChartItem" mnemonicParsing="false" text="Gráfico de Barras" />
                 <MenuItem fx:id="lineChartItem" mnemonicParsing="false" text="Gráfico de Lineas" />
                   <MenuItem fx:id="areaChartItem" mnemonicParsing="false" text="Gráfico de area" />
+                  <MenuItem fx:id="pieChartItem" mnemonicParsing="false" text="PieChart" />
               </items>
             </MenuButton>
             <MenuButton fx:id="menuBtn" mnemonicParsing="false">

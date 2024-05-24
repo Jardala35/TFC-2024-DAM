@@ -100,4 +100,28 @@ public class ControladorRest {
 	public void eliminarProducto(int id) {
 	    repoProducto.deleteById(id);
 	}
+	
+	@GetMapping(value = "producto/{id}/cantidad")
+    public ResponseEntity<Integer> obtenerCantidadProducto(@PathVariable("id") int id) {
+        Optional<Producto> productoOptional = repoProducto.findById(id);
+        if (productoOptional.isPresent()) {
+            Producto producto = productoOptional.get();
+            int cantidad = producto.getCantidad();
+            return new ResponseEntity<>(cantidad, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "producto/{id}/precio")
+    public ResponseEntity<Double> obtenerPrecioProducto(@PathVariable("id") int id) {
+        Optional<Producto> productoOptional = repoProducto.findById(id);
+        if (productoOptional.isPresent()) {
+            Producto producto = productoOptional.get();
+            double precio = producto.getValor_producto_unidad();
+            return new ResponseEntity<>(precio, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
