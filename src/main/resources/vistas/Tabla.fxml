@@ -35,13 +35,16 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" text="Button" />
                   <Button mnemonicParsing="false" onAction="#exportarCSV2" text="Exportar">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#addRow" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" text="Borrar Fila" />
+                  <Button mnemonicParsing="false" onAction="#addRow" text="Añadir fila">
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin></Button>
                   <TextField fx:id="filterField" />
                   <Button mnemonicParsing="false" onAction="#commitearCambios" text="Actualizar">
                      <HBox.margin>
