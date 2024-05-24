@@ -40,6 +40,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -268,5 +271,33 @@ public class ControladorTabla implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarProductos();
+        ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
+		imageView.setFitWidth(50); // Ajusta el ancho de la imagen
+		imageView.setFitHeight(50); // Ajusta la altura de la imagen
+		lblusr = new Label(ControladorMainWindow.usuario);
+
+		// Crear el VBox y agregar la imagen y el texto
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(imageView, lblusr);
+
+		// Asignar el VBox como gráfico del MenuButton
+		menuBtn.setGraphic(vbox);
+
+		// Configurar el manejador de acción para el MenuItem
+		menuItem1.setOnAction(event -> {
+			try {
+				logout(event);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+    }
+    private void logout(ActionEvent event) throws IOException {
+        Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+        Stage stage = (Stage) menuBtn.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

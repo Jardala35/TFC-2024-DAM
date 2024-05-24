@@ -29,6 +29,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 @Component
@@ -51,19 +52,27 @@ public class ControladorInformes implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-        lblusr.setGraphic(imageView);
-        lblusr.setText(ControladorMainWindow.usuario);
+    	ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
+		imageView.setFitWidth(50); // Ajusta el ancho de la imagen
+		imageView.setFitHeight(50); // Ajusta la altura de la imagen
+		lblusr = new Label(ControladorMainWindow.usuario);
 
-        menuItem1.setOnAction(event -> {
-            try {
-                logout(event);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+		// Crear el VBox y agregar la imagen y el texto
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(imageView, lblusr);
+
+		// Asignar el VBox como gráfico del MenuButton
+		menuBtn.setGraphic(vbox);
+
+		// Configurar el manejador de acción para el MenuItem
+		menuItem1.setOnAction(event -> {
+			try {
+				logout(event);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
         ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
         btnAtras.setGraphic(imageAtras);
