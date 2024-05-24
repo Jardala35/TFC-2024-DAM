@@ -19,12 +19,11 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
+import com.itextpdf.layout.element.Paragraph;
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.negocio.Gestor;
-import com.itextpdf.layout.element.AreaBreak;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,6 +47,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -335,7 +335,17 @@ public class ControladorInformes implements Initializable {
             try (PdfWriter writer = new PdfWriter(new FileOutputStream(file))) {
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf);
-                document.add(new Paragraph("Gráfico" + toggleGroup.getSelectedToggle().getUserData().toString()));
+                document.add(new Paragraph("Gráfico"));
+
+                // Verificar si hay un Toggle seleccionado antes de acceder a su UserData
+                Toggle selectedToggle = toggleGroup.getSelectedToggle();
+                if (selectedToggle != null) {
+                    Object userData = selectedToggle.getUserData();
+                    if (userData != null) {
+                        document.add(new Paragraph(userData.toString()));
+                    }
+                }
+
                 document.add(new AreaBreak());
 
                 ImageData imageData = ImageDataFactory.create(byteArrayOutputStream.toByteArray());
@@ -345,4 +355,5 @@ public class ControladorInformes implements Initializable {
             }
         }
     }
+
 }
