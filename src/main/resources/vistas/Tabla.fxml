@@ -35,6 +35,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </ComboBox>
+                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" text="Button" />
                   <Button mnemonicParsing="false" onAction="#exportarCSV2" text="Exportar">
                      <HBox.margin>
                         <Insets right="20.0" />
