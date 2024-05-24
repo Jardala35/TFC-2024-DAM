@@ -96,4 +96,8 @@ public class ControladorRest {
 			return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND); // 404 NOT FOUND
 		}
 	}
+	
+	public void eliminarProducto(int id) {
+	    repoProducto.deleteById(id);
+	}
 }

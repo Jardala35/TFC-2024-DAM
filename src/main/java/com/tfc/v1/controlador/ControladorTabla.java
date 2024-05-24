@@ -42,6 +42,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -77,6 +78,8 @@ public class ControladorTabla implements Initializable {
     private LineChart<Number, Number> lineChart;
     @FXML
     private TextField filterField;
+    @FXML
+    private Button addRowButton =  new Button (); 
 
     private File file;
     private String delimiter = ",";
@@ -239,26 +242,14 @@ public class ControladorTabla implements Initializable {
                 });
 
                 tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+                
+                // Crear una nueva lista observable y asignarla a la tabla
                 ObservableList<Producto> items = FXCollections.observableArrayList(productos);
-                FilteredList<Producto> filteredData = new FilteredList<>(items, p -> true);
-
-                filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    filteredData.setPredicate(producto -> {
-                        if (newValue == null || newValue.isEmpty()) {
-                            return true;
-                        }
-                        String lowerCaseFilter = newValue.toLowerCase();
-                        return producto.getNombre_producto().toLowerCase().contains(lowerCaseFilter) ||
-                               producto.getDescripcion().toLowerCase().contains(lowerCaseFilter);
-                    });
-                });
-
-                SortedList<Producto> sortedData = new SortedList<>(filteredData);
-                sortedData.comparatorProperty().bind(tableView2.comparatorProperty());
-                tableView2.setItems(sortedData);
+                tableView2.setItems(items);
             }
         }
     }
+
 
     @FXML
     public void commitearCambios(ActionEvent event) {
@@ -268,31 +259,67 @@ public class ControladorTabla implements Initializable {
         }
     }
 
+    @FXML
+    public void addRow() {
+        Producto newProducto = new Producto();
+        // Configurar los valores del nuevo producto, por ejemplo:
+        newProducto.setNombre_producto("Nuevo producto");
+        newProducto.setValor_producto_unidad(0.0);
+        newProducto.setCantidad(0);
+        newProducto.setPeso(0.0);
+        newProducto.setDescripcion("Descripción del nuevo producto");
+
+        // Agregar el nuevo producto a la lista observable de la tabla
+        tableView2.getItems().add(newProducto);
+
+        // Insertar el nuevo producto en la base de datos
+        gestor.insertarProducto(newProducto);
+    }
+    
+    @FXML
+    public void deleteSelectedRow() {
+        // Obtener la fila seleccionada
+        Producto selectedProduct = tableView2.getSelectionModel().getSelectedItem();
+        
+        // Verificar si se ha seleccionado una fila
+        if (selectedProduct != null) {
+            // Eliminar la fila de la tabla
+            tableView2.getItems().remove(selectedProduct);
+            
+            // Eliminar la fila de la base de datos
+            gestor.eliminarProducto(selectedProduct.getId());
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cargarProductos();
         ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
-		imageView.setFitWidth(50); // Ajusta el ancho de la imagen
-		imageView.setFitHeight(50); // Ajusta la altura de la imagen
-		lblusr = new Label(ControladorMainWindow.usuario);
+        imageView.setFitWidth(50); // Ajusta el ancho de la imagen
+        imageView.setFitHeight(50); // Ajusta la altura de la imagen
+        lblusr = new Label(ControladorMainWindow.usuario);
 
-		// Crear el VBox y agregar la imagen y el texto
-		VBox vbox = new VBox();
-		vbox.getChildren().addAll(imageView, lblusr);
+        // Crear el VBox y agregar la imagen y el texto
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(imageView, lblusr);
 
-		// Asignar el VBox como gráfico del MenuButton
-		menuBtn.setGraphic(vbox);
+        // Asignar el VBox como gráfico del MenuButton
+        menuBtn.setGraphic(vbox);
 
-		// Configurar el manejador de acción para el MenuItem
-		menuItem1.setOnAction(event -> {
-			try {
-				logout(event);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
+        // Configurar el manejador de acción para el MenuItem
+        menuItem1.setOnAction(event -> {
+            try {
+                logout(event);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+
+        // Configurar el botón para añadir filas
+        addRowButton.setOnAction(event -> addRow());
     }
+
     private void logout(ActionEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
         Stage stage = (Stage) menuBtn.getScene().getWindow();

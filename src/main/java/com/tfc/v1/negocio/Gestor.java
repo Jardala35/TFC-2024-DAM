@@ -41,5 +41,11 @@ public class Gestor {
 	        return contRest.updateProducto(id, producto).getBody();
 	    }
 	
-	
+	 public Producto insertarProducto(Producto producto) {
+	        return contRest.altaProducto(producto).getBody();
+	    }
+	 
+	 public void eliminarProducto(int id) {
+		    contRest.eliminarProducto(id);
+		}
 }
