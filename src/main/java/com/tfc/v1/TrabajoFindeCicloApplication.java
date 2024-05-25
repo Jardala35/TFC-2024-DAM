@@ -45,7 +45,6 @@ public class TrabajoFindeCicloApplication extends Application {
         	try {
 				salir(primaryStage);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         });

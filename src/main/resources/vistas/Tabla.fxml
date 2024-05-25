@@ -14,42 +14,52 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="437.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorTabla">
+<AnchorPane prefHeight="437.0" prefWidth="602.0" stylesheets="@/vistas/img/tabla.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorTabla">
    <children>
-      <VBox layoutX="106.0" layoutY="86.0" prefHeight="352.0" prefWidth="496.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
+      <VBox layoutY="86.0" prefHeight="487.0" prefWidth="602.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
          <children>
-            <TableView fx:id="tableView2" editable="true" prefHeight="343.0" prefWidth="498.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView2" editable="true" prefHeight="312.0" prefWidth="529.0" stylesheets="@/vistas/img/tabla.css" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
+                <TableColumn fx:id="nombreColumn" prefWidth="120.0" text="Nombre" />
                 <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
-                  <TableColumn fx:id="descripcionColumn" prefWidth="95.0" text="Descripcion" />
-                  <TableColumn fx:id="pesoColumn" prefWidth="63.0" text="Peso" />
-                  <TableColumn fx:id="valorColumn" prefWidth="79.0" text="Valor" />
-                  <TableColumn minWidth="0.0" prefWidth="81.0" text="Seccion" />
+                  <TableColumn fx:id="descripcionColumn" prefWidth="120.0" text="Descripcion" />
+                  <TableColumn fx:id="pesoColumn" prefWidth="120.0" text="Peso" />
+                  <TableColumn fx:id="valorColumn" prefWidth="120.0" text="Valor" />
+                  <TableColumn maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="120.0" text="Seccion" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="496.0" VBox.vgrow="NEVER">
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="496.0" stylesheets="@/vistas/img/tabla.css">
                <children>
+                  <ImageView fitHeight="23.0" fitWidth="31.0" onMouseClicked="#abrirVentanaprincipal" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </ImageView>
                   <ComboBox fx:id="cbxSeccion" prefWidth="150.0">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Button mnemonicParsing="false" onAction="#exportarCSV2" text="Exportar">
+                  <Button mnemonicParsing="false" onAction="#exportarCSV2" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Exportar">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
                   <TextField fx:id="filterField" />
-                  <Button mnemonicParsing="false" onAction="#commitearCambios" text="Actualizar">
+                  <Button mnemonicParsing="false" onAction="#commitearCambios" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Actualizar">
                      <HBox.margin>
                         <Insets left="20.0" />
-                     </HBox.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#addRow" text="Añadir fila">
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#addRow" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Añadir fila">
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
-                     </HBox.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" text="Borrar Fila" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Borrar Fila" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -57,9 +67,21 @@
             </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuButton fx:id="menuBtn" mnemonicParsing="false">
+            <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="450.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@/vistas/img/Logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
               <items>
                 <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
               </items>
@@ -72,22 +94,5 @@
             </MenuButton>
          </children>
       </HBox>
-      <VBox alignment="TOP_CENTER" prefHeight="437.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="80.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets top="8.0" />
-               </VBox.margin>
-               <image>
-                  <Image url="@/vistas/img/Logo.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="btnAtras" mnemonicParsing="false" onAction="#abrirVentanaprincipal">
-               <VBox.margin>
-                  <Insets top="290.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
    </children>
 </AnchorPane>

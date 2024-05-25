@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -28,129 +29,123 @@ import javafx.stage.Stage;
 @Component
 public class ControladorMainWindow implements Initializable {
 
-	@Autowired
-	private Gestor gestor;
-	@FXML
-	private ImageView imgBack;
+    @Autowired
+    private Gestor gestor;
 
-	@FXML
-	private MenuButton menuBtn;
+    @FXML
+    private ImageView imgBack;
 
-	@FXML
-	private MenuItem menuItem1;
+    @FXML
+    private MenuButton menuBtn;
 
-	@FXML
-	private Pane paneid;
+    @FXML
+    private MenuItem menuItem1;
 
-	@FXML
-	private Label lblusr;
+    @FXML
+    private Button botonInv, botonGraf, botonAju, botonMov;
 
-	public static String usuario;
+    @FXML
+    private ImageView imgInv, imgGraf, imgAju, imgMov;
 
-	@Autowired
-	private SpringFXMLLoader springFXMLLoader;
+    @FXML
+    private Pane paneid;
 
-	private Stage stage;
-	private Scene scene;
+    @FXML
+    private Label lblusr;
 
-	public ControladorMainWindow() {
-		super();
-		System.out.println("Controlador main window creado");
-		System.out.println(this.gestor);
+    public static String usuario;
 
-	}
+    @Autowired
+    private SpringFXMLLoader springFXMLLoader;
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		System.out.println("Gestor inyectado en ControladorInicioSesion: " + (gestor != null));
-		ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
-		imageView.setFitWidth(50); // Ajusta el ancho de la imagen
-		imageView.setFitHeight(50); // Ajusta la altura de la imagen
-		lblusr = new Label(usuario);
+    private Stage stage;
+    private Scene scene;
 
-		// Crear el VBox y agregar la imagen y el texto
-		VBox vbox = new VBox();
-		vbox.getChildren().addAll(imageView, lblusr);
+    public ControladorMainWindow() {
+        super();
+        System.out.println("Controlador main window creado");
+        System.out.println(this.gestor);
+    }
 
-		// Asignar el VBox como gráfico del MenuButton
-		menuBtn.setGraphic(vbox);
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        System.out.println("Gestor inyectado en ControladorInicioSesion: " + (gestor != null));
+        ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        lblusr = new Label(usuario);
 
-		// Configurar el manejador de acción para el MenuItem
-		menuItem1.setOnAction(event -> {
-			try {
-				logout(event);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(imageView, lblusr);
 
-	}
+        menuBtn.setGraphic(vbox);
 
-	private void logout(ActionEvent event) throws IOException {
-		try {
-			// Cargar la nueva vista usando SpringFXMLLoader
-			Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+        menuItem1.setOnAction(event -> {
+            try {
+                logout(event);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
-			// Obtener el Stage desde cualquier nodo de la escena
-			Stage stage = (Stage) menuBtn.getScene().getWindow();
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-			// Manejar la excepción según sea necesario
-		}
-	}
 
-	@FXML
-	public void abrirInventario(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/Tabla.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 
-	@FXML
-	public void abrirGrafico(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/Grafico.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	@FXML
-	public void abrirInformes(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/informes.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	@FXML
-	public void abrirAjustes(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/ajustes.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	@FXML
-	public void abrirMovimientos(ActionEvent event) throws IOException {
-		// Usar SpringFXMLLoader para cargar la nueva vista
-		Parent root = springFXMLLoader.load("/vistas/movimientos.fxml");
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
 
+    private void logout(ActionEvent event) throws IOException {
+        try {
+            Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+            Stage stage = (Stage) menuBtn.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void abrirInventario(ActionEvent event) throws IOException {
+        Parent root = springFXMLLoader.load("/vistas/Tabla.fxml");
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void abrirGrafico(ActionEvent event) throws IOException {
+        Parent root = springFXMLLoader.load("/vistas/Grafico.fxml");
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void abrirInformes(ActionEvent event) throws IOException {
+        Parent root = springFXMLLoader.load("/vistas/informes.fxml");
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void abrirAjustes(ActionEvent event) throws IOException {
+        Parent root = springFXMLLoader.load("/vistas/ajustes.fxml");
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void abrirMovimientos(ActionEvent event) throws IOException {
+        Parent root = springFXMLLoader.load("/vistas/movimientos.fxml");
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

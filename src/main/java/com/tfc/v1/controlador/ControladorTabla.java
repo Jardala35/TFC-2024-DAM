@@ -37,6 +37,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -110,7 +111,7 @@ public class ControladorTabla implements Initializable {
 
 
     @FXML
-    public void abrirVentanaprincipal(ActionEvent event) throws IOException {
+    public void abrirVentanaprincipal(MouseEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -234,7 +235,7 @@ public class ControladorTabla implements Initializable {
         imageView.setFitWidth(50); // Ajusta el ancho de la imagen
         imageView.setFitHeight(50); // Ajusta la altura de la imagen
         lblusr = new Label(ControladorMainWindow.usuario);
-
+        
         // Crear el VBox y agregar la imagen y el texto
         VBox vbox = new VBox();
         vbox.getChildren().addAll(imageView, lblusr);

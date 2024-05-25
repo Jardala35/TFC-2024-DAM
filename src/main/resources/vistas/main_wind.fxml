@@ -37,64 +37,52 @@
                   <Image url="@/vistas/img/Logo.png" />
                </image>
             </ImageView>
-         </children></VBox>
+         </children>
+      </VBox>
       <VBox fx:id="chartContainer" alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
             <HBox alignment="CENTER" prefHeight="178.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#abrirInventario" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Inventario">
+                  <Button fx:id="botonInv" mnemonicParsing="false" onAction="#abrirInventario" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Inventario">
                      <graphic>
-             
-                     </graphic>
-                     <font>
-                        <Font size="11.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgInv" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/vistas/img/inventario-disponible.png" />
                            </image>
                         </ImageView>
-                     </graphic></Button>
-                  <Button mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Movimientos">
+                     </graphic>
+                  </Button>
+                  <Button fx:id="botonMov" mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Movimientos">
                      <HBox.margin>
                         <Insets left="75.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgMov" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/vistas/img/flecha.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <font>
-                        <Font size="11.0" />
-                     </font>
                   </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Gráficos">
-                     <font>
-                        <Font size="11.0" />
-                     </font>
+                  <Button fx:id="botonGraf" mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Gráficos">
                      <graphic>
-                        <ImageView fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgGraf" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/vistas/img/informe.png" />
                            </image>
                         </ImageView>
-                     </graphic></Button>
-                  <Button mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Ajustes">
+                     </graphic>
+                  </Button>
+                  <Button fx:id="botonAju" mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Ajustes">
                      <HBox.margin>
                         <Insets left="75.0" />
                      </HBox.margin>
-                     <font>
-                        <Font size="11.0" />
-                     </font>
                      <graphic>
-                        <ImageView fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgAju" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/vistas/img/ajuste.png" />
                            </image>
@@ -103,6 +91,7 @@
                   </Button>
                </children>
             </HBox>
-         </children></VBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

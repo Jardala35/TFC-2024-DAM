@@ -1,0 +1,60 @@
+.table-view{
+	-fx-background-color: linear-gradient(to bottom,  #F0F0F0, #E0E0E0);
+	-fx-border-color: #CCCCCC;     /* Borde gris */
+    -fx-border-width: 1px;         /* Ancho del borde */
+    -fx-table-cell-border-color: #DDDDDD;
+}
+
+.table-view .column.header-background{
+	-fx-background-color:transparent;
+}
+
+.table-view .column.header{
+	-fx-background-color:transparent;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.button:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.table-cell {
+    -fx-padding: 8px;              /* Espaciado interno de las celdas */
+    -fx-font-size: 12px;           /* Tamaño de fuente */
+    -fx-text-fill: #333333;        /* Color del texto */
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FAFAFA; /* Fondo de las filas impares */
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FFFFFF; /* Fondo de las filas pares */
+}
+.root{
+	-fx-background-color:orange;
+}
+
+.button-with-background {
+    -fx-background-image: url("@/vistas/img/\flecha-hacia-atras-curvada.png");
+    -fx-background-size: cover; /* Ajusta la imagen para cubrir todo el botón */
+    -fx-background-position: center; /* Centra la imagen */
+    -fx-background-repeat: no-repeat; /* Evita que la imagen se repita */
+    -fx-text-fill: transparent; /* Opcional: hace el texto del botón transparente */
+    -fx-border-color: transparent; /* Opcional: hace el borde del botón transparente */
+    -fx-background-radius: 5px; /* Radio de borde opcional */
+}
