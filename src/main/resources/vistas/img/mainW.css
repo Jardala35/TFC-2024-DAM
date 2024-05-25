@@ -1,0 +1,26 @@
+.root{
+	-fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-text-fill: black;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-font-size: 22px;
+}
+
+.button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.button:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.fondo{
+	background-image: url('/vistas/img/prueba.jpg');
+}

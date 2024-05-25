@@ -48,13 +48,3 @@
 .root{
 	-fx-background-color:orange;
 }
-
-.button-with-background {
-    -fx-background-image: url("@/vistas/img/\flecha-hacia-atras-curvada.png");
-    -fx-background-size: cover; /* Ajusta la imagen para cubrir todo el botón */
-    -fx-background-position: center; /* Centra la imagen */
-    -fx-background-repeat: no-repeat; /* Evita que la imagen se repita */
-    -fx-text-fill: transparent; /* Opcional: hace el texto del botón transparente */
-    -fx-border-color: transparent; /* Opcional: hace el borde del botón transparente */
-    -fx-background-radius: 5px; /* Radio de borde opcional */
-}

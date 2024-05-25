@@ -8,90 +8,115 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/prueba_main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMainWindow">
-   <children>
-      <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Pane fx:id="paneid" prefHeight="86.0" prefWidth="612.0">
-               <children>
-                  <MenuButton fx:id="menuBtn" layoutX="517.0" layoutY="7.0" mnemonicParsing="false">
+<AnchorPane prefHeight="425.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMainWindow">
+    <children>
+        <!-- Encabezado -->
+        <HBox alignment="CENTER" layoutY="-5.0" prefHeight="66.0" prefWidth="602.0" styleClass="root" stylesheets="@/vistas/img/mainW.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-5.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets right="450.0" />
+                            </HBox.margin>
+                            <image>
+                                <Image url="@/vistas/img/Logo.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/mainW.css" HBox.hgrow="ALWAYS">
                     <items>
-                      <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
+                        <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
                     </items>
-                  </MenuButton>
-               </children>
-            </Pane>
-         </children>
-      </HBox>
-      <VBox alignment="TOP_CENTER" prefHeight="425.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="80.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets top="8.0" />
-               </VBox.margin>
-               <image>
-                  <Image url="@/vistas/img/Logo.png" />
-               </image>
-            </ImageView>
-         </children>
-      </VBox>
-      <VBox fx:id="chartContainer" alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
-         <children>
-            <HBox alignment="CENTER" prefHeight="178.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Button fx:id="botonInv" mnemonicParsing="false" onAction="#abrirInventario" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Inventario">
-                     <graphic>
-                        <ImageView fx:id="imgInv" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/vistas/img/inventario-disponible.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="botonMov" mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Movimientos">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets bottom="10.0" right="3.0" />
+                    </HBox.margin>
+                </MenuButton>
+            </children>
+        </HBox>
+        
+        <!-- Contenedor principal -->
+        <VBox fx:id="chartContainer" alignment="CENTER" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="612.0" styleClass="fondo" stylesheets="@img/mainW.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+            <children>
+                <!-- Primera fila de botones -->
+                <HBox alignment="CENTER" prefHeight="180.0" prefWidth="602.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="botonInv" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirInventario" prefHeight="165.0" prefWidth="280.0" stylesheets="@/vistas/img/mainW.css" text="Inventario" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fx:id="imgInv" fitHeight="66.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/vistas/img/inventario-disponible.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font size="10.0" />
+                            </font>
                      <HBox.margin>
-                        <Insets left="75.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                     <graphic>
-                        <ImageView fx:id="imgMov" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/vistas/img/flecha.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Button fx:id="botonGraf" mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Gráficos">
-                     <graphic>
-                        <ImageView fx:id="imgGraf" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/vistas/img/informe.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="botonAju" mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Ajustes">
+                        </Button>
+                        <Button fx:id="botonMov" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="165.0" prefWidth="280.0" stylesheets="@/vistas/img/mainW.css" text="Movimientos" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fx:id="imgMov" fitHeight="66.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/vistas/img/flecha.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font size="10.0" />
+                            </font>
                      <HBox.margin>
-                        <Insets left="75.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
-                     <graphic>
-                        <ImageView fx:id="imgAju" fitHeight="91.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/vistas/img/ajuste.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+                        </Button>
+                    </children>
+                </HBox>
+                
+                <!-- Segunda fila de botones -->
+                <HBox alignment="CENTER" prefHeight="180.0" prefWidth="602.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="botonGraf" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirInformes" prefHeight="165.0" prefWidth="280.0" stylesheets="@/vistas/img/mainW.css" text="Gráficos" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fx:id="imgGraf" fitHeight="66.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/vistas/img/informe.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font size="10.0" />
+                            </font>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                        </Button>
+                        <Button fx:id="botonAju" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="165.0" prefWidth="280.0" stylesheets="@/vistas/img/mainW.css" text="Ajustes" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fx:id="imgAju" fitHeight="66.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@/vistas/img/ajuste.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font size="10.0" />
+                            </font>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
