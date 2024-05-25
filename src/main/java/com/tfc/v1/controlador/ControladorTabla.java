@@ -48,10 +48,6 @@ import javafx.util.converter.IntegerStringConverter;
 public class ControladorTabla implements Initializable {
     @Autowired
     private Gestor gestor;
-    @FXML
-    private Stage stage;
-    @FXML
-    private Scene scene;
     @Autowired
     private SpringFXMLLoader springFXMLLoader;
 
@@ -72,16 +68,12 @@ public class ControladorTabla implements Initializable {
     @FXML
     private TextField filterField;
     @FXML
-    private Button addRowButton = new Button (); 
+    private Button addRowButton = new Button();
 
-   
     private String delimiter = ",";
-   
-   
 
     @FXML
     public void exportarCSV2(ActionEvent e) {
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo CSV");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
@@ -103,20 +95,16 @@ public class ControladorTabla implements Initializable {
             }
         }
     }
-	private String getProdStringValues(Producto p, String delimiter) {
-		return String.valueOf(p.getId()) + delimiter + p.getNombre_producto() + delimiter
-				+ String.valueOf(p.getValor_producto_unidad()) + delimiter + String.valueOf(p.getCantidad()) + delimiter
-				+ String.valueOf(p.getPeso()) + delimiter + p.getDescripcion();
-	}
 
+    private String getProdStringValues(Producto p, String delimiter) {
+        return String.valueOf(p.getId()) + delimiter + p.getNombre_producto() + delimiter
+                + String.valueOf(p.getValor_producto_unidad()) + delimiter + String.valueOf(p.getCantidad()) + delimiter
+                + String.valueOf(p.getPeso()) + delimiter + p.getDescripcion();
+    }
 
     @FXML
     public void abrirVentanaprincipal(MouseEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        abrirNuevaVentana(event, "/vistas/main_wind.fxml");
     }
 
     @SuppressWarnings("unchecked")
@@ -125,7 +113,7 @@ public class ControladorTabla implements Initializable {
         List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
         tableView2.setEditable(true);
-        
+
         if (productos != null) {
             tableView2.getColumns().clear();
             tableView2.getItems().clear();
@@ -179,14 +167,13 @@ public class ControladorTabla implements Initializable {
                 });
 
                 tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
-                
+
                 // Crear una nueva lista observable y asignarla a la tabla
                 ObservableList<Producto> items = FXCollections.observableArrayList(productos);
                 tableView2.setItems(items);
             }
         }
     }
-
 
     @FXML
     public void commitearCambios(ActionEvent event) {
@@ -212,17 +199,17 @@ public class ControladorTabla implements Initializable {
         // Insertar el nuevo producto en la base de datos
         gestor.insertarProducto(newProducto);
     }
-    
+
     @FXML
     public void deleteSelectedRow() {
         // Obtener la fila seleccionada
         Producto selectedProduct = tableView2.getSelectionModel().getSelectedItem();
-        
+
         // Verificar si se ha seleccionado una fila
         if (selectedProduct != null) {
             // Eliminar la fila de la tabla
             tableView2.getItems().remove(selectedProduct);
-            
+
             // Eliminar la fila de la base de datos
             gestor.eliminarProducto(selectedProduct.getId());
         }
@@ -235,7 +222,7 @@ public class ControladorTabla implements Initializable {
         imageView.setFitWidth(50); // Ajusta el ancho de la imagen
         imageView.setFitHeight(50); // Ajusta la altura de la imagen
         lblusr = new Label(ControladorMainWindow.usuario);
-        
+
         // Crear el VBox y agregar la imagen y el texto
         VBox vbox = new VBox();
         vbox.getChildren().addAll(imageView, lblusr);
@@ -248,7 +235,6 @@ public class ControladorTabla implements Initializable {
             try {
                 logout(event);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
@@ -258,13 +244,40 @@ public class ControladorTabla implements Initializable {
     }
 
     private void logout(ActionEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
-        Stage stage = (Stage) menuBtn.getScene().getWindow();
+        abrirNuevaVentana(event, "/vistas/ini_sesion.fxml");
+    }
+
+    private void abrirNuevaVentana(ActionEvent event, String fxmlPath) throws IOException {
+        Parent root = springFXMLLoader.load(fxmlPath);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Obtener el tamaño actual de la pantalla
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
         Scene scene = new Scene(root);
+
+        // Ajustar la nueva pantalla al tamaño actual
         stage.setScene(scene);
+        stage.setWidth(width);
+        stage.setHeight(height);
         stage.show();
     }
-    
-       
-   
+
+    private void abrirNuevaVentana(MouseEvent event, String fxmlPath) throws IOException {
+        Parent root = springFXMLLoader.load(fxmlPath);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Obtener el tamaño actual de la pantalla
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
+        Scene scene = new Scene(root);
+
+        // Ajustar la nueva pantalla al tamaño actual
+        stage.setScene(scene);
+        stage.setWidth(width);
+        stage.setHeight(height);
+        stage.show();
+    }
 }

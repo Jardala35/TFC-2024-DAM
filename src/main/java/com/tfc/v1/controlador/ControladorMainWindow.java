@@ -51,7 +51,7 @@ public class ControladorMainWindow implements Initializable {
 
     @FXML
     private Pane paneid;
-    
+
     @FXML
     private Label lblusr;
 
@@ -59,7 +59,7 @@ public class ControladorMainWindow implements Initializable {
     @FXML
     private Text textInv = new Text();
     @FXML
-    private Text textMov = new Text();; 
+    private Text textMov = new Text();
     @FXML
     private Text textGraf = new Text();
     @FXML
@@ -97,20 +97,17 @@ public class ControladorMainWindow implements Initializable {
                 e.printStackTrace();
             }
         });
-        
+
         textInv = new Text("Inventario");
         textMov = new Text("Movimientos");
         textGraf = new Text("Gráficos");
         textAju = new Text("Ajustes");
 
-        // Ajustar tamaño de imágenes y textos al inicializar
-     // Ajustar tamaño de imágenes y textos al inicializar
         ajustarTamaño(botonInv, imgInv, textInv);
         ajustarTamaño(botonMov, imgMov, textMov);
         ajustarTamaño(botonGraf, imgGraf, textGraf);
         ajustarTamaño(botonAju, imgAju, textAju);
 
-        // Añadir listeners para ajustar tamaño al redimensionar la ventana
         botonInv.widthProperty().addListener((obs, oldVal, newVal) -> ajustarTamaño(botonInv, imgInv, textInv));
         botonInv.heightProperty().addListener((obs, oldVal, newVal) -> ajustarTamaño(botonInv, imgInv, textInv));
 
@@ -125,70 +122,59 @@ public class ControladorMainWindow implements Initializable {
     }
 
     private void ajustarTamaño(Button button, ImageView imageView, Text text) {
-        double newSize = Math.min(button.getWidth(), button.getHeight()) / 2.5; // Ajustar según tus necesidades
+        double newSize = Math.min(button.getWidth(), button.getHeight()) / 2.5;
         imageView.setFitWidth(newSize * 0.7);
         imageView.setFitHeight(newSize * 0.7);
         text.setFont(new Font(newSize * 0.3));
     }
 
-
-
-
-
     private void logout(ActionEvent event) throws IOException {
-        try {
-            Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
-            Stage stage = (Stage) menuBtn.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+        Stage stage = (Stage) menuBtn.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     public void abrirInventario(ActionEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/Tabla.fxml");
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        abrirNuevaVentana(event, "/vistas/Tabla.fxml");
     }
 
     @FXML
     public void abrirGrafico(ActionEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/Grafico.fxml");
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        abrirNuevaVentana(event, "/vistas/Grafico.fxml");
     }
 
     @FXML
     public void abrirInformes(ActionEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/informes.fxml");
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        abrirNuevaVentana(event, "/vistas/informes.fxml");
     }
 
     @FXML
     public void abrirAjustes(ActionEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/ajustes.fxml");
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        abrirNuevaVentana(event, "/vistas/ajustes.fxml");
     }
 
     @FXML
     public void abrirMovimientos(ActionEvent event) throws IOException {
-        Parent root = springFXMLLoader.load("/vistas/movimientos.fxml");
+        abrirNuevaVentana(event, "/vistas/movimientos.fxml");
+    }
+
+    private void abrirNuevaVentana(ActionEvent event, String fxmlPath) throws IOException {
+        Parent root = springFXMLLoader.load(fxmlPath);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Obtener el tamaño actual de la pantalla
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
         scene = new Scene(root);
+
+        // Ajustar la nueva pantalla al tamaño actual
         stage.setScene(scene);
+        stage.setWidth(width);
+        stage.setHeight(height);
         stage.show();
     }
 }

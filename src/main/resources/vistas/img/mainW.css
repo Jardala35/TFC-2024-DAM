@@ -1,9 +1,9 @@
 .root{
-	-fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+	-fx-background-color: orange;
 }
 
 .button {
-    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-background-color: orange;
     -fx-text-fill: black;
     -fx-border-color: #E67300;
     -fx-border-width: 2px;
