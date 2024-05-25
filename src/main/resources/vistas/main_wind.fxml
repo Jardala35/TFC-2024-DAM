@@ -75,7 +75,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Informes">
+                  <Button mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Gráficos">
                      <font>
                         <Font size="11.0" />
                      </font>

@@ -293,6 +293,7 @@ public class ControladorInformes implements Initializable {
                 barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
 
+                // Establecer color en el PieChart
                 PieChart.Data pieData = new PieChart.Data(nombreProducto, cantidadProducto);
                 pieData.nodeProperty().addListener((obs, oldNode, newNode) -> {
                     if (newNode != null) {
@@ -306,6 +307,7 @@ public class ControladorInformes implements Initializable {
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
+            // Configurar o actualizar LineChart
             if (lineChart == null) {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
@@ -314,6 +316,7 @@ public class ControladorInformes implements Initializable {
                 lineChart.setData(lineChartData);
             }
 
+            // Configurar o actualizar BarChart
             if (barChart == null) {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
@@ -322,6 +325,7 @@ public class ControladorInformes implements Initializable {
                 barChart.setData(barChartData);
             }
 
+            // Configurar o actualizar AreaChart
             if (areaChart == null) {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
@@ -330,6 +334,7 @@ public class ControladorInformes implements Initializable {
                 areaChart.setData(areaChartData);
             }
 
+            // Configurar o actualizar PieChart
             if (pieChart == null) {
                 pieChart = new PieChart(pieChartData);
             } else {
@@ -341,6 +346,7 @@ public class ControladorInformes implements Initializable {
             chartContainer.getChildren().clear();
         }
     }
+
 
     @FXML
     public void actualizarGraficaPrecio() {
