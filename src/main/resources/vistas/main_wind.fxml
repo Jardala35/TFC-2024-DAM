@@ -43,7 +43,7 @@
         </HBox>
         
         <!-- Contenedor principal -->
-        <VBox fx:id="chartContainer" alignment="CENTER" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="612.0" styleClass="fondo" stylesheets="@img/mainW.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+        <VBox fx:id="chartContainer" alignment="CENTER" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="612.0" styleClass="fondo" stylesheets="@/vistas/img/mainW.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
             <children>
                 <!-- Primera fila de botones -->
                 <HBox alignment="CENTER" prefHeight="180.0" prefWidth="602.0" spacing="20.0" VBox.vgrow="ALWAYS">
