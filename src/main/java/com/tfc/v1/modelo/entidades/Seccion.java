@@ -22,6 +22,10 @@ public class Seccion {
 	private String nombre;
 	@OneToMany(mappedBy = "seccion", cascade=CascadeType.ALL)
 	private List<Producto> productos;
+	public Seccion(String nom) {
+		super();
+		this.nombre = nom;
+	}
 	public Seccion(int id, String nom,  List<Producto> productos) {
 		super();
 		this.id = id;

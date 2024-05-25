@@ -1,8 +1,5 @@
 package com.tfc.v1.modelo.entidades;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

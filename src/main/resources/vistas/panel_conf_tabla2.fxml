@@ -7,20 +7,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane fx:id="anch2" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorAjustes">
    <children>
       <VBox layoutX="-3.0" layoutY="8.0" prefHeight="385.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tblProductos" editable="true" prefHeight="343.0" prefWidth="498.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS" />
+            <TableView fx:id="tblProductos2" editable="true" prefHeight="343.0" prefWidth="498.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="545.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#addRow" text="Añadir fila">
+                  <Button mnemonicParsing="false" onAction="#addRow2" text="Añadir fila">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" text="Borrar fila">
+                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow2" text="Borrar fila">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
