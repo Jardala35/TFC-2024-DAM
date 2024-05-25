@@ -76,9 +76,9 @@
             </MenuButton>
          </children>
       </HBox>
-      <AnchorPane layoutX="51.0" layoutY="67.0" prefHeight="267.0" prefWidth="497.0">
+      <AnchorPane layoutX="51.0" layoutY="67.0" prefHeight="267.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
          <children>
-            <HBox prefHeight="334.0" prefWidth="548.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="334.0" prefWidth="548.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <VBox minWidth="-Infinity" prefHeight="334.0" prefWidth="201.0">
                      <children>
@@ -129,7 +129,7 @@
                         <Insets left="30.0" top="20.0" />
                      </padding>
                   </VBox>
-                  <VBox fx:id="vbox_ini" prefHeight="334.0" prefWidth="369.0" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="vbox_ini" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets left="120.0" right="20.0" top="30.0" />
                      </padding>

@@ -31,6 +31,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -47,6 +49,8 @@ public class ControladorAjustes implements Initializable {
     @FXML
     private Button btnAtras;
     @FXML
+    private Button btnguardar_seccion;
+    @FXML
     private Label lblusr;
     @FXML
     private MenuButton menuBtn;
@@ -59,11 +63,87 @@ public class ControladorAjustes implements Initializable {
     @FXML
     private TextArea txtarea_secciones;
     
+    @FXML
+    private AnchorPane anch1;
+    @FXML
+    private AnchorPane anch2;
+    
     private File file;
     private String delimiter = ",";
     
     @FXML
     private VBox vbox_ini;
+    
+    @FXML
+    private VBox vbox_conf_ini;
+    
+    
+    private void showPaneinScroll(String fxmlPath) throws IOException {        
+        Parent panel = springFXMLLoader.load(fxmlPath);
+     // Remueve el último hijo del VBox si es un ScrollPane
+        
+//        VBox.setVgrow(panel, Priority.ALWAYS);
+        // Agrega el nuevo ScrollPane
+        if (vbox_conf_ini.getChildren().size() == 4) {
+            vbox_conf_ini.getChildren().remove(3);
+        }
+        vbox_conf_ini.getChildren().add(panel);
+       
+    }
+    @FXML
+    public void mostrarTabla(ActionEvent event) {
+    	try {
+			showPaneinScroll("/vistas/panel_conf_tabla.fxml");
+			archivosSubir(event);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }   
+    
+    @FXML
+    public void mostrarTabla2(ActionEvent event) {
+    	try {
+			showPaneinScroll("/vistas/panel_conf_tabla.fxml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    public void commitearCambios(ActionEvent event) {
+//        ObservableList<Producto> productos = tblProductos.getItems();
+//        for (Producto producto : productos) {
+//            gestor.actualizarProducto(producto.getId(), producto);
+//        }
+    }
+
+    @FXML
+    public void addRow() {
+        String[] newProducto = new String[] {"Nuevo producto", "0.0", "0", "0.0", "Descripcion del nuevo producto"};
+        // Configurar los valores del nuevo producto, por ejemplo:
+        
+
+        // Agregar el nuevo producto a la lista observable de la tabla
+        tblProductos.getItems().add(newProducto);       
+        
+    }
+    
+    @FXML
+    public void deleteSelectedRow() {
+        // Obtener la fila seleccionada
+        String[] selectedProduct = tblProductos.getSelectionModel().getSelectedItem();
+        
+        // Verificar si se ha seleccionado una fila
+        if (selectedProduct != null) {
+            // Eliminar la fila de la tabla
+        	tblProductos.getItems().remove(selectedProduct);
+            
+            // Eliminar la fila de la base de datos
+//            gestor.eliminarProducto(selectedProduct.getId());
+        }
+    }
     
     private void showScrollPane(String fxmlPath) throws IOException {        
         Parent panel = springFXMLLoader.load(fxmlPath);
@@ -74,6 +154,11 @@ public class ControladorAjustes implements Initializable {
         }
         // Agrega el nuevo ScrollPane
         vbox_ini.getChildren().add(panel);
+        VBox.setVgrow(anch1, javafx.scene.layout.Priority.ALWAYS);
+        AnchorPane.setTopAnchor(anch1, 0.0);
+        AnchorPane.setBottomAnchor(anch1, 0.0);
+        AnchorPane.setLeftAnchor(anch1, 0.0);
+        AnchorPane.setRightAnchor(anch1, 0.0);
     }
     
     public void confInicial() {
@@ -121,6 +206,7 @@ public class ControladorAjustes implements Initializable {
                 e.printStackTrace();
             }
         });
+//        VBox.setVgrow(vbox_ini, Priority.ALWAYS);
 
     }
 
@@ -130,14 +216,12 @@ public class ControladorAjustes implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-    
-    public void guardarSeccion() {
-//    	gestor.getContRest().altaSeccion(null)
-    }
+    }    
+   
     
     @FXML
     public void archivosSubir(ActionEvent e) {
+    	
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecciona los archivos a subir");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
@@ -199,5 +283,47 @@ public class ControladorAjustes implements Initializable {
             };
             return cell;
         };
+    }
+    @FXML
+    public void archivosSubirSeccion(ActionEvent e) {
+    	
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona los archivos a subir");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de texto", "*.txt"));
+        List<File> archivos = fileChooser.showOpenMultipleDialog(null);
+
+        if (archivos != null && !archivos.isEmpty()) {
+            file = archivos.get(0);
+            try {
+            	cargarCSVenTextArea();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    private void cargarCSVenTextArea() throws IOException {
+        StringBuilder contenido = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                contenido.append(line).append("\n");
+            }
+        }
+        txtarea_secciones.setText(contenido.toString());
+    }
+    @FXML
+    public void guardarSeccion(ActionEvent e) {
+    	String[] aux = getTextArea();
+    	// guardar secciones en la bd
+    	
+    }
+    
+    private String[] getTextArea() {
+    	String texto = txtarea_secciones.getText();
+        // Dividir el texto en líneas y guardarlas en un array
+        String[] lineas = texto.split("\n");
+        return lineas;
     }
 }
