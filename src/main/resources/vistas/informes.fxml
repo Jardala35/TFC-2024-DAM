@@ -48,7 +48,7 @@
          </children></VBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="exportar" mnemonicParsing="false" onAction="#exportarGraficoAPDF" text="Exportar a PDF" />
+            <Button fx:id="exportar" mnemonicParsing="false" onAction="#generarPDF" text="Exportar a PDF" />
             <RadioButton fx:id="rbCantidad" mnemonicParsing="false" text="Cantidad" />
             <RadioButton fx:id="rbPrecio" mnemonicParsing="false" text="precio" />
             <MenuButton mnemonicParsing="false" text="Elije el tipo de gráfico">

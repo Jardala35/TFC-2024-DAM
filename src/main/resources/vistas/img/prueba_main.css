@@ -1,0 +1,74 @@
+/* General styles */
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #FFA500; /* Orange background */
+    -fx-padding: 20px;
+}
+
+/* Header styles */
+.header {
+    -fx-background-color: #FFA500;
+    -fx-padding: 10px;
+    -fx-alignment: center-left;
+}
+
+.header-logo {
+    -fx-padding: 10px;
+}
+
+.header-profile {
+    -fx-padding: 10px;
+    -fx-alignment: center-right;
+}
+
+.header-profile .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Main container styles */
+.main-container {
+    -fx-background-color: #F0F0F0;
+    -fx-padding: 20px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+    -fx-max-width: 600px;
+    -fx-alignment: center;
+}
+
+/* Button box styles */
+.button-box {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-border-color: #000000; /* Black border */
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-alignment: center;
+    -fx-spacing: 10px;
+}
+
+/* Button styles */
+.main-button {
+    -fx-background-color: white;
+    -fx-border-color: #000000; /* Black border */
+    -fx-border-width: 2px;
+    -fx-text-fill: #000000;
+    -fx-font-size: 10px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 3);
+    -fx-alignment: center;
+}
+
+.main-button:hover {
+    -fx-background-color: #F0F0F0; /* Light grey on hover */
+}
+
+/* Icon styles */
+.icon {
+    -fx-font-size: 40px;
+    -fx-text-fill: #FF8C00;
+}

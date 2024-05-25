@@ -6,8 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.imageio.ImageIO;
 
@@ -47,15 +50,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 
 @Component
 public class ControladorInformes implements Initializable {
@@ -96,6 +99,8 @@ public class ControladorInformes implements Initializable {
 
     private final ToggleGroup toggleGroup = new ToggleGroup();
 
+    private Map<String, Color> colorMap = new HashMap<>();
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
@@ -129,10 +134,21 @@ public class ControladorInformes implements Initializable {
                 actualizarGraficaPrecio();
             }
         });
-        
-        
 
         cargarProductos();
+    }
+
+    private String colorToHex(Color color) {
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
+    }
+    
+
+    private Color generarColorAleatorio() {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        return Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
     }
 
     @FXML
@@ -213,22 +229,26 @@ public class ControladorInformes implements Initializable {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
                 lineChart = new LineChart<>(xAxis, yAxis, lineChartData);
+                configurarGrafico(lineChart);
             }
 
             if (barChart == null) {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
                 barChart = new BarChart<>(xAxis, yAxis, barChartData);
+                configurarGrafico(barChart);
             }
 
             if (areaChart == null) {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
                 areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
+                configurarGrafico(areaChart);
             }
 
             if (pieChart == null) {
                 pieChart = new PieChart(pieChartData);
+                configurarGrafico(pieChart);
             }
 
             // Mostrar el gráfico inicial
@@ -239,11 +259,20 @@ public class ControladorInformes implements Initializable {
         }
     }
 
+    private void configurarGrafico(Node grafico) {
+        // Configurar el gráfico para que ocupe todo el espacio disponible
+        VBox.setVgrow(grafico, Priority.ALWAYS);
+        grafico.maxHeight(Double.MAX_VALUE);
+        grafico.maxWidth(Double.MAX_VALUE);
+    }
+
     @FXML
-    private void actualizarGraficaCantidad() {
+    public void actualizarGraficaCantidad() {
         List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
         if (productos != null && !productos.isEmpty()) {
+            productos.sort(Comparator.comparingInt(Producto::getCantidad).reversed());
+
             ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
@@ -256,103 +285,190 @@ public class ControladorInformes implements Initializable {
             for (Producto producto : productos) {
                 String nombreProducto = producto.getNombre_producto();
                 int cantidadProducto = producto.getCantidad();
+
+                // Asignar colores a los datos
+                Color color = colorMap.computeIfAbsent(nombreProducto, k -> generarColorAleatorio());
+
                 lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
-                pieChartData.add(new PieChart.Data(nombreProducto, cantidadProducto));
+
+                PieChart.Data pieData = new PieChart.Data(nombreProducto, cantidadProducto);
+                pieData.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                    if (newNode != null) {
+                        newNode.setStyle("-fx-pie-color: " + colorToHex(color) + ";");
+                    }
+                });
+                pieChartData.add(pieData);
             }
 
             lineChartData.add(lineChartSeries);
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
-            // Actualizar los datos en los gráficos
-            lineChart.setData(lineChartData);
-            barChart.setData(barChartData);
-            areaChart.setData(areaChartData);
-            pieChart.setData(pieChartData);
+            if (lineChart == null) {
+                CategoryAxis xAxis = new CategoryAxis();
+                NumberAxis yAxis = new NumberAxis();
+                lineChart = new LineChart<>(xAxis, yAxis, lineChartData);
+            } else {
+                lineChart.setData(lineChartData);
+            }
+
+            if (barChart == null) {
+                CategoryAxis xAxis = new CategoryAxis();
+                NumberAxis yAxis = new NumberAxis();
+                barChart = new BarChart<>(xAxis, yAxis, barChartData);
+            } else {
+                barChart.setData(barChartData);
+            }
+
+            if (areaChart == null) {
+                CategoryAxis xAxis = new CategoryAxis();
+                NumberAxis yAxis = new NumberAxis();
+                areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
+            } else {
+                areaChart.setData(areaChartData);
+            }
+
+            if (pieChart == null) {
+                pieChart = new PieChart(pieChartData);
+            } else {
+                pieChart.setData(pieChartData);
+            }
+
+            mostrarPieChart();
         } else {
-            // Si no hay datos, limpiar los gráficos
-            lineChart.setData(null);
-            barChart.setData(null);
-            areaChart.setData(null);
-            pieChart.setData(null);
+            chartContainer.getChildren().clear();
         }
     }
 
     @FXML
-    private void actualizarGraficaPrecio() {
+    public void actualizarGraficaPrecio() {
         List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
         if (productos != null && !productos.isEmpty()) {
+            productos.sort(Comparator.comparingDouble(Producto::getValor_producto_unidad).reversed());
+
             ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
             XYChart.Series<String, Number> lineChartSeries = new XYChart.Series<>();
             XYChart.Series<String, Number> barChartSeries = new XYChart.Series<>();
             XYChart.Series<String, Number> areaChartSeries = new XYChart.Series<>();
 
-            // Ordenar la lista de productos por precio de forma descendente
-            productos.sort(Comparator.comparingDouble(Producto::getValor_producto_unidad).reversed());
-
             for (Producto producto : productos) {
                 String nombreProducto = producto.getNombre_producto();
                 double precioProducto = producto.getValor_producto_unidad();
+
+                // Asignar colores a los datos
+                Color color = colorMap.computeIfAbsent(nombreProducto, k -> generarColorAleatorio());
+
                 lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
                 barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
                 areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
+
+                PieChart.Data pieData = new PieChart.Data(nombreProducto, precioProducto);
+                pieData.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                    if (newNode != null) {
+                        newNode.setStyle("-fx-pie-color: " + colorToHex(color) + ";");
+                    }
+                });
+                pieChartData.add(pieData);
             }
 
             lineChartData.add(lineChartSeries);
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
-            // Actualizar los datos en los gráficos
-            lineChart.setData(lineChartData);
-            barChart.setData(barChartData);
-            areaChart.setData(areaChartData);
+            if (lineChart == null) {
+                CategoryAxis xAxis = new CategoryAxis();
+                NumberAxis yAxis = new NumberAxis();
+                lineChart = new LineChart<>(xAxis, yAxis, lineChartData);
+            } else {
+                lineChart.setData(lineChartData);
+            }
+
+            if (barChart == null) {
+                CategoryAxis xAxis = new CategoryAxis();
+                NumberAxis yAxis = new NumberAxis();
+                barChart = new BarChart<>(xAxis, yAxis, barChartData);
+            } else {
+                barChart.setData(barChartData);
+            }
+
+            if (areaChart == null) {
+                CategoryAxis xAxis = new CategoryAxis();
+                NumberAxis yAxis = new NumberAxis();
+                areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
+            } else {
+                areaChart.setData(areaChartData);
+            }
+
+            if (pieChart == null) {
+                pieChart = new PieChart(pieChartData);
+            } else {
+                pieChart.setData(pieChartData);
+            }
+
+            mostrarPieChart();
         } else {
-            // Si no hay datos, limpiar los gráficos
-            lineChart.setData(null);
-            barChart.setData(null);
-            areaChart.setData(null);
+            chartContainer.getChildren().clear();
         }
     }
 
     @FXML
-    public void exportarGraficoAPDF(ActionEvent e) throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Guardar gráfico como PDF");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-        File file = fileChooser.showSaveDialog(chartContainer.getScene().getWindow());
+    public void generarPDF(ActionEvent event) {
+        List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 
-        if (file != null) {
-            WritableImage snapshot = chartContainer.snapshot(new SnapshotParameters(), null);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", byteArrayOutputStream);
+        if (productos != null && !productos.isEmpty()) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File selectedFile = fileChooser.showSaveDialog(null);
 
-            try (PdfWriter writer = new PdfWriter(new FileOutputStream(file))) {
-                PdfDocument pdf = new PdfDocument(writer);
-                Document document = new Document(pdf);
-                document.add(new Paragraph("Gráfico"));
+            if (selectedFile != null) {
+                try {
+                    PdfWriter writer = new PdfWriter(new FileOutputStream(selectedFile));
+                    PdfDocument pdfDoc = new PdfDocument(writer);
+                    Document document = new Document(pdfDoc);
 
-                // Verificar si hay un Toggle seleccionado antes de acceder a su UserData
-                Toggle selectedToggle = toggleGroup.getSelectedToggle();
-                if (selectedToggle != null) {
-                    Object userData = selectedToggle.getUserData();
-                    if (userData != null) {
-                        document.add(new Paragraph(userData.toString()));
-                    }
+                    // Añadir una imagen de cada gráfico al PDF
+                    addChartToPDF(document, lineChart, "Gráfico de Líneas");
+                    addChartToPDF(document, barChart, "Gráfico de Barras");
+                    addChartToPDF(document, areaChart, "Gráfico de Área");
+                    addChartToPDF(document, pieChart, "Gráfico de Pastel");
+
+                    document.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                document.add(new AreaBreak());
-
-                ImageData imageData = ImageDataFactory.create(byteArrayOutputStream.toByteArray());
-                com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(imageData);
-                document.add(image);
-                document.close();
             }
+        }
+    }
+
+    private void addChartToPDF(Document document, javafx.scene.chart.Chart chart, String title) {
+        WritableImage image = chart.snapshot(new SnapshotParameters(), null);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteArrayOutputStream);
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+            ImageData imageData = ImageDataFactory.create(imageBytes);
+            
+         // Agregar el gráfico después del título
+            com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(imageData);
+            document.add(pdfImage);
+            // Agregar el título al inicio de la página
+            Paragraph titleParagraph = new Paragraph(title);
+            document.add(titleParagraph);
+
+            
+            
+            // Nueva página para el próximo gráfico
+            document.add(new AreaBreak());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

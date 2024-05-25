@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="425.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMainWindow">
+<AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/prueba_main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMainWindow">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -38,11 +38,11 @@
                </image>
             </ImageView>
          </children></VBox>
-      <VBox fx:id="chartContainer" alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+      <VBox fx:id="chartContainer" alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="178.0" prefWidth="493.0">
+            <HBox alignment="CENTER" prefHeight="178.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#abrirInventario" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Inventario">
+                  <Button mnemonicParsing="false" onAction="#abrirInventario" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Inventario">
                      <graphic>
              
                      </graphic>
@@ -56,7 +56,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Movimientos">
+                  <Button mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Movimientos">
                      <HBox.margin>
                         <Insets left="75.0" />
                      </HBox.margin>
@@ -73,9 +73,9 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0">
+            <HBox alignment="CENTER" prefHeight="170.0" prefWidth="493.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Informes">
+                  <Button mnemonicParsing="false" onAction="#abrirInformes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Informes">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -86,7 +86,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" text="Ajustes">
+                  <Button mnemonicParsing="false" onAction="#abrirAjustes" prefHeight="85.0" prefWidth="152.0" style="-fx-background-color: transparent; -fx-border-color: orange;" styleClass="main-button" text="Ajustes">
                      <HBox.margin>
                         <Insets left="75.0" />
                      </HBox.margin>

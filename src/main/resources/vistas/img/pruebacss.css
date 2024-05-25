@@ -1,0 +1,67 @@
+/* General styles */
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #FFA500; /* Orange background */
+    -fx-padding: 20px;
+}
+
+/* Title styling */
+.label-title {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 20px 0;
+}
+
+/* Form container styling */
+.form-container {
+    -fx-background-color: #F0F0F0;
+    -fx-padding: 30px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+    -fx-max-width: 400px;
+    -fx-alignment: center;
+}
+
+/* Labels styling */
+.label {
+    -fx-text-fill: #333;
+}
+
+/* Text fields styling */
+.text-field {
+    -fx-padding: 5px;
+    -fx-border-color: #CCC;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-background-color: white;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
+}
+
+/* Button styling */
+.button {
+    -fx-background-color: #FF8C00;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: #FF7043;
+}
+
+/* Hyperlink styling */
+.hyperlink {
+    -fx-text-fill: #FF8C00;
+    -fx-underline: false;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #FF7043;
+    -fx-underline: true;
+}
