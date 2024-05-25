@@ -27,6 +27,9 @@
                             </image>
                         </ImageView>
                     </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" />
+               </HBox.margin>
                 </HBox>
                 <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/mainW.css" HBox.hgrow="ALWAYS">
                     <items>
@@ -60,7 +63,7 @@
                                 <Font size="10.0" />
                             </font>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                         </Button>
                         <Button fx:id="botonMov" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMovimientos" prefHeight="165.0" prefWidth="280.0" stylesheets="@/vistas/img/mainW.css" text="Movimientos" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
@@ -75,7 +78,7 @@
                                 <Font size="10.0" />
                             </font>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                         </Button>
                     </children>
