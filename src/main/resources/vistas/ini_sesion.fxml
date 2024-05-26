@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/pruebacss.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
+<AnchorPane prefHeight="425.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
    <children>
       <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="73.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" styleClass="imagen">
+            <ImageView fitHeight="57.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" styleClass="imagen">
                <image>
                   <Image url="@/vistas/img/Logo.png" />
                </image>

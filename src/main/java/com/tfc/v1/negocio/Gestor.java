@@ -77,4 +77,8 @@ public class Gestor {
     public void eliminarMovimiento(int id) {
         contRest.eliminarMovimiento(id);
     }
+    
+    public String obtenerRolUsuario(String username) {
+        return contRest.obtenerRolUsuario(username).getBody();
+    }
 }

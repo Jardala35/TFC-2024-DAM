@@ -80,7 +80,7 @@
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#deleteSelectedRow" text="Borrar Fila" />
+                  <Button fx:id="deleteRowButton" mnemonicParsing="false" onAction="#deleteSelectedRow" text="Borrar Fila" />
                </children>
                <VBox.margin>
                   <Insets />

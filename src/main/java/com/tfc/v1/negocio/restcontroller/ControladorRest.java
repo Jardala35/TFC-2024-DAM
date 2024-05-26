@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tfc.v1.modelo.entidades.Movimiento;
 import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.modelo.entidades.Seccion;
+import com.tfc.v1.modelo.entidades.usuario.Usuario;
 import com.tfc.v1.modelo.persistencia.RepositorioMovimientos;
 import com.tfc.v1.modelo.persistencia.RepositorioProducto;
 import com.tfc.v1.modelo.persistencia.RepositorioSeccion;
+import com.tfc.v1.modelo.persistencia.RepositorioUsuario;
 
 @RestController
 @RequestMapping("/v1")
@@ -32,6 +34,8 @@ public class ControladorRest {
     private RepositorioProducto repoProducto;
     @Autowired
     private RepositorioMovimientos repoMovimiento;
+    @Autowired
+    private RepositorioUsuario repoUsuario;
 
     // Métodos para Sección
     @PostMapping(value = "seccion")
@@ -175,4 +179,18 @@ public class ControladorRest {
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
 }
+    
+    @GetMapping(value = "usuario/{nombreUsuario}/rol")
+    public ResponseEntity<String> obtenerRolUsuario(@PathVariable("nombreUsuario") String nombreUsuario) {
+        Optional<Usuario> usuarioOptional = repoUsuario.findByNomUsr(nombreUsuario);
+        
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            String rol = usuario.getRol().name(); // Obtener el nombre del rol
+            return new ResponseEntity<>(rol, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

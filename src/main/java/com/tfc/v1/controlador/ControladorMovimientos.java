@@ -68,6 +68,8 @@ public class ControladorMovimientos implements Initializable {
     private Button addRowButton = new Button();
     @FXML
     private TableView<Movimiento> tableView2;
+    @FXML
+    private Button deleteRowButton = new Button();
 
     private String delimiter = ",";
 
@@ -92,6 +94,10 @@ public class ControladorMovimientos implements Initializable {
                 e.printStackTrace();
             }
         });
+        
+        if (!esUsuarioAdmin()) {
+            deleteRowButton.setDisable(true);
+        }
 
         ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
         btnAtras.setGraphic(imageAtras);
@@ -115,6 +121,12 @@ public class ControladorMovimientos implements Initializable {
         }
     }
 
+    private boolean esUsuarioAdmin() {
+        // Obtener el rol del usuario desde el gestor
+        String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario);
+        System.out.println(gestor.obtenerRolUsuario(ControladorMainWindow.usuario));
+        return "admin".equals(rol);
+    }
     @FXML
     public void abrirVentanaprincipal(ActionEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
