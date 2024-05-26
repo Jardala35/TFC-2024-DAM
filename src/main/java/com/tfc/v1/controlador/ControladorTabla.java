@@ -51,7 +51,6 @@ public class ControladorTabla implements Initializable {
 	private Gestor gestor;
 	@Autowired
 	private SpringFXMLLoader springFXMLLoader;
-
 	@FXML
 	private TableView<Producto> tableView2;
 	@FXML
@@ -75,10 +74,8 @@ public class ControladorTabla implements Initializable {
 
 	private String delimiter = ",";
 
-	// Guarda la lista original de productos
 	private ObservableList<Producto> productosOriginales;
 
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cargarProductos();

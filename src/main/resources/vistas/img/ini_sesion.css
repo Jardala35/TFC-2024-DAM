@@ -1,0 +1,51 @@
+.root {
+    -fx-background-image: url("Prueba.png");
+    -fx-background-size: cover;
+}
+
+.label {
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #CCCCCC;     /* Borde gris */
+    -fx-border-width: 1px;         /* Ancho del borde */            /* Espaciado interno */
+    -fx-background-radius: 5px;    /* Radio de borde */
+    -fx-border-radius: 5px;        /* Radio de borde */
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.button:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.hyperlink {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #DDDDDD; /* Color gris claro al pasar el ratón */
+}
+.title-label {
+    -fx-text-fill: black;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}

@@ -13,54 +13,69 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="425.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
+<AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/ini_sesion.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
    <children>
-      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="86.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@/vistas/img/Logo.png" />
+         </image>
+      </ImageView>
+      <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="57.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" styleClass="imagen">
-               <image>
-                  <Image url="@/vistas/img/Logo.png" />
-               </image>
-            </ImageView>
-            <Label accessibleRole="PARENT" alignment="CENTER" contentDisplay="CENTER" styleClass="label-title" text="Stock Maven" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="36.0" />
-               </font>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Label>
+            <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label accessibleRole="PARENT" alignment="CENTER" contentDisplay="CENTER" styleClass="title-label" stylesheets="@/vistas/img/ini_sesion.css" text="Stock Maven" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </HBox>
+      <ImageView fitHeight="71.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@/vistas/img/Logo.png" />
+         </image>
+      </ImageView>
       <VBox alignment="TOP_CENTER" layoutY="78.0" prefHeight="347.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
             <HBox alignment="CENTER" prefHeight="71.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="13.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="581.0">
                <children>
-                  <Label accessibleRole="PARENT" text="Usuario" HBox.hgrow="ALWAYS">
+                  <Label accessibleRole="PARENT" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets right="30.0" />
+                        <Insets right="35.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="usuarioTextField" />
+                  <TextField fx:id="usuarioTextField" style="-fx-border-color: black;" styleClass="text-field" stylesheets="@/vistas/img/ini_sesion.css">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></TextField>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
             <HBox alignment="CENTER" prefHeight="77.0" prefWidth="493.0">
                <children>
-                  <Label text="Contraseña" HBox.hgrow="ALWAYS">
+                  <Label style="-fx-background-color: white; -fx-border-color: black;" stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <PasswordField fx:id="contrasenaTextField" accessibleRole="PARENT" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
+                  <PasswordField fx:id="contrasenaTextField" accessibleRole="PARENT" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149; -fx-border-color: black;" styleClass="text-field" stylesheets="@/vistas/img/ini_sesion.css" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="33.0" prefWidth="493.0">
                <children>
                   <Pane prefHeight="27.0" prefWidth="91.0">
                      <children>
-                        <Button fx:id="iniciarSesionButton" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleIniciarSesion" text="Iniciar Sesion" />
+                        <Button fx:id="iniciarSesionButton" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleIniciarSesion" stylesheets="@/vistas/img/ini_sesion.css" text="Iniciar Sesion" />
                      </children>
                   </Pane>
                </children>
@@ -70,7 +85,7 @@
                   <Pane prefHeight="88.0" prefWidth="493.0">
                      <children>
                         <Label fx:id="lblerroracceso" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" prefHeight="33.0" prefWidth="197.0" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
-                        <Button fx:id="registroButton" layoutX="333.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-insets: 0; -fx-border-image-width: 0;" text="Registrate Aquí" />
+                        <Button fx:id="registroButton" layoutX="333.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: white; -fx-border-color: black; -fx-background-insets: 0; -fx-border-image-width: 0;" styleClass="hyperlink" stylesheets="@/vistas/img/ini_sesion.css" text="Registrate Aquí" />
                      </children>
                   </Pane>
                </children>
