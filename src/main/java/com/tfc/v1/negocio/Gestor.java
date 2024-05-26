@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.tfc.v1.modelo.entidades.Movimiento;
 import com.tfc.v1.modelo.entidades.Producto;
+import com.tfc.v1.modelo.entidades.Seccion;
 import com.tfc.v1.modelo.persistencia.RepositorioProducto;
 import com.tfc.v1.modelo.persistencia.RepositorioSeccion;
 import com.tfc.v1.negocio.restcontroller.AuthController;
@@ -83,6 +84,10 @@ public class Gestor {
     public String obtenerRolUsuario(String username) {
         return contRest.obtenerRolUsuario(username).getBody();
     }
+
+	public List<Seccion> getAllSecciones() {		
+		return contRest.listarSecciones().getBody();
+	}
     
     
 }

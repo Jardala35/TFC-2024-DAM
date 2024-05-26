@@ -16,14 +16,15 @@ import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.modelo.entidades.Seccion;
 import com.tfc.v1.negocio.Gestor;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -68,6 +69,8 @@ public class ControladorAjustes implements Initializable {
 	@FXML
 	private TableView<Producto> tblProductos2;
 	@FXML
+	private TableView<Producto> tblprodsec;
+	@FXML
 	private TextArea txtarea_secciones;
 
 	@FXML
@@ -83,6 +86,12 @@ public class ControladorAjustes implements Initializable {
 
 	@FXML
 	private VBox vbox_conf_ini;
+	
+	@FXML
+	private ComboBox<Seccion> cbxseccion;
+	
+	// Guarda la lista original de productos
+	private ObservableList<Producto> productosOriginales;
 
 	private void showPaneinScroll(String fxmlPath) throws IOException {
 		Parent panel = springFXMLLoader.load(fxmlPath);
@@ -205,37 +214,6 @@ public class ControladorAjustes implements Initializable {
 		}
 	}
 
-//	@FXML
-//	public void commitearCambios() {
-//		if (vbox_conf_ini.getChildren().get(3) == tblProductos) {
-//			guardarSeccion();
-//			ObservableList<Producto> productos = tblProductos.getItems();
-//			for (Producto producto : productos) {
-//				gestor.getContRest().altaProducto(producto);
-//			}
-//		try {
-//			showScrollPane("/vistas/panel_conf_relsecprod.fxml");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		}
-//
-//		if (vbox_conf_ini.getChildren().get(3) == tblProductos2) {
-//		guardarSeccion();
-//		ObservableList<Producto> productos = tblProductos2.getItems();
-//		for (Producto producto : productos) {
-//			gestor.getContRest().altaProducto(producto);
-//		}
-//		try {
-//			showScrollPane("/vistas/panel_conf_relsecprod.fxml");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		}
-//
-//	}
 
 	@FXML
 	public void addRow() {
@@ -384,36 +362,6 @@ public class ControladorAjustes implements Initializable {
 		}
 	}
 
-//	@FXML
-//	public void CSVTableView() throws IOException {
-//		tblProductos.getColumns().clear();
-//
-//		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-//			String line;
-//			boolean firstLine = true;
-//			while ((line = br.readLine()) != null) {
-//				String[] data = line.split(delimiter);
-//				if (firstLine) {
-//					for (String columnName : data) {
-//						TableColumn<String[], String> column = new TableColumn<>(columnName);
-//						final int index = Arrays.asList(data).indexOf(columnName);
-//						column.setCellValueFactory(param -> {
-//							String[] rowData = param.getValue();
-//							return new SimpleStringProperty(rowData[index]);
-//						});
-//						column.setCellFactory(getCenteredCellFactory());
-//						tblProductos.getColumns().add(column);
-//					}
-//					firstLine = false;
-//				} else {
-//					tblProductos.getItems().add(data);
-//				}
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void CSVTableView2() throws IOException {
@@ -543,6 +491,102 @@ public class ControladorAjustes implements Initializable {
 			String[] lineas = texto.split("\n");
 			for (String string : lineas) {
 				gestor.getContRest().altaSeccion(new Seccion(string));
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@FXML
+	public void cargarProductos() {
+		List<Producto> productos = gestor.getContRest().listarProductos().getBody();
+		List<Seccion> secciones = gestor.getAllSecciones();  // Method to get all sections
+		ObservableList<Seccion> seccionesObservableList = FXCollections.observableArrayList(secciones);
+
+		tblprodsec.setEditable(true);
+
+		if (productos != null) {
+			tblprodsec.getColumns().clear();
+			tblprodsec.getItems().clear();
+			if (!productos.isEmpty()) {
+				TableColumn<Producto, Seccion> seccionColumn = new TableColumn<>("Seccion");
+				seccionColumn.setCellValueFactory(new PropertyValueFactory<>("seccion"));
+				seccionColumn.setCellFactory(new Callback<TableColumn<Producto, Seccion>, TableCell<Producto, Seccion>>() {
+				    @Override
+				    public TableCell<Producto, Seccion> call(TableColumn<Producto, Seccion> param) {
+				        return new TableCell<Producto, Seccion>() {
+				            private ComboBox<Seccion> comboBox;
+
+				            @Override
+				            protected void updateItem(Seccion item, boolean empty) {
+				                super.updateItem(item, empty);
+				                if (empty || item == null) {
+				                    setGraphic(null);
+				                } else {
+				                    if (comboBox == null) {
+				                        comboBox = new ComboBox<>(cbxseccion.getItems());
+				                    }
+				                    comboBox.setValue(item);
+				                    setGraphic(comboBox);
+				                    comboBox.setOnAction(event -> {
+				                        Producto producto = getTableView().getItems().get(getIndex());
+				                        producto.setSeccion(comboBox.getValue());
+				                    });
+				                }
+				            }
+				        };
+				    }
+				});
+
+				// Add the column to your TableView
+				tblprodsec.getColumns().add(seccionColumn);
+				TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+				nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+				nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+				nombreColumn.setOnEditCommit(event -> {
+					Producto producto = event.getRowValue();
+					producto.setNombre_producto(event.getNewValue());
+				});
+
+				TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
+				precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+				precioColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+				precioColumn.setOnEditCommit(event -> {
+					Producto producto = event.getRowValue();
+					producto.setValor_producto_unidad(event.getNewValue());
+				});
+
+				TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
+				cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+				cantidadColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+				cantidadColumn.setOnEditCommit(event -> {
+					Producto producto = event.getRowValue();
+					producto.setCantidad(event.getNewValue());
+				});
+
+				TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+				pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
+				pesoColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+				pesoColumn.setOnEditCommit(event -> {
+					Producto producto = event.getRowValue();
+					producto.setPeso(event.getNewValue());
+				});
+
+				TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
+				descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+				descColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+				descColumn.setOnEditCommit(event -> {
+					Producto producto = event.getRowValue();
+					producto.setDescripcion(event.getNewValue());
+				});
+
+				tblprodsec.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn,
+						descColumn);
+
+				// Guarda la lista original de productos
+				productosOriginales = FXCollections.observableArrayList(productos);
+
+				ObservableList<Producto> items = FXCollections.observableArrayList(productos);
+				tblprodsec.setItems(items);
 			}
 		}
 	}

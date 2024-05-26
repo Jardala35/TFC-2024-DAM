@@ -20,7 +20,7 @@
                         <Insets bottom="20.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <ComboBox prefHeight="25.0" prefWidth="176.0" />
+                  <ComboBox fx:id="cbxseccion" prefHeight="25.0" prefWidth="176.0" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" text="Guardar y salir">
                      <VBox.margin>
                         <Insets top="280.0" />
