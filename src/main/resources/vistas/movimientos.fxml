@@ -69,7 +69,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <TextField fx:id="txtBusqueda" />
+                  <TextField fx:id="searchTextField" />
                   <Button mnemonicParsing="false" onAction="#commitearCambios" text="Actualizar">
                      <HBox.margin>
                         <Insets left="20.0" />

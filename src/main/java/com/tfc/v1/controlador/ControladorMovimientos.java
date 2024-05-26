@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -70,10 +72,14 @@ public class ControladorMovimientos implements Initializable {
     private TableView<Movimiento> tableView2;
     @FXML
     private Button deleteRowButton = new Button();
+    @FXML
+    private TextField searchTextField;
 
     private String delimiter = ",";
-
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    // Guarda la lista original de movimientos
+    private ObservableList<Movimiento> movimientosOriginales;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -106,7 +112,13 @@ public class ControladorMovimientos implements Initializable {
 
         exportarBtn.setOnAction(event -> exportarCSV2(event));
 
+        // Cargar movimientos
         cargarMovimientos();
+
+        // Configuración del TextField de búsqueda
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            buscarMovimientos(newValue.trim().toLowerCase());
+        });
     }
 
     private void logout(ActionEvent event) throws IOException {
@@ -124,9 +136,9 @@ public class ControladorMovimientos implements Initializable {
     private boolean esUsuarioAdmin() {
         // Obtener el rol del usuario desde el gestor
         String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario);
-        System.out.println(gestor.obtenerRolUsuario(ControladorMainWindow.usuario));
         return "admin".equals(rol);
     }
+
     @FXML
     public void abrirVentanaprincipal(ActionEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
@@ -172,6 +184,9 @@ public class ControladorMovimientos implements Initializable {
                 });
 
                 tableView2.getColumns().addAll(idColumn, fechaAltaColumn, tipoColumn);
+
+                // Guarda la lista original de movimientos
+                movimientosOriginales = FXCollections.observableArrayList(movimientos);
 
                 ObservableList<Movimiento> items = FXCollections.observableArrayList(movimientos);
                 tableView2.setItems(items);
@@ -234,5 +249,23 @@ public class ControladorMovimientos implements Initializable {
 
     private String getMovimientoStringValues(Movimiento m, String delimiter) {
         return String.valueOf(m.getId()) + delimiter + m.getFecha_alta().format(formatter) + delimiter + m.getTipo();
+    }
+
+    private void buscarMovimientos(String searchText) {
+        ObservableList<Movimiento> movimientos = tableView2.getItems();
+        if (searchText == null || searchText.isEmpty()) {
+            tableView2.setItems(movimientosOriginales);
+        } else {
+            List<Movimiento> filteredList = movimientosOriginales.stream()
+                    .filter(movimiento -> contieneTexto(movimiento, searchText))
+                    .collect(Collectors.toList());
+            tableView2.setItems(FXCollections.observableArrayList(filteredList));
+        }
+    }
+
+    private boolean contieneTexto(Movimiento movimiento, String searchText) {
+        return String.valueOf(movimiento.getId()).toLowerCase().contains(searchText)
+                || movimiento.getFecha_alta().format(formatter).toLowerCase().contains(searchText)
+                || movimiento.getTipo().toLowerCase().contains(searchText);
     }
 }
