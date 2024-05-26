@@ -16,8 +16,10 @@ import org.springframework.stereotype.Component;
 
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.modelo.entidades.Producto;
+import com.tfc.v1.modelo.entidades.Seccion;
 import com.tfc.v1.negocio.Gestor;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -213,9 +215,24 @@ public class ControladorTabla implements Initializable {
 					Producto producto = event.getRowValue();
 					producto.setDescripcion(event.getNewValue());
 				});
+				
+				  TableColumn<Producto, String> secColumn = new TableColumn<>("Seccion");
+		            secColumn.setCellValueFactory(cellData -> {
+		                Seccion seccion = cellData.getValue().getSeccion();
+		                return new SimpleStringProperty(seccion != null ? seccion.getNombre_seccion() : "");
+		            });
+
+		            secColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		            secColumn.setOnEditCommit(event -> {
+		                Producto producto = event.getRowValue();
+		                // Aquí debes gestionar la actualización de la sección del producto
+		                // Por simplicidad, aquí se asume que el nombre de la sección se puede usar para buscar la sección completa
+		                Seccion nuevaSeccion = gestor.getContRest().getSeccion(event.getNewValue()).getBody();
+		                producto.setSeccion(nuevaSeccion);
+		            });
 
 				tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn,
-						descColumn);
+						descColumn, secColumn);
 
 				// Guarda la lista original de productos
 				productosOriginales = FXCollections.observableArrayList(productos);
