@@ -15,7 +15,7 @@
             <TableView fx:id="tblprodsec" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="417.0" VBox.vgrow="ALWAYS" />
             <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" text="Guardar y salir" HBox.hgrow="ALWAYS">
+                  <Button mnemonicParsing="false" onAction="#aplicarCambios" text="Guardar y salir" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>

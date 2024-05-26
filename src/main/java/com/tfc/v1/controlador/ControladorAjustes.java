@@ -22,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,6 +39,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -54,7 +56,10 @@ public class ControladorAjustes implements Initializable {
 	private Gestor gestor;
 	@Autowired
 	private SpringFXMLLoader springFXMLLoader;
-
+	@FXML
+	private Stage stage;
+	@FXML
+	private Scene scene;
 	@FXML
 	private Button btnAtras;
 	@FXML
@@ -89,10 +94,10 @@ public class ControladorAjustes implements Initializable {
 
 	@FXML
 	private VBox vbox_conf_ini;
-	
+
 //	@FXML
 //	private ComboBox<String> cbxseccion;
-	
+
 	// Guarda la lista original de productos
 	private ObservableList<Producto> productosOriginales;
 
@@ -218,7 +223,6 @@ public class ControladorAjustes implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
 
 	@FXML
 	public void addRow() {
@@ -499,12 +503,12 @@ public class ControladorAjustes implements Initializable {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void cargarProductos() {
 		List<Producto> productos = gestor.getContRest().listarProductos().getBody();
-		List<Seccion> secciones = gestor.getAllSecciones();  // Method to get all sections
+		List<Seccion> secciones = gestor.getAllSecciones(); // Method to get all sections
 		ObservableList<Seccion> seccionesObservableList = FXCollections.observableArrayList(secciones);
 		List<String> nomsec = new ArrayList<>();
 		for (Seccion seccion : seccionesObservableList) {
@@ -516,79 +520,80 @@ public class ControladorAjustes implements Initializable {
 
 		if (productos != null) {
 			tblprodsec.getColumns().clear();
-	        tblprodsec.getItems().clear();
-	        if (!productos.isEmpty()) {
-	            TableColumn<Producto, Seccion> seccionColumn = new TableColumn<>("Sección");
-	            seccionColumn.setCellValueFactory(new PropertyValueFactory<>("seccion"));
+			tblprodsec.getItems().clear();
+			if (!productos.isEmpty()) {
+				TableColumn<Producto, Seccion> seccionColumn = new TableColumn<>("Sección");
+				seccionColumn.setCellValueFactory(new PropertyValueFactory<>("seccion"));
 
-	         // CellFactory para la columna de sección
-	            seccionColumn.setCellFactory(param -> new TableCell<Producto, Seccion>() {
-	                private ComboBox<Seccion> comboBox;
+				// CellFactory para la columna de sección
+				seccionColumn.setCellFactory(param -> new TableCell<Producto, Seccion>() {
+					private ComboBox<Seccion> comboBox;
 
-	                {
-	                    comboBox = new ComboBox<>(seccionesObservableList);
-	                    comboBox.setConverter(new StringConverter<Seccion>() {
-	                        @Override
-	                        public String toString(Seccion seccion) {
-	                            return seccion != null ? seccion.getNombre_seccion() : "";
-	                        }
+					{
+						comboBox = new ComboBox<>(seccionesObservableList);
+						comboBox.setConverter(new StringConverter<Seccion>() {
+							@Override
+							public String toString(Seccion seccion) {
+								return seccion != null ? seccion.getNombre_seccion() : "";
+							}
 
-	                        @Override
-	                        public Seccion fromString(String nombre) {
-	                            return seccionesObservableList.stream()
-	                                    .filter(seccion -> seccion.getNombre_seccion().equals(nombre))
-	                                    .findFirst()
-	                                    .orElse(null);
-	                        }
-	                    });
-	                    comboBox.setEditable(false);
-	                    comboBox.setOnAction(event -> {
-	                        // Usar commitEdit con el texto del nombre de la sección en lugar del objeto Seccion
-	                        Seccion selectedSeccion = comboBox.getValue();
-	                        if (selectedSeccion != null) {
-	                            commitEdit(selectedSeccion);
-	                        }
-	                    });
-	                }
+							@Override
+							public Seccion fromString(String nombre) {
+								return seccionesObservableList.stream()
+										.filter(seccion -> seccion.getNombre_seccion().equals(nombre)).findFirst()
+										.orElse(null);
+							}
+						});
+						comboBox.setEditable(false);
+						comboBox.setOnAction(event -> {
+							// Usar commitEdit con el texto del nombre de la sección en lugar del objeto
+							// Seccion
+							Seccion selectedSeccion = comboBox.getValue();
+							if (selectedSeccion != null) {
+								commitEdit(selectedSeccion);
+							}
+						});
+					}
 
-	                @Override
-	                public void startEdit() {
-	                    super.startEdit();
-	                    if (comboBox != null) {
-	                        comboBox.setValue(getItem());
-	                    }
-	                    setGraphic(comboBox);
-	                    setText(null);
-	                }
+					@Override
+					public void startEdit() {
+						super.startEdit();
+						if (comboBox != null) {
+							comboBox.setValue(getItem());
+						}
+						setGraphic(comboBox);
+						setText(null);
+					}
 
-	                @Override
-	                public void cancelEdit() {
-	                    super.cancelEdit();
-	                    setGraphic(null);
-	                    setText(getItem() != null ? getItem().getNombre_seccion() : "");
-	                }
+					@Override
+					public void cancelEdit() {
+						super.cancelEdit();
+						setGraphic(null);
+						setText(getItem() != null ? getItem().getNombre_seccion() : "");
+					}
 
-	                @Override
-	                protected void updateItem(Seccion item, boolean empty) {
-	                    super.updateItem(item, empty);
-	                    if (empty || item == null) {
-	                        setText(null);
-	                        setGraphic(null);
-	                    } else {
-	                        setText(item.getNombre_seccion());
-	                        setGraphic(null);
-	                    }
-	                }
-	            });
+					@Override
+					protected void updateItem(Seccion item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty || item == null) {
+							setText(null);
+							setGraphic(null);
+						} else {
+							setText(item.getNombre_seccion());
+							setGraphic(null);
+						}
+					}
+				});
 
-	         // Evento para actualizar la sección del producto cuando se selecciona una opción del ComboBox	            
-	            seccionColumn.setOnEditCommit(event -> {
-	                TableView.TableViewSelectionModel<Producto> selectionModel = tblprodsec.getSelectionModel();
-	                Producto producto = selectionModel.getSelectedItem();
-	                if (producto != null) {
-	                    producto.setSeccion(event.getNewValue());
-	                }
-	            });
+				// Evento para actualizar la sección del producto cuando se selecciona una
+				// opción del ComboBox
+				seccionColumn.setOnEditCommit(event -> {
+					TableView.TableViewSelectionModel<Producto> selectionModel = tblprodsec.getSelectionModel();
+					Producto producto = selectionModel.getSelectedItem();
+					if (producto != null) {
+						producto.setSeccion(event.getNewValue());
+					}
+				});
 
 				// Add the column to your TableView
 				tblprodsec.getColumns().add(seccionColumn);
@@ -632,8 +637,7 @@ public class ControladorAjustes implements Initializable {
 					producto.setDescripcion(event.getNewValue());
 				});
 
-				tblprodsec.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn,
-						descColumn);
+				tblprodsec.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
 
 				// Guarda la lista original de productos
 				productosOriginales = FXCollections.observableArrayList(productos);
@@ -643,9 +647,28 @@ public class ControladorAjustes implements Initializable {
 			}
 		}
 	}
+
 	@FXML
-	public void aplicarCambios() {
-		
+	public void aplicarCambios(ActionEvent event) {
+		ObservableList<Producto> productos = tblprodsec.getItems();
+		for (Producto producto : productos) {
+			gestor.actualizarProducto(producto.getId(), producto);
+		}
+		try {
+			abrirVentanaprincipal(event);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void abrirVentanaprincipal(ActionEvent event) throws IOException {
+		Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 }
