@@ -28,7 +28,7 @@
                         </ImageView>
                     </children>
                <HBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="10.0" />
                </HBox.margin>
                 </HBox>
                 <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/mainW.css" HBox.hgrow="ALWAYS">
@@ -82,6 +82,9 @@
                      </HBox.margin>
                         </Button>
                     </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
                 </HBox>
                 
                 <!-- Segunda fila de botones -->

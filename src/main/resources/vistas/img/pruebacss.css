@@ -1,7 +1,6 @@
 /* General styles */
 .root {
     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -fx-background-color: #FFA500; /* Orange background */
     -fx-padding: 20px;
 }
 
@@ -64,4 +63,8 @@
 .hyperlink:hover {
     -fx-text-fill: #FF7043;
     -fx-underline: true;
+}
+
+.titulo {
+  margin: 0 auto; /* Centro automático para el título */
 }

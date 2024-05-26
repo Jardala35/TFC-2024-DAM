@@ -15,8 +15,13 @@
 
 <AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/pruebacss.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
    <children>
-      <HBox alignment="CENTER" layoutX="109.0" prefHeight="86.0" prefWidth="493.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <ImageView fitHeight="73.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" styleClass="imagen">
+               <image>
+                  <Image url="@/vistas/img/Logo.png" />
+               </image>
+            </ImageView>
             <Label accessibleRole="PARENT" alignment="CENTER" contentDisplay="CENTER" styleClass="label-title" text="Stock Maven" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="36.0" />
@@ -27,39 +32,28 @@
             </Label>
          </children>
       </HBox>
-      <VBox prefHeight="425.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="88.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@/vistas/img/Logo.png" />
-               </image>
-               <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </VBox.margin>
-            </ImageView>
-         </children></VBox>
-      <VBox alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+      <VBox alignment="TOP_CENTER" layoutY="78.0" prefHeight="347.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
             <HBox alignment="CENTER" prefHeight="71.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="13.0" prefWidth="493.0" />
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="493.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="581.0">
                <children>
-                  <Pane prefHeight="50.0" prefWidth="499.0">
-                     <children>
-                        <Label accessibleRole="PARENT" layoutX="112.0" layoutY="19.0" text="Usuario" />
-                        <TextField fx:id="usuarioTextField" layoutX="180.0" layoutY="15.0" />
-                     </children>
-                  </Pane>
+                  <Label accessibleRole="PARENT" text="Usuario" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="usuarioTextField" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="77.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="77.0" prefWidth="493.0">
-                     <children>
-                        <Label layoutX="112.0" layoutY="27.0" text="Contraseña" />
-                        <PasswordField fx:id="contrasenaTextField" accessibleRole="PARENT" layoutX="182.0" layoutY="23.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
-                     </children>
-                  </Pane>
+                  <Label text="Contraseña" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <PasswordField fx:id="contrasenaTextField" accessibleRole="PARENT" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="33.0" prefWidth="493.0">

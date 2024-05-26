@@ -69,18 +69,14 @@ public class ControladorInformes implements Initializable {
 
     @FXML
     private RadioButton rbCantidad;
-
     @FXML
     private RadioButton rbPrecio;
-
     @FXML
     private Button btnAtras;
     @FXML
     private Label lblusr = new Label();
     @FXML
     private MenuButton menuBtn;
-    @FXML
-    private MenuButton menuBtn_Columnas = new MenuButton();
     @FXML
     private VBox chartContainer = new VBox();
     @FXML
@@ -104,21 +100,17 @@ public class ControladorInformes implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
-        imageView.setFitWidth(50); // Ajusta el ancho de la imagen
-        imageView.setFitHeight(50); // Ajusta la altura de la imagen
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
         lblusr = new Label(ControladorMainWindow.usuario);
 
         rbCantidad.setToggleGroup(toggleGroup);
         rbPrecio.setToggleGroup(toggleGroup);
 
-        // Crear el VBox y agregar la imagen y el texto
         VBox vbox = new VBox();
         vbox.getChildren().addAll(imageView, lblusr);
-
-        // Asignar el VBox como gráfico del MenuButton
         menuBtn.setGraphic(vbox);
 
-        // Configurar el manejador de acción para el MenuItem
         lineChartItem.setOnAction(event -> mostrarLineChart());
         barChartItem.setOnAction(event -> mostrarBarChart());
         areaChartItem.setOnAction(event -> mostrarAreaChart());
@@ -126,6 +118,12 @@ public class ControladorInformes implements Initializable {
 
         ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
         btnAtras.setGraphic(imageAtras);
+
+        // Selecciona el RadioButton de cantidad al iniciar
+        rbCantidad.setSelected(true);
+
+        // Llama a actualizarGraficaCantidad para mostrar el gráfico de cantidad al iniciar
+        actualizarGraficaCantidad();
 
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == rbCantidad) {
@@ -144,7 +142,6 @@ public class ControladorInformes implements Initializable {
                 (int) (color.getGreen() * 255),
                 (int) (color.getBlue() * 255));
     }
-    
 
     private Color generarColorAleatorio() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -155,27 +152,27 @@ public class ControladorInformes implements Initializable {
     public void mostrarLineChart() {
         if (lineChart != null) {
             chartContainer.getChildren().setAll(lineChart);
-        } else {
-            System.out.println("El gráfico de línea no está inicializado.");
         }
     }
 
     @FXML
     public void mostrarBarChart() {
-        chartContainer.getChildren().setAll(barChart);
+        if (barChart != null) {
+            chartContainer.getChildren().setAll(barChart);
+        }
     }
 
     @FXML
     public void mostrarAreaChart() {
-        chartContainer.getChildren().setAll(areaChart);
+        if (areaChart != null) {
+            chartContainer.getChildren().setAll(areaChart);
+        }
     }
 
     @FXML
     public void mostrarPieChart() {
         if (pieChart != null) {
             chartContainer.getChildren().setAll(pieChart);
-        } else {
-            System.out.println("El gráfico de pastel no está inicializado.");
         }
     }
 
@@ -224,7 +221,6 @@ public class ControladorInformes implements Initializable {
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
-            // Crear los gráficos solo si no son nulos
             if (lineChart == null) {
                 CategoryAxis xAxis = new CategoryAxis();
                 NumberAxis yAxis = new NumberAxis();
@@ -251,16 +247,13 @@ public class ControladorInformes implements Initializable {
                 configurarGrafico(pieChart);
             }
 
-            // Mostrar el gráfico inicial
             mostrarPieChart();
         } else {
-            // Si no hay datos, limpiar el contenedor
             chartContainer.getChildren().clear();
         }
     }
 
     private void configurarGrafico(Node grafico) {
-        // Configurar el gráfico para que ocupe todo el espacio disponible
         VBox.setVgrow(grafico, Priority.ALWAYS);
         grafico.maxHeight(Double.MAX_VALUE);
         grafico.maxWidth(Double.MAX_VALUE);
@@ -307,46 +300,14 @@ public class ControladorInformes implements Initializable {
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
-            // Configurar o actualizar LineChart
-            if (lineChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                lineChart = new LineChart<>(xAxis, yAxis, lineChartData);
-            } else {
-                lineChart.setData(lineChartData);
-            }
-
-            // Configurar o actualizar BarChart
-            if (barChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                barChart = new BarChart<>(xAxis, yAxis, barChartData);
-            } else {
-                barChart.setData(barChartData);
-            }
-
-            // Configurar o actualizar AreaChart
-            if (areaChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
-            } else {
-                areaChart.setData(areaChartData);
-            }
-
-            // Configurar o actualizar PieChart
-            if (pieChart == null) {
-                pieChart = new PieChart(pieChartData);
-            } else {
-                pieChart.setData(pieChartData);
-            }
-
-            mostrarPieChart();
+            updateChartData(lineChart, lineChartData);
+            updateChartData(barChart, barChartData);
+            updateChartData(areaChart, areaChartData);
+            updatePieChartData(pieChart, pieChartData);
         } else {
             chartContainer.getChildren().clear();
         }
     }
-
 
     @FXML
     public void actualizarGraficaPrecio() {
@@ -388,94 +349,48 @@ public class ControladorInformes implements Initializable {
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
-            if (lineChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                lineChart = new LineChart<>(xAxis, yAxis, lineChartData);
-            } else {
-                lineChart.setData(lineChartData);
-            }
-
-            if (barChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                barChart = new BarChart<>(xAxis, yAxis, barChartData);
-            } else {
-                barChart.setData(barChartData);
-            }
-
-            if (areaChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
-            } else {
-                areaChart.setData(areaChartData);
-            }
-
-            if (pieChart == null) {
-                pieChart = new PieChart(pieChartData);
-            } else {
-                pieChart.setData(pieChartData);
-            }
-
-            mostrarPieChart();
+            updateChartData(lineChart, lineChartData);
+            updateChartData(barChart, barChartData);
+            updateChartData(areaChart, areaChartData);
+            updatePieChartData(pieChart, pieChartData);
         } else {
             chartContainer.getChildren().clear();
         }
     }
 
+    private void updateChartData(XYChart<String, Number> chart, ObservableList<XYChart.Series<String, Number>> newData) {
+        if (chart != null) {
+            chart.setData(newData);
+        }
+    }
+
+    private void updatePieChartData(PieChart chart, ObservableList<PieChart.Data> newData) {
+        if (chart != null) {
+            chart.setData(newData);
+        }
+    }
+
     @FXML
     public void generarPDF(ActionEvent event) {
-        List<Producto> productos = gestor.getContRest().listarProductos().getBody();
+        WritableImage image = chartContainer.snapshot(new SnapshotParameters(), null);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"));
+        File file = fileChooser.showSaveDialog(chartContainer.getScene().getWindow());
 
-        if (productos != null && !productos.isEmpty()) {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-            File selectedFile = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (ByteArrayOutputStream byteOutput = new ByteArrayOutputStream()) {
+                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteOutput);
+                ImageData imageData = ImageDataFactory.create(byteOutput.toByteArray());
 
-            if (selectedFile != null) {
-                try {
-                    PdfWriter writer = new PdfWriter(new FileOutputStream(selectedFile));
-                    PdfDocument pdfDoc = new PdfDocument(writer);
-                    Document document = new Document(pdfDoc);
-
-                    // Añadir una imagen de cada gráfico al PDF
-                    addChartToPDF(document, lineChart, "Gráfico de Líneas");
-                    addChartToPDF(document, barChart, "Gráfico de Barras");
-                    addChartToPDF(document, areaChart, "Gráfico de Área");
-                    addChartToPDF(document, pieChart, "Gráfico de Pastel");
-
-                    document.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(new FileOutputStream(file)));
+                     Document document = new Document(pdfDoc)) {
+                    document.add(new Paragraph("Gráfico:"));
+                    document.add(new com.itextpdf.layout.element.Image(imageData));
+                    document.add(new AreaBreak());
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
-
-    private void addChartToPDF(Document document, javafx.scene.chart.Chart chart, String title) {
-        WritableImage image = chart.snapshot(new SnapshotParameters(), null);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteArrayOutputStream);
-            byte[] imageBytes = byteArrayOutputStream.toByteArray();
-            ImageData imageData = ImageDataFactory.create(imageBytes);
-            
-         // Agregar el gráfico después del título
-            com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(imageData);
-            document.add(pdfImage);
-            // Agregar el título al inicio de la página
-            Paragraph titleParagraph = new Paragraph(title);
-            document.add(titleParagraph);
-
-            
-            
-            // Nueva página para el próximo gráfico
-            document.add(new AreaBreak());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
