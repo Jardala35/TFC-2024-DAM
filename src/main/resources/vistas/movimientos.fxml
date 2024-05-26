@@ -14,43 +14,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="437.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMovimientos">
+<AnchorPane prefHeight="643.0" prefWidth="939.0" stylesheets="@/vistas/img/tabla.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMovimientos">
    <children>
-      <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutY="77.0" prefHeight="360.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="77.0">
          <children>
-            <MenuButton fx:id="menuBtn" mnemonicParsing="false">
-              <items>
-                <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
-              </items>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets right="3.0" />
-               </HBox.margin>
-            </MenuButton>
-         </children>
-      </HBox>
-      <VBox alignment="TOP_CENTER" prefHeight="437.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="80.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets top="8.0" />
-               </VBox.margin>
-               <image>
-                  <Image url="@/vistas/img/Logo.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="btnAtras" mnemonicParsing="false" onAction="#abrirVentanaprincipal">
-               <VBox.margin>
-                  <Insets top="290.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-      <VBox layoutX="116.0" layoutY="96.0" prefHeight="352.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="116.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="96.0">
-         <children>
-            <TableView fx:id="tableView2" editable="true" prefHeight="343.0" prefWidth="498.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView2" editable="true" prefHeight="343.0" prefWidth="602.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="descripcionColumn" prefWidth="95.0" text="Fecha Alta" />
@@ -59,6 +27,14 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="496.0" VBox.vgrow="NEVER">
                <children>
+                  <ImageView fitHeight="30.0" fitWidth="26.0" onMouseClicked="#abrirVentanaprincipal" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                     <image>
+                        <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                  </ImageView>
                   <ComboBox fx:id="cbxSeccion" prefWidth="150.0">
                      <HBox.margin>
                         <Insets right="20.0" />
@@ -88,5 +64,32 @@
             </HBox>
          </children>
       </VBox>
+      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="450.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@/vistas/img/Logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
+               <items>
+                  <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
+               </items>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="3.0" />
+               </HBox.margin>
+            </MenuButton>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

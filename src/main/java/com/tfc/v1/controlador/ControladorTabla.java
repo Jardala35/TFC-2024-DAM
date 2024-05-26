@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -69,8 +70,13 @@ public class ControladorTabla implements Initializable {
     private TextField filterField;
     @FXML
     private Button addRowButton = new Button();
+    @FXML
+    private Button deleteRowButton = new Button();
 
     private String delimiter = ",";
+
+    // Guarda la lista original de productos
+    private ObservableList<Producto> productosOriginales;
 
     @FXML
     public void exportarCSV2(ActionEvent e) {
@@ -94,6 +100,12 @@ public class ControladorTabla implements Initializable {
                 ex.printStackTrace();
             }
         }
+    }
+    
+    private boolean esUsuarioAdmin() {
+        // Obtener el rol del usuario desde el gestor
+        String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
+        return "admin".equals(rol);
     }
 
     private String getProdStringValues(Producto p, String delimiter) {
@@ -168,7 +180,9 @@ public class ControladorTabla implements Initializable {
 
                 tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
 
-                // Crear una nueva lista observable y asignarla a la tabla
+                // Guarda la lista original de productos
+                productosOriginales = FXCollections.observableArrayList(productos);
+
                 ObservableList<Producto> items = FXCollections.observableArrayList(productos);
                 tableView2.setItems(items);
             }
@@ -238,9 +252,18 @@ public class ControladorTabla implements Initializable {
                 e.printStackTrace();
             }
         });
+        
+        if (!esUsuarioAdmin()) {
+            deleteRowButton.setDisable(true);
+        }
 
         // Configurar el botón para añadir filas
         addRowButton.setOnAction(event -> addRow());
+
+        // Configurar el TextField de búsqueda
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            buscarProductos(newValue.trim().toLowerCase());
+        });
     }
 
     private void logout(ActionEvent event) throws IOException {
@@ -280,4 +303,32 @@ public class ControladorTabla implements Initializable {
         stage.setHeight(height);
         stage.show();
     }
+
+    private void buscarProductos(String searchTerm) {
+        // Verificar si el término de búsqueda está vacío
+        if (searchTerm.isEmpty()) {
+            tableView2.setItems(productosOriginales);
+            return;
+        }
+
+        // Filtrar los productos según el término de búsqueda
+        List<Producto> filteredList = productosOriginales.stream()
+                .filter(producto -> producto.getNombre_producto().toLowerCase().contains(searchTerm)
+                        || String.valueOf(producto.getId()).contains(searchTerm)
+                        || String.valueOf(producto.getValor_producto_unidad()).contains(searchTerm)
+                        || String.valueOf(producto.getCantidad()).contains(searchTerm)
+                        || String.valueOf(producto.getPeso()).contains(searchTerm)
+                        || producto.getDescripcion().toLowerCase().contains(searchTerm))
+                .collect(Collectors.toList());
+
+        // Actualizar la tabla con los productos filtrados
+        tableView2.setItems(FXCollections.observableArrayList(filteredList));
+    }
 }
+
+
+
+
+
+
+

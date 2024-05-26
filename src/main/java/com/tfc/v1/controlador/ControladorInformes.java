@@ -124,6 +124,8 @@ public class ControladorInformes implements Initializable {
 
         // Llama a actualizarGraficaCantidad para mostrar el gráfico de cantidad al iniciar
         actualizarGraficaCantidad();
+        
+        
 
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == rbCantidad) {

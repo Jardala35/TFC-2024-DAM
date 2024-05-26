@@ -39,11 +39,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 @Component
 public class ControladorMovimientos implements Initializable {
@@ -105,9 +106,6 @@ public class ControladorMovimientos implements Initializable {
             deleteRowButton.setDisable(true);
         }
 
-        ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
-        btnAtras.setGraphic(imageAtras);
-
         addRowButton.setOnAction(event -> addRow());
 
         exportarBtn.setOnAction(event -> exportarCSV2(event));
@@ -135,12 +133,12 @@ public class ControladorMovimientos implements Initializable {
 
     private boolean esUsuarioAdmin() {
         // Obtener el rol del usuario desde el gestor
-        String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario);
+        String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
         return "admin".equals(rol);
     }
 
     @FXML
-    public void abrirVentanaprincipal(ActionEvent event) throws IOException {
+    public void abrirVentanaprincipal(MouseEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
