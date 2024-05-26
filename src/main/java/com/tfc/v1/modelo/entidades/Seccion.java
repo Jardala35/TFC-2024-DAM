@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nombre_seccion"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nombre"})})
 public class Seccion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 

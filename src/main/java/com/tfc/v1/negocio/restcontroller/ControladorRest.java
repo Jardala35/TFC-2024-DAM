@@ -192,5 +192,10 @@ public class ControladorRest {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    
+    public void truncateTables() {
+        repoProducto.deleteAllProductos();;
+        repoSeccion.deleteAllSecciones();
+    }
 
 }
