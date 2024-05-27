@@ -46,9 +46,12 @@ public class ControladorRest {
 
     @GetMapping(value = "seccion/{nombre}")
     public ResponseEntity<Seccion> getSeccion(@PathVariable("nombre") String nombre) {
-        Optional<Seccion> s = Optional.of(repoSeccion.findByNombre(nombre));
-        return s.map(seccion -> new ResponseEntity<>(seccion, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    	 Seccion seccion = repoSeccion.findByNombre(nombre);
+    	    if (seccion != null) {
+    	        return new ResponseEntity<>(seccion, HttpStatus.OK);
+    	    } else {
+    	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	    }
     }
 
     @GetMapping(value = "secciones")

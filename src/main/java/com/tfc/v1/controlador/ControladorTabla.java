@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -73,7 +76,8 @@ public class ControladorTabla implements Initializable {
 	private Button addRowButton = new Button();
 	@FXML
 	private Button deleteRowButton = new Button();
-
+	@FXML
+	private ComboBox<String> cbxSeccion;
 	private String delimiter = ",";
 
 	private ObservableList<Producto> productosOriginales;
@@ -81,6 +85,7 @@ public class ControladorTabla implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cargarProductos();
+		cargarSecciones();
 		ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
 		imageView.setFitWidth(50); // Ajusta el ancho de la imagen
 		imageView.setFitHeight(50); // Ajusta la altura de la imagen
@@ -113,6 +118,46 @@ public class ControladorTabla implements Initializable {
 		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
 			buscarProductos(newValue.trim().toLowerCase());
 		});
+		
+		// Configurar el ComboBox para filtrar productos por sección
+	    cbxSeccion.valueProperty().addListener((observable, oldValue, newValue) -> {
+	        filtrarProductosPorSeccion(newValue);
+	    });
+	}
+	
+	@FXML
+	public void cargarSecciones() {
+	    List<Seccion> secciones = gestor.getContRest().listarSecciones().getBody();
+	    List<String> seccionestxt = new ArrayList<>();
+	    for (Seccion sec : secciones) {
+			seccionestxt.add(sec.getNombre_seccion());
+		}
+
+	    if (secciones != null) {
+	        cbxSeccion.getItems().clear();
+	        cbxSeccion.getItems().addAll(seccionestxt);
+	    }
+
+	    // Agregar la opción "Todas"	    
+	    cbxSeccion.getItems().add(0, "Todas");
+
+	    // Seleccionar la opción "Todas" por defecto
+	    cbxSeccion.getSelectionModel().select(0);
+	}
+	
+	
+	public void filtrarProductosPorSeccion(String seccionSeleccionada) {
+	    if (seccionSeleccionada == null || "Todas".equals(seccionSeleccionada)) {
+	        // Mostrar todos los productos
+	        tableView2.setItems(productosOriginales);
+	    } else {
+	        // Filtrar productos por la sección seleccionada
+	        List<Producto> productosFiltrados = productosOriginales.stream()
+	                .filter(producto -> seccionSeleccionada.equals(producto.getSeccion().getNombre_seccion()))
+	                .collect(Collectors.toList());
+
+	        tableView2.setItems(FXCollections.observableArrayList(productosFiltrados));
+	    }
 	}
 	
 	@FXML
@@ -225,10 +270,23 @@ public class ControladorTabla implements Initializable {
 		            secColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		            secColumn.setOnEditCommit(event -> {
 		                Producto producto = event.getRowValue();
-		                // Aquí debes gestionar la actualización de la sección del producto
-		                // Por simplicidad, aquí se asume que el nombre de la sección se puede usar para buscar la sección completa
-		                Seccion nuevaSeccion = gestor.getContRest().getSeccion(event.getNewValue()).getBody();
-		                producto.setSeccion(nuevaSeccion);
+		                String nombreSeccion = event.getNewValue();
+
+		                // Verificar si el nombre de la sección no es nulo o vacío
+		                if (nombreSeccion != null && !nombreSeccion.isEmpty()) {
+		                    Optional<Seccion> seccionOpt = Optional.ofNullable(gestor.getContRest().getSeccion(nombreSeccion).getBody());
+
+		                    Seccion nuevaSeccion = seccionOpt.orElseGet(() -> {
+		                        // Si no existe, crear una nueva sección
+		                        return gestor.getContRest().altaSeccion(new Seccion(nombreSeccion)).getBody();
+		                    });
+
+		                    producto.setSeccion(nuevaSeccion);
+		                } else {
+		                    // Manejar el caso en que el nombre de la sección es nulo o vacío
+		                    // Puedes lanzar una excepción, imprimir un mensaje de error o hacer cualquier otra cosa necesaria
+		                    System.err.println("El nombre de la sección es nulo o vacío");
+		                }
 		            });
 
 				tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn,
