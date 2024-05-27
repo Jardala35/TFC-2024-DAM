@@ -27,6 +27,10 @@ public class AuthService {
 		this.passwordEncoder = passwordEncoder;
 		this.authenticationManager = authenticationManager;
 	}
+    
+    public RepositorioUsuario getRepositorioUsuario() {
+    	return this.userRepository;
+    }
 
 	public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));

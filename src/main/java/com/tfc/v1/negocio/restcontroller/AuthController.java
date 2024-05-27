@@ -21,6 +21,10 @@ public class AuthController {
     
     public AuthController() {
 		super();
+	}    
+
+	public AuthService getAuthService() {
+		return authService;
 	}
 
 	@PostMapping(value = "login")

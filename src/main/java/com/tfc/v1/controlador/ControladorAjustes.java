@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.util.converter.LocalDateTimeStringConverter;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Component;
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.modelo.entidades.Seccion;
+import com.tfc.v1.modelo.entidades.usuario.Rol;
+import com.tfc.v1.modelo.entidades.usuario.Usuario;
 import com.tfc.v1.negocio.Gestor;
 
 import javafx.collections.FXCollections;
@@ -34,12 +39,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -78,6 +81,8 @@ public class ControladorAjustes implements Initializable {
 	private TableView<Producto> tblProductos2;
 	@FXML
 	private TableView<Producto> tblprodsec;
+	@FXML
+	private TableView<Usuario> tblusuarios;
 	@FXML
 	private TextArea txtarea_secciones;
 
@@ -140,14 +145,6 @@ public class ControladorAjustes implements Initializable {
 
 	@SuppressWarnings("unchecked")
 	private void confTabla() {
-//    	TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
-//        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        idColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-//        idColumn.setOnEditCommit(event -> {
-//            Producto producto = event.getRowValue();
-//            producto.setId(event.getNewValue());
-//        });
-
 		TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
 		nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -252,6 +249,28 @@ public class ControladorAjustes implements Initializable {
 
 		}
 	}
+	@FXML
+	public void deleteSelectedRowUsr() {
+		// Obtener la fila seleccionada
+		Usuario selectedProduct = tblusuarios.getSelectionModel().getSelectedItem();
+
+		// Verificar si se ha seleccionado una fila
+		if (selectedProduct != null) {
+			// Eliminar la fila de la tabla
+			tblusuarios.getItems().remove(selectedProduct);
+			gestor.getAuthcontroller().getAuthService().getRepositorioUsuario().delete(selectedProduct);
+
+		}
+	}
+	@FXML
+	public void actualizarUsuarios() {
+		 ObservableList<Usuario> usuariosActualizados = tblusuarios.getItems();
+	        
+	        for (Usuario usuario : usuariosActualizados) {
+	            // Llama a tu método de servicio o gestor de base de datos para actualizar el usuario
+	           gestor.getAuthcontroller().getAuthService().getRepositorioUsuario().save(usuario);
+	        }
+	}
 
 	@FXML
 	public void addRow2() {
@@ -308,6 +327,7 @@ public class ControladorAjustes implements Initializable {
 	public void confUsuarios() {
 		try {
 			showScrollPane("/vistas/panel_usuarios.fxml");
+			cargarUsuarios();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -669,6 +689,86 @@ public class ControladorAjustes implements Initializable {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	@SuppressWarnings("unchecked")
+    public void cargarUsuarios() {
+        List<Usuario> usuarios = gestor.getAuthcontroller().getAuthService().getRepositorioUsuario().findAll();  
+
+        tblusuarios.setEditable(true);
+
+        if (usuarios != null && !usuarios.isEmpty()) {
+        	tblusuarios.getColumns().clear();
+        	tblusuarios.getItems().clear();
+
+            TableColumn<Usuario, Integer> idColumn = new TableColumn<>("ID");
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+            TableColumn<Usuario, String> nomUsrColumn = new TableColumn<>("Nombre de Usuario");
+            nomUsrColumn.setCellValueFactory(new PropertyValueFactory<>("nomUsr"));
+            nomUsrColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            nomUsrColumn.setOnEditCommit(event -> {
+                Usuario usuario = event.getRowValue();
+                usuario.setNomUsr(event.getNewValue());
+            });
+
+            TableColumn<Usuario, String> nombreColumn = new TableColumn<>("Nombre");
+            nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            nombreColumn.setOnEditCommit(event -> {
+                Usuario usuario = event.getRowValue();
+                usuario.setNombre(event.getNewValue());
+            });
+
+            TableColumn<Usuario, String> apellidoColumn = new TableColumn<>("Apellido");
+            apellidoColumn.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+            apellidoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            apellidoColumn.setOnEditCommit(event -> {
+                Usuario usuario = event.getRowValue();
+                usuario.setApellido(event.getNewValue());
+            });
+
+            TableColumn<Usuario, String> emailColumn = new TableColumn<>("Email");
+            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+            emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            emailColumn.setOnEditCommit(event -> {
+                Usuario usuario = event.getRowValue();
+                usuario.setEmail(event.getNewValue());
+            });
+
+            TableColumn<Usuario, Rol> rolColumn = new TableColumn<>("Rol");
+            rolColumn.setCellValueFactory(new PropertyValueFactory<>("rol"));
+            rolColumn.setCellFactory(TextFieldTableCell.forTableColumn(new RolStringConverter()));
+            rolColumn.setOnEditCommit(event -> {
+                Usuario usuario = event.getRowValue();
+                usuario.setRol(event.getNewValue());
+            });
+
+            TableColumn<Usuario, LocalDateTime> fechaAltaColumn = new TableColumn<>("Fecha de Alta");
+            fechaAltaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
+            fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LocalDateTimeStringConverter()));
+
+            tblusuarios.getColumns().addAll(idColumn, nomUsrColumn, nombreColumn, apellidoColumn, emailColumn, rolColumn, fechaAltaColumn);
+
+            ObservableList<Usuario> items = FXCollections.observableArrayList(usuarios);
+            tblusuarios.setItems(items);
+        }
+    }
+	public class RolStringConverter extends StringConverter<Rol> {
+
+	    @Override
+	    public String toString(Rol rol) {
+	        return rol != null ? rol.name() : "";
+	    }
+
+	    @Override
+	    public Rol fromString(String string) {
+	        try {
+	            return Rol.valueOf(string);
+	        } catch (IllegalArgumentException e) {
+	            return null; // o maneja el error de otra manera
+	        }
+	    }
 	}
 
 }
