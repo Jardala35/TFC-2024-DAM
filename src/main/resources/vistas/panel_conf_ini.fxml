@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anch1" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorAjustes">
    <children>
@@ -15,7 +16,10 @@
          <children>
             <HBox fillHeight="false" maxHeight="47.0" prefHeight="47.0" prefWidth="751.0" spacing="50.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="477.0" text="Configuración incial" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="477.0" text="Configuración incial" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="32.0" />
+                     </font></Label>
                   <Button fx:id="btnsalir" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#salir" prefHeight="25.0" prefWidth="54.0" text="Salir" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="10.0" right="20.0" top="10.0" />
@@ -31,10 +35,22 @@
                            <children>
                               <VBox HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label text="Bienvenid@ a Stock Maven, vamos a realizar la configuración inicial del almacén" VBox.vgrow="ALWAYS" />
-                                    <Label text="Pasos:" VBox.vgrow="ALWAYS" />
-                                    <Label text="- Configurar secciones" VBox.vgrow="ALWAYS" />
-                                    <Label text="- Configurar productos" VBox.vgrow="ALWAYS" />
+                                    <Label text="Bienvenid@ a Stock Maven, vamos a realizar la configuración inicial del almacén" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font></Label>
+                                    <Label text="Pasos:" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font></Label>
+                                    <Label text="- Configurar secciones" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font></Label>
+                                    <Label text="- Configurar productos" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font></Label>
                                  </children>
                                  <HBox.margin>
                                     <Insets top="10.0" />
@@ -49,7 +65,10 @@
                                     <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="713.0" text="Seciones" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets bottom="20.0" />
-                                       </VBox.margin></Label>
+                                       </VBox.margin>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font></Label>
                                     <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="50.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <TextArea fx:id="txtarea_secciones" prefHeight="82.0" prefWidth="216.0" />
@@ -72,9 +91,18 @@
                               <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="711.0" text="Productos" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
-                                 </VBox.margin></Label>
-                              <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="Se recomienda cargar los productos desde un archivo csv" VBox.vgrow="ALWAYS" />
-                              <Label maxWidth="1.7976931348623157E308" text="Importante: El formato debe ser -&gt; nombre_producto,valor_producto_unidad,Peso,cantidad,descripcion  " VBox.vgrow="ALWAYS" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Label>
+                              <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="Se recomienda cargar los productos desde un archivo csv" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font></Label>
+                              <Label maxWidth="1.7976931348623157E308" text="Importante: El formato debe ser -&gt; nombre_producto,valor_producto_unidad,Peso,cantidad,descripcion  " VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font></Label>
                               <HBox maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="632.0" spacing="20.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Button fx:id="btncsv_productos" mnemonicParsing="false" onAction="#mostrarTabla" text="subir csv" HBox.hgrow="ALWAYS">
