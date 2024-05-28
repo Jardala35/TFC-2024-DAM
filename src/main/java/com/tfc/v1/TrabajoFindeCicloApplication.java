@@ -61,7 +61,7 @@ public class TrabajoFindeCicloApplication extends Application {
     	alert.setTitle("Salir");
     	alert.setHeaderText("¿Seguro que desea salir?");
     	
-    	if(alert.showAndWait().get() == ButtonType.OK) {
+	    	if(alert.showAndWait().get() == ButtonType.OK) {
     		stop();
     	}
     }

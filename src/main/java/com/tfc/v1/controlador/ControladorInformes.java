@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
@@ -26,6 +27,7 @@ import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Paragraph;
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.modelo.entidades.Producto;
+import com.tfc.v1.modelo.entidades.Seccion;
 import com.tfc.v1.negocio.Gestor;
 
 import javafx.collections.FXCollections;
@@ -46,6 +48,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -68,15 +71,15 @@ public class ControladorInformes implements Initializable {
     private SpringFXMLLoader springFXMLLoader;
 
     @FXML
-    private RadioButton rbCantidad;
+    private RadioButton rbCantidad = new RadioButton();
     @FXML
-    private RadioButton rbPrecio;
+    private RadioButton rbPrecio = new RadioButton();
     @FXML
-    private Button btnAtras;
+    private Button btnAtras = new Button();
     @FXML
     private Label lblusr = new Label();
     @FXML
-    private MenuButton menuBtn;
+    private MenuButton menuBtn = new MenuButton();
     @FXML
     private VBox chartContainer = new VBox();
     @FXML
@@ -87,14 +90,15 @@ public class ControladorInformes implements Initializable {
     private MenuItem areaChartItem = new MenuItem();
     @FXML
     private MenuItem pieChartItem = new MenuItem();
+    @FXML
+    private ComboBox<String> comboBoxSeccion = new ComboBox<>();
 
-    private LineChart<String, Number> lineChart = null;
-    private BarChart<String, Number> barChart = null;
-    private AreaChart<String, Number> areaChart = null;
-    private PieChart pieChart = null;
+    private LineChart<String, Number> lineChart;
+    private BarChart<String, Number> barChart;
+    private AreaChart<String, Number> areaChart;
+    private PieChart pieChart;
 
     private final ToggleGroup toggleGroup = new ToggleGroup();
-
     private Map<String, Color> colorMap = new HashMap<>();
 
     @Override
@@ -110,6 +114,11 @@ public class ControladorInformes implements Initializable {
         VBox vbox = new VBox();
         vbox.getChildren().addAll(imageView, lblusr);
         menuBtn.setGraphic(vbox);
+        
+        lineChart = new LineChart<>(new CategoryAxis(), new NumberAxis());
+        barChart = new BarChart<>(new CategoryAxis(), new NumberAxis());
+        areaChart = new AreaChart<>(new CategoryAxis(), new NumberAxis());
+        pieChart = new PieChart();
 
         lineChartItem.setOnAction(event -> mostrarLineChart());
         barChartItem.setOnAction(event -> mostrarBarChart());
@@ -119,13 +128,8 @@ public class ControladorInformes implements Initializable {
         ImageView imageAtras = new ImageView(new Image("/vistas/img/leftarrow.png"));
         btnAtras.setGraphic(imageAtras);
 
-        // Selecciona el RadioButton de cantidad al iniciar
         rbCantidad.setSelected(true);
-
-        // Llama a actualizarGraficaCantidad para mostrar el gráfico de cantidad al iniciar
         actualizarGraficaCantidad();
-        
-        
 
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == rbCantidad) {
@@ -134,8 +138,11 @@ public class ControladorInformes implements Initializable {
                 actualizarGraficaPrecio();
             }
         });
+        
+        comboBoxSeccion.setOnAction(event -> filtrarPorSeccion());
 
         cargarProductos();
+        cargarSecciones();
     }
 
     private String colorToHex(Color color) {
@@ -199,7 +206,38 @@ public class ControladorInformes implements Initializable {
     @FXML
     public void cargarProductos() {
         List<Producto> productos = gestor.getContRest().listarProductos().getBody();
+        if (productos != null && !productos.isEmpty()) {
+            actualizarGraficos(productos);
+        } else {
+            chartContainer.getChildren().clear();
+        }
+    }
 
+    @FXML
+    public void cargarSecciones() {
+        List<Seccion> secciones = gestor.getContRest().listarSecciones().getBody();
+        if (secciones != null && !secciones.isEmpty()) {
+            List<String> nombresSecciones = secciones.stream()
+                    .map(Seccion::getNombre_seccion)
+                    .collect(Collectors.toList());
+            comboBoxSeccion.setItems(FXCollections.observableArrayList(nombresSecciones));
+        }
+    }
+
+    @FXML
+    public void filtrarPorSeccion() {
+        String seccionSeleccionada = comboBoxSeccion.getValue();
+        if (seccionSeleccionada != null && !seccionSeleccionada.isEmpty()) {
+            List<Producto> productosFiltrados = gestor.getContRest().listarProductos().getBody().stream()
+                    .filter(producto -> seccionSeleccionada.equals(producto.getSeccion().getNombre_seccion()))
+                    .collect(Collectors.toList());
+            actualizarGraficos(productosFiltrados);
+        } else {
+            cargarProductos(); // Si no hay sección seleccionada, carga todos los productos
+        }
+    }
+
+    private void actualizarGraficos(List<Producto> productos) {
         if (productos != null && !productos.isEmpty()) {
             ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
             ObservableList<XYChart.Series<String, Number>> barChartData = FXCollections.observableArrayList();
@@ -223,42 +261,16 @@ public class ControladorInformes implements Initializable {
             barChartData.add(barChartSeries);
             areaChartData.add(areaChartSeries);
 
-            if (lineChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                lineChart = new LineChart<>(xAxis, yAxis, lineChartData);
-                configurarGrafico(lineChart);
-            }
-
-            if (barChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                barChart = new BarChart<>(xAxis, yAxis, barChartData);
-                configurarGrafico(barChart);
-            }
-
-            if (areaChart == null) {
-                CategoryAxis xAxis = new CategoryAxis();
-                NumberAxis yAxis = new NumberAxis();
-                areaChart = new AreaChart<>(xAxis, yAxis, areaChartData);
-                configurarGrafico(areaChart);
-            }
-
-            if (pieChart == null) {
-                pieChart = new PieChart(pieChartData);
-                configurarGrafico(pieChart);
-            }
-
-            mostrarPieChart();
+            updateChartData(lineChart, lineChartData);
+            updateChartData(barChart, barChartData);
+            updateChartData(areaChart, areaChartData);
+            updatePieChartData(pieChart, pieChartData);
         } else {
-            chartContainer.getChildren().clear();
+            lineChart.setData(null);
+            barChart.setData(null);
+            areaChart.setData(null);
+            pieChart.setData(null);
         }
-    }
-
-    private void configurarGrafico(Node grafico) {
-        VBox.setVgrow(grafico, Priority.ALWAYS);
-        grafico.maxHeight(Double.MAX_VALUE);
-        grafico.maxWidth(Double.MAX_VALUE);
     }
 
     @FXML
@@ -281,14 +293,12 @@ public class ControladorInformes implements Initializable {
                 String nombreProducto = producto.getNombre_producto();
                 int cantidadProducto = producto.getCantidad();
 
-                // Asignar colores a los datos
                 Color color = colorMap.computeIfAbsent(nombreProducto, k -> generarColorAleatorio());
 
                 lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 barChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
                 areaChartSeries.getData().add(new XYChart.Data<>(nombreProducto, cantidadProducto));
 
-                // Establecer color en el PieChart
                 PieChart.Data pieData = new PieChart.Data(nombreProducto, cantidadProducto);
                 pieData.nodeProperty().addListener((obs, oldNode, newNode) -> {
                     if (newNode != null) {
@@ -331,7 +341,6 @@ public class ControladorInformes implements Initializable {
                 String nombreProducto = producto.getNombre_producto();
                 double precioProducto = producto.getValor_producto_unidad();
 
-                // Asignar colores a los datos
                 Color color = colorMap.computeIfAbsent(nombreProducto, k -> generarColorAleatorio());
 
                 lineChartSeries.getData().add(new XYChart.Data<>(nombreProducto, precioProducto));
