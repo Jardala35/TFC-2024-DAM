@@ -12,11 +12,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="643.0" prefWidth="939.0" stylesheets="@/vistas/img/tabla.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorMovimientos">
    <children>
-      <VBox layoutY="77.0" prefHeight="360.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="77.0">
+      <VBox layoutY="80.0" prefHeight="563.0" prefWidth="939.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <children>
             <TableView fx:id="tableView2" editable="true" prefHeight="343.0" prefWidth="602.0" style="-fx-border-color: black;" VBox.vgrow="ALWAYS">
                <columns>
@@ -64,20 +65,17 @@
             </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="77.0" prefWidth="939.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+            <Pane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="86.0" prefWidth="902.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="450.0" />
-                     </HBox.margin>
+                  <ImageView fitHeight="78.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/vistas/img/Logo.png" />
+                        <Image url="@vistas/img/Logo.png" />
                      </image>
                   </ImageView>
                </children>
-            </HBox>
+            </Pane>
             <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
                <items>
                   <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
