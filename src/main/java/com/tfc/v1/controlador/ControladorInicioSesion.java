@@ -74,6 +74,7 @@ public class ControladorInicioSesion implements Initializable {
 			 // Usar SpringFXMLLoader para cargar la nueva vista
 			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");			
 			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			stage.setFullScreen(true);
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();

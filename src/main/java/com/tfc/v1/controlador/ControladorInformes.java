@@ -57,7 +57,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Priority;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -195,7 +195,7 @@ public class ControladorInformes implements Initializable {
     }
 
     @FXML
-    public void abrirVentanaprincipal(ActionEvent event) throws IOException {
+    public void abrirVentanaprincipal(MouseEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

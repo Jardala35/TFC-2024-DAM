@@ -4,8 +4,13 @@
 }
 
 .label {
-    -fx-text-fill: black;
-    -fx-font-size: 16px;
+   	-fx-background-color: orange;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
 }
 
 .text-field {
@@ -17,7 +22,7 @@
 }
 
 .button {
-    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-background-color: orange;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-border-color: #E67300;
@@ -36,9 +41,14 @@
 }
 
 .hyperlink {
-    -fx-text-fill: black;
+    -fx-background-color: orange;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-underline: true;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
 }
 
 .hyperlink:hover {
@@ -48,4 +58,9 @@
     -fx-text-fill: black;
     -fx-font-size: 32px;
     -fx-font-weight: bold;
+}
+
+.label-contra{
+    -fx-text-fill: red;
+    -fx-font-size: 12px; 
 }

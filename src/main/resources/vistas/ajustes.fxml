@@ -13,48 +13,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorAjustes">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="923.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorAjustes">
    <children>
-      <AnchorPane fx:id="pane1" prefHeight="400.0" prefWidth="53.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <VBox alignment="CENTER" layoutY="66.0" prefHeight="279.0" prefWidth="53.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="66.0">
-               <children>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/vistas/img/inventario-disponible.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/vistas/img/informe.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                     <image>
-                        <Image url="@/vistas/img/flecha.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                     <image>
-                        <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                  </ImageView>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
+      <AnchorPane fx:id="pane1" prefHeight="400.0" prefWidth="53.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="600.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane prefHeight="67.0" prefWidth="107.0" HBox.hgrow="ALWAYS">
@@ -68,7 +29,7 @@
             </Pane>
             <MenuButton fx:id="menuBtn" alignment="CENTER_RIGHT" mnemonicParsing="false">
                <items>
-                  <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
+                  <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout_2" text="Cerrar sesión" />
                </items>
                <HBox.margin>
                   <Insets right="20.0" />
@@ -76,11 +37,11 @@
             </MenuButton>
          </children>
       </HBox>
-      <AnchorPane layoutX="51.0" layoutY="67.0" prefHeight="267.0" prefWidth="497.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
+      <AnchorPane layoutX="65.0" layoutY="67.0" prefHeight="517.0" prefWidth="858.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0">
          <children>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="334.0" prefWidth="548.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox layoutX="-51.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="517.0" prefWidth="923.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-51.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox minWidth="-Infinity" prefHeight="334.0" prefWidth="201.0">
+                  <VBox minWidth="-Infinity" prefHeight="517.0" prefWidth="200.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -129,7 +90,7 @@
                         <Insets left="30.0" top="20.0" />
                      </padding>
                   </VBox>
-                  <VBox fx:id="vbox_ini" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                  <VBox fx:id="vbox_ini" prefHeight="513.0" prefWidth="709.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets left="120.0" right="20.0" top="30.0" />
                      </padding>
@@ -138,5 +99,17 @@
             </HBox>
          </children>
       </AnchorPane>
+      <HBox alignment="CENTER_LEFT" layoutX="-2.0" layoutY="535.0" prefHeight="49.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-4.0">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="28.0" onMouseClicked="#logout_2" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="100.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

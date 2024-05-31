@@ -63,7 +63,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="77.0" prefWidth="493.0">
                <children>
-                  <Label style="-fx-background-color: white; -fx-border-color: black;" stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
+                  <Label stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -84,8 +84,8 @@
                <children>
                   <Pane prefHeight="88.0" prefWidth="493.0">
                      <children>
-                        <Label fx:id="lblerroracceso" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" prefHeight="33.0" prefWidth="197.0" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
-                        <Button fx:id="registroButton" layoutX="333.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" style="-fx-background-color: white; -fx-border-color: black; -fx-background-insets: 0; -fx-border-image-width: 0;" styleClass="hyperlink" stylesheets="@/vistas/img/ini_sesion.css" text="Registrate Aquí" />
+                        <Label fx:id="lblerroracceso" alignment="CENTER" contentDisplay="CENTER" layoutX="-6.0" layoutY="20.0" prefHeight="33.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-font-style: red; -fx-border-color: transparent;" styleClass="label-contra" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
+                        <Button fx:id="registroButton" layoutX="333.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" styleClass="hyperlink" stylesheets="@/vistas/img/ini_sesion.css" text="Registrate Aquí" />
                      </children>
                   </Pane>
                </children>

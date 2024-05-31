@@ -164,17 +164,9 @@ public class ControladorMainWindow implements Initializable {
     private void abrirNuevaVentana(ActionEvent event, String fxmlPath) throws IOException {
         Parent root = springFXMLLoader.load(fxmlPath);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Obtener el tamaño actual de la pantalla
-        double width = stage.getWidth();
-        double height = stage.getHeight();
-
         scene = new Scene(root);
-
-        // Ajustar la nueva pantalla al tamaño actual
         stage.setScene(scene);
-        stage.setWidth(width);
-        stage.setHeight(height);
+        stage.setMaximized(true); // Establecer la ventana a maximizado
         stage.show();
     }
 }
