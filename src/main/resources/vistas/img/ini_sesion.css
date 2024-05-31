@@ -63,5 +63,6 @@
 
 .label-contra{
     -fx-text-fill: red;
-    -fx-font-size: 12px; 
+    -fx-font-size: 14px; 
+    -fx-font-weight: bold;
 }
