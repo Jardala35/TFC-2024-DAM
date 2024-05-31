@@ -1,0 +1,81 @@
+.root {
+    -fx-background-color: white; /* Fondo blanco para la raíz */
+}
+
+.button {
+    -fx-background-color: orange;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.button:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.menu-button {
+    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.menu-button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.menu-button:armed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.combo-box {
+    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.combo-box:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.combo-box:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
+    -fx-border-color: #E67300;
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.combo-box .arrow-button:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+.combo-box .list-cell {
+    -fx-background-color: white; /* Fondo blanco para las opciones */
+    -fx-text-fill: #333333; /* Color del texto */
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #E67300; /* Fondo naranja al pasar el ratón sobre una opción */
+    -fx-text-fill: white;
+}
