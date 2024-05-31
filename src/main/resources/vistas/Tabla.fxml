@@ -83,7 +83,7 @@
             </HBox>
             <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
               <items>
-                <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
+                <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout" text="Cerrar sesión" />
               </items>
                <opaqueInsets>
                   <Insets />

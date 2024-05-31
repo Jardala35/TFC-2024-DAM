@@ -340,26 +340,15 @@ public class ControladorTabla implements Initializable {
 			gestor.eliminarProducto(selectedProduct.getId());
 		}
 	}
-
-	private void logout(ActionEvent event) throws IOException {
-		abrirNuevaVentana(event, "/vistas/ini_sesion.fxml");
-	}
-
-	private void abrirNuevaVentana(ActionEvent event, String fxmlPath) throws IOException {
-		Parent root = springFXMLLoader.load(fxmlPath);
-		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-		// Obtener el tamaño actual de la pantalla
-		double width = stage.getWidth();
-		double height = stage.getHeight();
-
-		Scene scene = new Scene(root);
-
-		// Ajustar la nueva pantalla al tamaño actual
-		stage.setScene(scene);
-		stage.setWidth(width);
-		stage.setHeight(height);
-		stage.show();
+	
+	@FXML
+	public void logout(ActionEvent event) throws IOException {
+		Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
+        Stage stage = (Stage) menuBtn.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+		
 	}
 
 	private void abrirNuevaVentana(MouseEvent event, String fxmlPath) throws IOException {
@@ -399,4 +388,5 @@ public class ControladorTabla implements Initializable {
 		// Actualizar la tabla con los productos filtrados
 		tableView2.setItems(FXCollections.observableArrayList(filteredList));
 	}
+	
 }
