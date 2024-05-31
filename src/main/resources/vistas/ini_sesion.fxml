@@ -47,7 +47,7 @@
             <HBox alignment="CENTER" prefHeight="13.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="581.0">
                <children>
-                  <Label accessibleRole="PARENT" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label accessibleRole="PARENT" styleClass="label-cosas" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="35.0" />
                      </HBox.margin>
@@ -63,7 +63,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="77.0" prefWidth="493.0">
                <children>
-                  <Label stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
+                  <Label styleClass="label-cosas" stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>

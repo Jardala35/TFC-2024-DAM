@@ -1,0 +1,41 @@
+/* Style for the title */
+.label-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-alignment: center;
+    -fx-background-color: #FFA500; /* Orange background */
+    -fx-padding: 20px;
+}
+
+/* Style for the buttons */
+.button {
+    -fx-background-color: orange;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #E67300;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+
+.button-register:disabled {
+    -fx-background-color: #9E9E9E; /* Gray background for disabled state */
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 10px;
+}
+
+.button:hover {
+    -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */
+}
+
+.button:pressed {
+    -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
+}
+
+

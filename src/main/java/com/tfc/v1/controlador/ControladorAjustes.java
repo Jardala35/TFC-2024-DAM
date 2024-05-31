@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.util.converter.LocalDateTimeStringConverter;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +43,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -50,7 +51,6 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 @Component
 public class ControladorAjustes implements Initializable {
@@ -770,8 +770,9 @@ public class ControladorAjustes implements Initializable {
 	        }
 	    }
 	}
+	
 	@FXML
-	public void logout_2(MouseEvent event) throws IOException {
+	public void logout_2(ActionEvent event) throws IOException {
 		Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
 		Stage stage = (Stage) menuBtn.getScene().getWindow();
 		Scene scene = new Scene(root);

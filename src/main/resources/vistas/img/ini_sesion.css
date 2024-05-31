@@ -3,11 +3,12 @@
     -fx-background-size: cover;
 }
 
-.label {
+.label-cosas {
    	-fx-background-color: orange;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-
+	-fx-border-color: #E67300;
+    -fx-border-width: 2px;
     -fx-padding: 10px 20px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;

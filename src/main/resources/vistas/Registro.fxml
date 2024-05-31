@@ -6,17 +6,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/pruebacss.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorRegistro">
+<AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/registro.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorRegistro">
    <children>
-      <HBox alignment="CENTER" layoutX="103.0" prefHeight="86.0" prefWidth="499.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="103.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label accessibleRole="PARENT" alignment="CENTER" contentDisplay="CENTER" text="Stock Maven" HBox.hgrow="ALWAYS">
+            <Label accessibleRole="PARENT" alignment="CENTER" contentDisplay="CENTER" styleClass="label-title" text="Stock Maven" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="36.0" />
                </font>
@@ -26,42 +28,46 @@
             </Label>
          </children>
       </HBox>
-      <VBox prefHeight="425.0" prefWidth="106.0" style="-fx-background-color: orange;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <VBox alignment="TOP_CENTER" layoutX="111.0" layoutY="78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
+      <ImageView fitHeight="71.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@/vistas/img/Logo.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_CENTER" layoutY="78.0" prefHeight="347.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
             <HBox alignment="CENTER" prefHeight="34.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="50.0" prefWidth="499.0">
+                  <Pane prefHeight="50.0" prefWidth="613.0">
                      <children>
-                        <Label accessibleRole="PARENT" layoutX="65.0" layoutY="6.0" prefHeight="17.0" prefWidth="49.0" text="Nombre" />
-                        <TextField fx:id="textFieldNombre" layoutX="65.0" layoutY="24.0" />
-                        <Label layoutX="244.0" layoutY="5.0" text="Nombre de Usuario" />
-                        <TextField fx:id="textFieldUser" layoutX="244.0" layoutY="24.0" />
+                        <Label accessibleRole="PARENT" layoutX="114.0" layoutY="6.0" prefHeight="17.0" prefWidth="49.0" text="Nombre" />
+                        <TextField fx:id="textFieldNombre" layoutX="114.0" layoutY="24.0" />
+                        <Label layoutX="315.0" layoutY="6.0" text="Nombre de Usuario" />
+                        <TextField fx:id="textFieldUser" layoutX="315.0" layoutY="24.0" />
                      </children>
                   </Pane>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="50.0" prefWidth="499.0">
+                  <Pane prefHeight="50.0" prefWidth="625.0">
                      <children>
-                        <Label accessibleRole="PARENT" layoutX="65.0" layoutY="6.0" text="Apellido" />
-                        <TextField fx:id="textFieldApellido" layoutX="65.0" layoutY="24.0" />
-                        <Label layoutX="244.0" layoutY="5.0" text="Contraseña" />
-                        <PasswordField fx:id="textFieldPassword" accessibleRole="PARENT" layoutX="244.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
+                        <Label accessibleRole="PARENT" layoutX="117.0" layoutY="6.0" text="Apellido" />
+                        <TextField fx:id="textFieldApellido" layoutX="117.0" layoutY="24.0" />
+                        <Label layoutX="317.0" layoutY="6.0" text="Contraseña" />
+                        <PasswordField fx:id="textFieldPassword" accessibleRole="PARENT" layoutX="315.0" layoutY="24.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
                      </children>
                   </Pane>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="50.0" prefWidth="499.0">
+                  <Pane prefHeight="50.0" prefWidth="624.0">
                      <children>
-                        <Label accessibleRole="PARENT" layoutX="65.0" layoutY="6.0" text="Rol" />
-                        <Label layoutX="244.0" layoutY="5.0" text="Email" />
-                        <TextField fx:id="textFieldEmail" accessibleRole="PARENT" layoutX="244.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
-                        <ChoiceBox fx:id="cbxRol" layoutX="65.0" layoutY="24.0" prefWidth="150.0" />
+                        <Label accessibleRole="PARENT" layoutX="117.0" layoutY="6.0" text="Rol" />
+                        <Label layoutX="315.0" layoutY="6.0" text="Email" />
+                        <TextField fx:id="textFieldEmail" accessibleRole="PARENT" layoutX="315.0" layoutY="24.0" style="-fx-max-height: 25; -fx-max-width: 149;" />
+                        <ChoiceBox fx:id="cbxRol" layoutX="117.0" layoutY="24.0" prefWidth="150.0" />
                      </children>
                   </Pane>
                </children>
@@ -73,10 +79,10 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="50.0" prefWidth="499.0">
+                  <Pane prefHeight="50.0" prefWidth="616.0">
                      <children>
-                        <Button fx:id="btnRegistro" disable="true" layoutX="87.0" layoutY="17.0" mnemonicParsing="false" onAction="#abrirVentanaInicioSesion_Registro" text="Registro" />
-                        <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#abrirVentanaInicioSesion_RegistroCancel" text="Cancelar" />
+                        <Button fx:id="btnRegistro" disable="true" layoutX="177.0" layoutY="13.0" mnemonicParsing="false" onAction="#abrirVentanaInicioSesion_Registro" styleClass="button-register" text="Registro" />
+                        <Button layoutX="400.0" layoutY="13.0" mnemonicParsing="false" onAction="#abrirVentanaInicioSesion_RegistroCancel" styleClass="button-cancel" text="Cancelar" />
                      </children>
                   </Pane>
                </children>

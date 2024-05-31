@@ -1,0 +1,22 @@
+.root {
+    -fx-background-color: #222222; /* Fondo oscuro */
+}
+
+.button {
+    -fx-background-color: #222222; /* Fondo oscuro */
+    -fx-text-fill: white; /* Texto blanco */
+    -fx-border-color: #FF8C00; /* Borde naranja */
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-font-size: 22px;
+}
+
+.button:hover {
+    -fx-background-color: #333333; /* Fondo aún más oscuro al pasar el ratón */
+}
+
+.button:pressed {
+    -fx-background-color: #444444; /* Fondo más oscuro al presionar */
+}

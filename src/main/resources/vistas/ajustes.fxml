@@ -76,7 +76,7 @@
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
                                     <Label text="Temas" />
-                                    <ComboBox prefWidth="150.0">
+                                    <ComboBox fx:id="cbxtemas" prefWidth="150.0" promptText="Elije el tema">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>

@@ -20,7 +20,3 @@
 .button:pressed {
     -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
 }
-
-.fondo{
-	background-image: url('/vistas/img/prueba.jpg');
-}

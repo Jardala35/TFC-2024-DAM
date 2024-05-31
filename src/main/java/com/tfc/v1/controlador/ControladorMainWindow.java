@@ -119,6 +119,8 @@ public class ControladorMainWindow implements Initializable {
 
         botonAju.widthProperty().addListener((obs, oldVal, newVal) -> ajustarTamaño(botonAju, imgAju, textAju));
         botonAju.heightProperty().addListener((obs, oldVal, newVal) -> ajustarTamaño(botonAju, imgAju, textAju));
+        
+        
     }
 
     private void ajustarTamaño(Button button, ImageView imageView, Text text) {
@@ -169,4 +171,8 @@ public class ControladorMainWindow implements Initializable {
         stage.setMaximized(true); // Establecer la ventana a maximizado
         stage.show();
     }
+
+	public Stage getStage() {
+		return stage;
+	}
 }
