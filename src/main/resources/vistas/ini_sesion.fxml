@@ -5,8 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -15,11 +13,6 @@
 
 <AnchorPane prefHeight="425.0" prefWidth="602.0" stylesheets="@/vistas/img/ini_sesion.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInicioSesion">
    <children>
-      <ImageView fitHeight="86.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@/vistas/img/Logo.png" />
-         </image>
-      </ImageView>
       <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" HBox.hgrow="ALWAYS">
@@ -36,20 +29,15 @@
             </HBox>
          </children>
       </HBox>
-      <ImageView fitHeight="71.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@/vistas/img/Logo.png" />
-         </image>
-      </ImageView>
       <VBox alignment="TOP_CENTER" layoutY="78.0" prefHeight="347.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
          <children>
             <HBox alignment="CENTER" prefHeight="71.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="13.0" prefWidth="493.0" />
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="581.0">
                <children>
-                  <Label accessibleRole="PARENT" styleClass="label-cosas" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <Label accessibleRole="PARENT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" styleClass="label-cosas" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets right="35.0" />
+                        <Insets right="10.0" />
                      </HBox.margin>
                   </Label>
                   <TextField fx:id="usuarioTextField" style="-fx-border-color: black;" styleClass="text-field" stylesheets="@/vistas/img/ini_sesion.css">
@@ -63,7 +51,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="77.0" prefWidth="493.0">
                <children>
-                  <Label styleClass="label-cosas" stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
+                  <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" styleClass="label-cosas" stylesheets="@/vistas/img/ini_sesion.css" text="Contraseña" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -73,19 +61,19 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="33.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="27.0" prefWidth="91.0">
-                     <children>
-                        <Button fx:id="iniciarSesionButton" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleIniciarSesion" stylesheets="@/vistas/img/ini_sesion.css" text="Iniciar Sesion" />
-                     </children>
-                  </Pane>
+                  <Button fx:id="iniciarSesionButton" mnemonicParsing="false" onAction="#handleIniciarSesion" stylesheets="@/vistas/img/ini_sesion.css" text="Iniciar Sesion">
+                     <HBox.margin>
+                        <Insets left="75.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="84.0" prefWidth="493.0">
                <children>
-                  <Pane prefHeight="88.0" prefWidth="493.0">
+                  <Pane prefHeight="84.0" prefWidth="602.0">
                      <children>
-                        <Label fx:id="lblerroracceso" alignment="CENTER" contentDisplay="CENTER" layoutX="-6.0" layoutY="20.0" prefHeight="33.0" prefWidth="326.0" style="-fx-background-color: transparent; -fx-font-style: red; -fx-border-color: transparent;" styleClass="label-contra" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
-                        <Button fx:id="registroButton" layoutX="333.0" layoutY="29.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" styleClass="hyperlink" stylesheets="@/vistas/img/ini_sesion.css" text="Registrate Aquí" />
+                        <Label fx:id="lblerroracceso" alignment="CENTER" contentDisplay="CENTER" layoutX="119.0" layoutY="20.0" prefHeight="33.0" prefWidth="298.0" style="-fx-background-color: transparent; -fx-font-style: red; -fx-border-color: transparent;" styleClass="label-contra" stylesheets="@/vistas/img/ini_sesion.css" text="Usuario o contraseña incorrectos " textFill="RED" visible="false" />
+                        <Button fx:id="registroButton" layoutX="432.0" layoutY="30.0" mnemonicParsing="false" onAction="#abrirVentanaRegistro" styleClass="hyperlink" stylesheets="@/vistas/img/ini_sesion.css" text="Registrate Aquí" />
                      </children>
                   </Pane>
                </children>

@@ -33,6 +33,8 @@ public class TrabajoFindeCicloApplication extends Application {
         rootNode = springFXMLLoader.load("/vistas/ini_sesion.fxml");
         primaryStage.setScene(new Scene(rootNode));
         primaryStage.setTitle("Stock Maven");
+        primaryStage.setWidth(620);
+        primaryStage.setHeight(660);
         primaryStage.setResizable(false);
         primaryStage.show();
         

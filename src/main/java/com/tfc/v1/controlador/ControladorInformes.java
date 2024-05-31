@@ -189,8 +189,13 @@ public class ControladorInformes implements Initializable {
     public void logout(ActionEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
         Stage stage = (Stage) menuBtn.getScene().getWindow();
+        stage.hide();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setFullScreen(false);
+        stage.setWidth(620);
+        stage.setHeight(660);
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -198,9 +203,11 @@ public class ControladorInformes implements Initializable {
     public void abrirVentanaprincipal(MouseEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.hide();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
         stage.show();
     }
 

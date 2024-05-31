@@ -1,4 +1,8 @@
 /* Style for the title */
+.root {
+    -fx-background-image: url("Logo.png");
+    -fx-background-size: contain;
+}
 .label-title {
     -fx-font-size: 32px;
     -fx-font-weight: bold;

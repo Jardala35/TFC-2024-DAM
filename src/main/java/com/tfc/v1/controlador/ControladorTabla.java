@@ -345,8 +345,13 @@ public class ControladorTabla implements Initializable {
 	public void logout(ActionEvent event) throws IOException {
 		Parent root = springFXMLLoader.load("/vistas/ini_sesion.fxml");
         Stage stage = (Stage) menuBtn.getScene().getWindow();
+        stage.hide();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setFullScreen(false);
+        stage.setWidth(620);
+        stage.setHeight(660);
+        stage.setResizable(false);
         stage.show();
 		
 	}
@@ -354,17 +359,19 @@ public class ControladorTabla implements Initializable {
 	private void abrirNuevaVentana(MouseEvent event, String fxmlPath) throws IOException {
 		Parent root = springFXMLLoader.load(fxmlPath);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
+		stage.hide();
 		// Obtener el tamaño actual de la pantalla
-		double width = stage.getWidth();
-		double height = stage.getHeight();
+//		double width = stage.getWidth();
+//		double height = stage.getHeight();
 
 		Scene scene = new Scene(root);
 
 		// Ajustar la nueva pantalla al tamaño actual
 		stage.setScene(scene);
-		stage.setWidth(width);
-		stage.setHeight(height);
+//		stage.setWidth(width);
+//		stage.setHeight(height);
+		stage.setFullScreen(true); 
+		stage.setFullScreenExitHint("");
 		stage.show();
 	}
 

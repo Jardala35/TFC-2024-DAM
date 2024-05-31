@@ -1,6 +1,6 @@
 .root {
-    -fx-background-image: url("Prueba.png");
-    -fx-background-size: cover;
+    -fx-background-image: url("Logo.png");
+    -fx-background-size: contain;
 }
 
 .label-cosas {
@@ -9,7 +9,7 @@
     -fx-font-weight: bold;
 	-fx-border-color: #E67300;
     -fx-border-width: 2px;
-    -fx-padding: 10px 20px;
+    -fx-padding: 0px 0px 0px 6px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
 }
