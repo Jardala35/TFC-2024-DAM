@@ -38,6 +38,8 @@ public class TrabajoFindeCicloApplication extends Application {
         primaryStage.setScene(new Scene(rootNode));
         primaryStage.setTitle("Stock Maven");
         primaryStage.setResizable(false);
+        primaryStage.setWidth(620);
+        primaryStage.setHeight(660);
         primaryStage.show();
         	
         Image icon = new Image(getClass().getResourceAsStream("/vistas/img/logo.png"));
