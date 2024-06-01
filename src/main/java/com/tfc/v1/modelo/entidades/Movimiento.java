@@ -23,6 +23,8 @@ public class Movimiento implements Serializable {
     private String tipo;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime fecha_alta;
+    @Column
+    private Boolean pendiente;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Producto> productos;

@@ -157,7 +157,7 @@ public class ControladorMovimientos implements Initializable {
 		try {
 			showScrollPane("/vistas/panel_mov_tblprod.fxml");
 			confTabla(tblprod);
-			confTabla(tblprod1);
+			confTabla1();
 			tblprod.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 			tblprod.getSelectionModel().getSelectedItems().addListener((ListChangeListener<Producto>) change -> {
@@ -179,6 +179,7 @@ public class ControladorMovimientos implements Initializable {
 			List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 			ObservableList<Producto> items = FXCollections.observableArrayList(productos);
 			tblprod.setItems(items);
+			tblprod1.setEditable(true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,13 +187,18 @@ public class ControladorMovimientos implements Initializable {
 	}
 
 	public void movimientoPendiente() {
-		try {
-			showScrollPane("/vistas/panel_mov_tblmov.fxml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        Producto movimientoSeleccionado = tblmov.getSelectionModel().getSelectedItem();
+        if (movimientoSeleccionado != null) {
+            try {
+                showScrollPane("/vistas/panel_mov_tblmov.fxml");
+                confTabla_llegadas(movimientoSeleccionado);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Manejo para cuando no se ha seleccionado ningún movimiento
+        }
+    }
 
 	public void historico() {
 		try {
@@ -224,6 +230,34 @@ public class ControladorMovimientos implements Initializable {
 		table.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
 		table.setEditable(false);
 	}
+	
+	@SuppressWarnings("unchecked")
+	private void confTabla1() {
+	    TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+	    nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+
+	    TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
+	    precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+
+	    TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
+	    cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+	    cantidadColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+	    cantidadColumn.setOnEditCommit(event -> {
+	        Producto producto = event.getRowValue();
+	        producto.setCantidad(event.getNewValue());
+	        // Aquí puedes añadir la lógica para actualizar el producto en tu backend
+	    });
+
+	    TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+	    pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
+
+	    TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
+	    descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+	    tblprod1.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+	    tblprod1.setEditable(true);  // Hacer que la tabla en general sea editable
+	}
+
 
 	private void logout(ActionEvent event) throws IOException {
 		try {
@@ -381,4 +415,33 @@ public class ControladorMovimientos implements Initializable {
 				|| movimiento.getFecha_alta().format(formatter).toLowerCase().contains(searchText)
 				|| movimiento.getTipo().toLowerCase().contains(searchText);
 	}
+	
+	@SuppressWarnings("unchecked")
+    private void confTabla_llegadas(Producto movimientoSeleccionado) {
+        //List<Producto> productos = movimientoSeleccionado.getProductos();
+
+        tblmov.getColumns().clear();
+
+        TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+
+        TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
+        precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+
+        TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
+        cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+
+        TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+        pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
+
+        TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
+        descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        tblmov.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+
+        // Establecer los elementos de la tabla con la lista de productos asociados al movimiento
+        //ObservableList<Producto> items = FXCollections.observableArrayList(productos);
+        //tblmov.setItems(items);
+    }
+
 }
