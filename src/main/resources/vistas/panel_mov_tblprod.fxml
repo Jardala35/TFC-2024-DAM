@@ -24,10 +24,13 @@
                      </font></Label>
                </children>
             </HBox>
-            <TableView fx:id="tblprod" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="400.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <TableView fx:id="tblprod" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="400.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin></TableView>
             <TableView fx:id="tblprod1" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="400.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
-                  <Insets top="30.0" />
+                  <Insets left="20.0" right="20.0" top="30.0" />
                </VBox.margin>
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0">
