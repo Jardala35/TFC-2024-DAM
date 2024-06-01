@@ -25,6 +25,10 @@ public class TrabajoFindeCicloApplication extends Application {
     @Override
     public void init() throws Exception {
         contexto = SpringApplication.run(TrabajoFindeCicloApplication.class);
+        
+        // Iniciar el servidor de sockets en un nuevo hilo
+        SocketServer socketServer = contexto.getBean(SocketServer.class);
+        new Thread(socketServer).start();
     }
     
     @Override
@@ -33,15 +37,11 @@ public class TrabajoFindeCicloApplication extends Application {
         rootNode = springFXMLLoader.load("/vistas/ini_sesion.fxml");
         primaryStage.setScene(new Scene(rootNode));
         primaryStage.setTitle("Stock Maven");
-        primaryStage.setWidth(620);
-        primaryStage.setHeight(660);
         primaryStage.setResizable(false);
         primaryStage.show();
-        
+        	
         Image icon = new Image(getClass().getResourceAsStream("/vistas/img/logo.png"));
         primaryStage.getIcons().add(icon);
-        
-        
         
         primaryStage.setOnCloseRequest(event -> {
         	event.consume();
@@ -64,8 +64,8 @@ public class TrabajoFindeCicloApplication extends Application {
     	alert.setTitle("Salir");
     	alert.setHeaderText("¿Seguro que desea salir?");
     	
-	    	if(alert.showAndWait().get() == ButtonType.OK) {
-    		stop();
+    	if (alert.showAndWait().get() == ButtonType.OK) {
+    	    stop();
     	}
     }
 }

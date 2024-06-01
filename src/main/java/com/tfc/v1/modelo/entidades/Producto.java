@@ -1,5 +1,7 @@
 package com.tfc.v1.modelo.entidades;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,17 +9,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 @Entity
 
-public class Producto {
+public class Producto implements Serializable {
+	 private static final long serialVersionUID = 7772400257406297643L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column
-	private String nombre_producto;	
+	private String nombre_producto;		
 	private double valor_producto_unidad;
 	private int cantidad;
 	private double peso;
@@ -99,7 +100,12 @@ public class Producto {
 		this.seccion = seccion;
 	}
 	
-	
+	@Override
+    public String toString() {
+		return "Producto{" + "id=" + id + ", nombre_producto='" + nombre_producto + '\'' + ", valor_producto_unidad="
+				+ valor_producto_unidad + ", cantidad=" + cantidad + ", peso=" + peso + ", descripcion='" + descripcion
+				+ '\'' + ", seccion=" + seccion + '}';
+    }
 	
 	
 }
