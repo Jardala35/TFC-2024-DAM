@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.modelo.entidades.Movimiento;
+import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.negocio.Gestor;
 
 import javafx.collections.FXCollections;
@@ -32,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -43,6 +45,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LocalDateTimeStringConverter;
 
@@ -70,7 +73,17 @@ public class ControladorMovimientos implements Initializable {
     @FXML
     private Button addRowButton = new Button();
     @FXML
+    private VBox vbox_ini;
+    @FXML
     private TableView<Movimiento> tableView2;
+    @FXML
+    private TableView<Producto> tblprod;
+    @FXML
+    private TableView<Producto> tblmov;
+    @FXML
+    private TableView<Movimiento> tblhistmov;
+    @FXML
+    private ScrollPane scrollPane;
     @FXML
     private Button deleteRowButton = new Button();
     @FXML
@@ -111,13 +124,82 @@ public class ControladorMovimientos implements Initializable {
         exportarBtn.setOnAction(event -> exportarCSV2(event));
 
         // Cargar movimientos
-        cargarMovimientos();
+        //cargarMovimientos();
 
         // Configuración del TextField de búsqueda
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             buscarMovimientos(newValue.trim().toLowerCase());
         });
     }
+    
+    private void showScrollPane(String fxmlPath) throws IOException {
+		Parent panel = springFXMLLoader.load(fxmlPath);
+
+		// Remueve el último hijo del VBox si es un ScrollPane
+		if (vbox_ini.getChildren().size() == 1 && vbox_ini.getChildren().get(0) instanceof Parent) {
+			vbox_ini.getChildren().removeAll(vbox_ini.getChildrenUnmodifiable());
+		}
+		// Agrega el nuevo ScrollPane
+		vbox_ini.getChildren().add(panel);
+
+	}
+    
+    public void altaMovimiento() {
+    	try {
+			showScrollPane("/vistas/panel_mov_tblprod.fxml");
+			confTabla();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void movimientoPendiente() {
+    	try {
+			showScrollPane("/vistas/panel_mov_tblmov.fxml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void historico() {
+    	try {
+			showScrollPane("/vistas/panel_mov_hist.fxml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void confTabla() {
+    	List<Producto> productos = gestor.getContRest().listarProductos().getBody();
+    	
+        TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+
+        TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
+        precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+
+        TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
+        cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+
+        TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
+        pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
+
+        TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
+        descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        // Configurar la tabla para que no sea editable
+        tblprod.setEditable(false);
+
+        tblprod.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+        
+        ObservableList<Producto> items = FXCollections.observableArrayList(productos);
+        tblprod.setItems(items);
+    }
+
 
     private void logout(ActionEvent event) throws IOException {
         try {

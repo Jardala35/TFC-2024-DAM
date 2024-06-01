@@ -165,7 +165,7 @@ public class ControladorMainWindow implements Initializable {
 
     @FXML
     public void abrirMovimientos(ActionEvent event) throws IOException {
-        abrirNuevaVentana(event, "/vistas/movimientos.fxml");
+        abrirNuevaVentana(event, "/vistas/movimientos2.fxml");
     }
 
     private void abrirNuevaVentana(ActionEvent event, String fxmlPath) throws IOException {
