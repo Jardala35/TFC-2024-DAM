@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tfc.v1.SpringFXMLLoader;
+import com.tfc.v1.conexion.ColaMovimientos;
 import com.tfc.v1.modelo.entidades.Movimiento;
 import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.negocio.Gestor;
@@ -61,6 +62,8 @@ public class ControladorMovimientos implements Initializable {
 	private Scene scene;
 	@Autowired
 	private SpringFXMLLoader springFXMLLoader;
+	@Autowired
+	private ColaMovimientos cm;
 
 	@FXML
 	private Button btnAtras;
@@ -158,8 +161,10 @@ public class ControladorMovimientos implements Initializable {
 		for (Producto producto : tblprod1.getItems()) {
 		    listaProductos.add(producto);
 		}
-		Movimiento mov = new Movimiento("salida", true, LocalDateTime.now(),  listaProductos);
+		Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(),  listaProductos);
 		gestor.getContRest().altaMovimiento(mov);
+		
+		this.cm.setMovimiento(mov);
 		
 	}
 
@@ -190,6 +195,8 @@ public class ControladorMovimientos implements Initializable {
 			ObservableList<Producto> items = FXCollections.observableArrayList(productos);
 			tblprod.setItems(items);
 			tblprod1.setEditable(true);
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -322,13 +329,12 @@ public class ControladorMovimientos implements Initializable {
 					movimiento.setId(event.getNewValue());
 				});
 
-				TableColumn<Movimiento, LocalDateTime> fechaAltaColumn = new TableColumn<>("Fecha Alta");
+				TableColumn<Movimiento, String> fechaAltaColumn = new TableColumn<>("Fecha Alta");
 				fechaAltaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
-				fechaAltaColumn.setCellFactory(
-						TextFieldTableCell.forTableColumn(new LocalDateTimeStringConverter(formatter, null)));
+				fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 				fechaAltaColumn.setOnEditCommit(event -> {
-					Movimiento movimiento = event.getRowValue();
-					movimiento.setFecha_alta(event.getNewValue());
+				    Movimiento movimiento = event.getRowValue();
+				    movimiento.setFecha(event.getNewValue());
 				});
 
 				TableColumn<Movimiento, String> tipoColumn = new TableColumn<>("Tipo");
@@ -361,7 +367,7 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	public void addRow() {
 		Movimiento newMovimiento = new Movimiento();
-		newMovimiento.setFecha_alta(LocalDateTime.now());
+		newMovimiento.setFecha(LocalDateTime.now().toString());
 		newMovimiento.setTipo("Nuevo tipo");
 
 		tableView2.getItems().add(newMovimiento);
@@ -405,7 +411,7 @@ public class ControladorMovimientos implements Initializable {
 	}
 
 	private String getMovimientoStringValues(Movimiento m, String delimiter) {
-		return String.valueOf(m.getId()) + delimiter + m.getFecha_alta().format(formatter) + delimiter + m.getTipo();
+		return String.valueOf(m.getId()) + delimiter + m.getFecha() + delimiter + m.getTipo();
 	}
 
 	private void buscarMovimientos(String searchText) {
@@ -421,7 +427,7 @@ public class ControladorMovimientos implements Initializable {
 
 	private boolean contieneTexto(Movimiento movimiento, String searchText) {
 		return String.valueOf(movimiento.getId()).toLowerCase().contains(searchText)
-				|| movimiento.getFecha_alta().format(formatter).toLowerCase().contains(searchText)
+				|| movimiento.getFecha().toLowerCase().contains(searchText)
 				|| movimiento.getTipo().toLowerCase().contains(searchText);
 	}
 
@@ -485,13 +491,12 @@ public class ControladorMovimientos implements Initializable {
 					movimiento.setId(event.getNewValue());
 				});
 
-				TableColumn<Movimiento, LocalDateTime> fechaAltaColumn = new TableColumn<>("Fecha Alta");
+				TableColumn<Movimiento, String> fechaAltaColumn = new TableColumn<>("Fecha Alta");
 				fechaAltaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
-				fechaAltaColumn.setCellFactory(
-						TextFieldTableCell.forTableColumn(new LocalDateTimeStringConverter(formatter, null)));
+				fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 				fechaAltaColumn.setOnEditCommit(event -> {
-					Movimiento movimiento = event.getRowValue();
-					movimiento.setFecha_alta(event.getNewValue());
+				    Movimiento movimiento = event.getRowValue();
+				    movimiento.setFecha(event.getNewValue());
 				});
 
 				TableColumn<Movimiento, String> tipoColumn = new TableColumn<>("Tipo");

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.springframework.http.ResponseEntity;
 
@@ -15,21 +17,31 @@ import com.tfc.v1.negocio.Gestor;
 public class HiloSocket implements Runnable {
     private Socket socketCliente;
     private Gestor gestor;
+    private ColaMovimientos cm;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     
     private volatile boolean running = true;
-
-    public HiloSocket(Socket socketCliente, Gestor gestor) {
+    private LinkedBlockingQueue<Movimiento> colaMensajes = new LinkedBlockingQueue<>();
+    
+    public HiloSocket(Socket socketCliente, Gestor gestor, ColaMovimientos cm) {
         this.socketCliente = socketCliente;
         this.gestor = gestor;
+        this.cm = cm;
     }
 
     public void enviarMovimiento() throws IOException {
-        Movimiento movimiento = gestor.getContRest().getMovimiento(1).getBody();
+//        Movimiento movimiento = gestor.getContRest().getMovimiento(1).getBody();
+    	Movimiento movimiento = new Movimiento(0, "tipo 1", LocalDateTime.now().toString());
+        System.out.println(movimiento.toString());
         out.writeObject(movimiento);
         out.flush();
         System.out.println("Objeto enviado: " + movimiento);
+    }
+    
+    public void enviarMovimiento2(Movimiento movimiento) throws IOException {
+        // Agregar el movimiento a la cola de mensajes
+        colaMensajes.add(movimiento);
     }
 
     public void recibir() {
@@ -48,10 +60,16 @@ public class HiloSocket implements Runnable {
     }
 
     private void handleClientOutput() {
-        try {
+    	try {
             while (running) {
-                enviarMovimiento();
-                Thread.sleep(1000); // Ajustar el intervalo según sea necesario
+            	
+                if (!cm.getColaMensajes().isEmpty()) {
+                    Movimiento movimiento = cm.getColaMensajes().poll();
+                    out.writeObject(movimiento);
+                    out.flush();
+                    System.out.println("Objeto enviado: " + movimiento);
+                }
+                Thread.sleep(3000); // Ajustar el intervalo según sea necesario
             }
         } catch (IOException | InterruptedException e) {
             System.out.println("Error al enviar datos al cliente: " + e.getMessage());

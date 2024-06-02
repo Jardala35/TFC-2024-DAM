@@ -18,9 +18,9 @@ public class Movimiento implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private int id;
     @Column
-    private String tipo;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime fecha_alta;
+    private String tipo;    
+    @Column
+    private String fecha_alta;
     @Column
     private Boolean pendiente;
     
@@ -31,19 +31,19 @@ public class Movimiento implements Serializable {
         
     }
     
-    public Movimiento(int id, String tipo, LocalDateTime fecha_alta) {
+    public Movimiento(int id, String tipo, String fecha) {
         super();
         this.id = id;
         this.tipo = tipo;
-        this.fecha_alta = fecha_alta;
+        this.fecha_alta = fecha;
     }
     
-    public Movimiento(String tipo, Boolean pendiente, LocalDateTime fecha_alta, List<Producto> listaProd) {
+    public Movimiento(String tipo, Boolean pendiente, String fecha, List<Producto> listaProd) {
         super();        
-        this.tipo = tipo;
-        this.fecha_alta = fecha_alta;
+        this.tipo = tipo;        
         this.pendiente = pendiente;
         this.productos = listaProd;
+        this.fecha_alta = fecha;
     }
     public int getId() {
         return id;
@@ -56,13 +56,7 @@ public class Movimiento implements Serializable {
     }
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-    public LocalDateTime getFecha_alta() {
-        return fecha_alta;
-    }
-    public void setFecha_alta(LocalDateTime fecha_alta) {
-        this.fecha_alta = fecha_alta;
-    }
+    }   
     
     public List<Producto> getProductos() {
         return productos;
@@ -81,14 +75,23 @@ public class Movimiento implements Serializable {
 	public void setPendiente(Boolean pendiente) {
 		this.pendiente = pendiente;
 	}
+	
+	
+
+	public String getFecha() {
+		return fecha_alta;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha_alta = fecha;
+	}
 
 	@Override
-    public String toString() {
-        return "Movimiento{" +
-                "id=" + id +
-                ", tipo='" + tipo + '\'' +
-                ", fecha_alta=" + fecha_alta +
-                '}';
-    }
+	public String toString() {
+		return "Movimiento [id=" + id + ", tipo=" + tipo + ", fecha=" + fecha_alta + ", pendiente=" + pendiente
+				+ ", productos=" + productos + "]";
+	}
+
+	
     
 }
