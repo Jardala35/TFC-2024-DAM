@@ -705,6 +705,7 @@ public class ControladorAjustes implements Initializable {
     public void logoToMenu(MouseEvent event) throws IOException {
         Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.hide();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);
