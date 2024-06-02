@@ -66,7 +66,17 @@ public class Movimiento implements Serializable {
         this.productos = productos;
     }
     
-    @Override
+    
+    
+    public Boolean getPendiente() {
+		return pendiente;
+	}
+
+	public void setPendiente(Boolean pendiente) {
+		this.pendiente = pendiente;
+	}
+
+	@Override
     public String toString() {
         return "Movimiento{" +
                 "id=" + id +

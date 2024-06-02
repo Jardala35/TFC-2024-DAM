@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.tfc.v1.conexion.SocketServer;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

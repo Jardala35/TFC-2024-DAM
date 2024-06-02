@@ -82,9 +82,11 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	private TableView<Producto> tblprod1;
 	@FXML
-	private TableView<Producto> tblmov;
+	private TableView<Producto> tblprodmov;
 	@FXML
 	private TableView<Movimiento> tblhistmov;
+	@FXML
+	private TableView<Movimiento> tblmovpend;
 	@FXML
 	private ScrollPane scrollPane;
 	@FXML
@@ -126,15 +128,14 @@ public class ControladorMovimientos implements Initializable {
 
 		exportarBtn.setOnAction(event -> exportarCSV2(event));
 
-		// Cargar movimientos
-		// cargarMovimientos();
+		
 
 		// Configuración del TextField de búsqueda
 		searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 			buscarMovimientos(newValue.trim().toLowerCase());
 		});
 
-		// Habilitar selección múltiple en tblprod
+		
 
 	}
 
@@ -184,17 +185,15 @@ public class ControladorMovimientos implements Initializable {
 	}
 
 	public void movimientoPendiente() {
-		Producto movimientoSeleccionado = tblmov.getSelectionModel().getSelectedItem();
-		if (movimientoSeleccionado != null) {
+//		Producto movimientoSeleccionado = tblprodmov.getSelectionModel().getSelectedItem();
+		
 			try {
 				showScrollPane("/vistas/panel_mov_tblmov.fxml");
-				confTabla_llegadas(movimientoSeleccionado);
+//				confTabla_llegadas(movimientoSeleccionado);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			// Manejo para cuando no se ha seleccionado ningún movimiento
-		}
+		
 	}
 
 	@FXML
@@ -418,7 +417,7 @@ public class ControladorMovimientos implements Initializable {
 	private void confTabla_llegadas(Producto movimientoSeleccionado) {
 		// List<Producto> productos = movimientoSeleccionado.getProductos();
 
-		tblmov.getColumns().clear();
+		tblprodmov.getColumns().clear();
 
 		TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
@@ -435,7 +434,7 @@ public class ControladorMovimientos implements Initializable {
 		TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
 		descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
-		tblmov.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
+		tblprodmov.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
 
 		// Establecer los elementos de la tabla con la lista de productos asociados al
 		// movimiento
@@ -444,6 +443,7 @@ public class ControladorMovimientos implements Initializable {
 		// tblmov.setItems(items);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void cargarHistoricoMovimientos() {
 		List<Movimiento> movimientos = gestor.getContRest().listarMovimientos().getBody();
 

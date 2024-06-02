@@ -100,18 +100,10 @@ public class ControladorAjustes implements Initializable {
 	@FXML
 	private VBox vbox_conf_ini;
 
-//	@FXML
-//	private ComboBox<String> cbxseccion;
-
-	// Guarda la lista original de productos
-	private ObservableList<Producto> productosOriginales;
 
 	private void showPaneinScroll(String fxmlPath) throws IOException {
 		Parent panel = springFXMLLoader.load(fxmlPath);
-		// Remueve el último hijo del VBox si es un ScrollPane
 
-//        VBox.setVgrow(panel, Priority.ALWAYS);
-		// Agrega el nuevo ScrollPane
 		if (vbox_conf_ini.getChildren().size() == 4) {
 			vbox_conf_ini.getChildren().remove(3);
 		}
@@ -538,9 +530,7 @@ public class ControladorAjustes implements Initializable {
 		List<String> nomsec = new ArrayList<>();
 		for (Seccion seccion : seccionesObservableList) {
 			nomsec.add(seccion.getNombre_seccion());
-		}
-		ObservableList<String> nombresSeccion = FXCollections.observableArrayList(nomsec);
-//		cbxseccion.setItems(nombresSeccion);
+		}		
 		tblprodsec.setEditable(true);
 
 		if (productos != null) {
@@ -663,9 +653,6 @@ public class ControladorAjustes implements Initializable {
 				});
 
 				tblprodsec.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
-
-				// Guarda la lista original de productos
-				productosOriginales = FXCollections.observableArrayList(productos);
 
 				ObservableList<Producto> items = FXCollections.observableArrayList(productos);
 				tblprodsec.setItems(items);
