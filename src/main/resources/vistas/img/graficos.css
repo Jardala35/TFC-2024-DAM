@@ -21,15 +21,6 @@
     -fx-background-color: #FF4500; /* Fondo naranja más oscuro al presionar */
 }
 
-.menu-button {
-    -fx-background-color: linear-gradient(to bottom, #FF8C00, #E67300);
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-border-color: #E67300;
-    -fx-border-width: 2px;
-    -fx-background-radius: 5px;
-    -fx-border-radius: 5px;
-}
 
 .menu-button:hover {
     -fx-background-color: #FF8C00; /* Fondo naranja oscuro al pasar el ratón */

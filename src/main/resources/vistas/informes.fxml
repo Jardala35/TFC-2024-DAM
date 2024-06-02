@@ -20,7 +20,54 @@
 <AnchorPane prefHeight="674.0" prefWidth="957.0" stylesheets="@/vistas/img/graficos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInformes">
    <children>
       <HBox layoutY="86.0" prefHeight="0.0" prefWidth="957.0" AnchorPane.bottomAnchor="588.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0" />
-      <VBox fx:id="chartContainer" alignment="CENTER" layoutX="-1.0" layoutY="86.0" prefHeight="586.0" prefWidth="779.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="179.0" AnchorPane.topAnchor="86.0">
+      <VBox alignment="CENTER" layoutX="-146.0" layoutY="76.0" prefHeight="598.0" prefWidth="160.0" style="-fx-border-color: orange; -fx-border-width: 4px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="76.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="590.0" prefWidth="152.0" VBox.vgrow="NEVER">
+               <children>
+                  <ComboBox fx:id="comboBoxSeccion" prefWidth="150.0" promptText="Elije la sección">
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="150.0" />
+                     </VBox.margin>
+                  </ComboBox>
+                  <MenuButton mnemonicParsing="false" text="Elije el tipo de gráfico">
+                     <items>
+                        <MenuItem fx:id="barChartItem" mnemonicParsing="false" text="Gráfico de Barras" />
+                        <MenuItem fx:id="lineChartItem" mnemonicParsing="false" text="Gráfico de Lineas" />
+                        <MenuItem fx:id="areaChartItem" mnemonicParsing="false" text="Gráfico de area" />
+                        <MenuItem fx:id="pieChartItem" mnemonicParsing="false" text="PieChart" />
+                     </items>
+                     <VBox.margin>
+                        <Insets bottom="25.0" />
+                     </VBox.margin>
+                  </MenuButton>
+                  <RadioButton fx:id="rbCantidad" mnemonicParsing="false" text="Cantidad">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="rbPrecio" mnemonicParsing="false" text="precio">
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <Button fx:id="exportar" mnemonicParsing="false" onAction="#generarPDF" text="Exportar a PDF">
+                     <VBox.margin>
+                        <Insets bottom="200.0" />
+                     </VBox.margin>
+                  </Button>
+                  <ImageView fitHeight="30.0" fitWidth="33.0" onMouseClicked="#abrirVentanaprincipal" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox fx:id="chartContainer" alignment="CENTER" layoutX="182.0" layoutY="86.0" prefHeight="588.0" prefWidth="921.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="182.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
          <children>
             <AreaChart visible="false">
               <xAxis>
@@ -65,53 +112,6 @@
       <VBox layoutX="676.0" layoutY="226.0">
          <children>
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="281.0" />
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" layoutX="797.0" layoutY="86.0" prefHeight="586.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="586.0" prefWidth="132.0" VBox.vgrow="NEVER">
-               <children>
-                  <ComboBox fx:id="comboBoxSeccion" prefWidth="150.0" promptText="Elije la sección">
-                     <VBox.margin>
-                        <Insets bottom="20.0" top="150.0" />
-                     </VBox.margin>
-                  </ComboBox>
-                  <MenuButton mnemonicParsing="false" text="Elije el tipo de gráfico">
-                     <items>
-                        <MenuItem fx:id="barChartItem" mnemonicParsing="false" text="Gráfico de Barras" />
-                        <MenuItem fx:id="lineChartItem" mnemonicParsing="false" text="Gráfico de Lineas" />
-                        <MenuItem fx:id="areaChartItem" mnemonicParsing="false" text="Gráfico de area" />
-                        <MenuItem fx:id="pieChartItem" mnemonicParsing="false" text="PieChart" />
-                     </items>
-                     <VBox.margin>
-                        <Insets bottom="25.0" />
-                     </VBox.margin>
-                  </MenuButton>
-                  <RadioButton fx:id="rbCantidad" mnemonicParsing="false" text="Cantidad">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </RadioButton>
-                  <RadioButton fx:id="rbPrecio" mnemonicParsing="false" text="precio">
-                     <VBox.margin>
-                        <Insets bottom="30.0" />
-                     </VBox.margin>
-                  </RadioButton>
-                  <Button fx:id="exportar" mnemonicParsing="false" onAction="#generarPDF" text="Exportar a PDF">
-                     <VBox.margin>
-                        <Insets bottom="200.0" />
-                     </VBox.margin>
-                  </Button>
-                  <ImageView fitHeight="30.0" fitWidth="33.0" onMouseClicked="#abrirVentanaprincipal" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </ImageView>
-               </children>
-            </VBox>
          </children>
       </VBox>
    </children>
