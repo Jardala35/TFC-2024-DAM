@@ -20,11 +20,11 @@
          <children>
             <Pane prefHeight="67.0" prefWidth="107.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="logo" fitHeight="71.0" fitWidth="99.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/vistas/img/logo.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fx:id="logo" fitHeight="71.0" fitWidth="99.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#logoToMenu">
+    				<image>
+        				<Image url="@/vistas/img/logo.png" />
+    				</image>
+				</ImageView>
                </children>
             </Pane>
             <MenuButton fx:id="menuBtn" alignment="CENTER_RIGHT" mnemonicParsing="false">

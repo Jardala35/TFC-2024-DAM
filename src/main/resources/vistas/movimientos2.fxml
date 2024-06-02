@@ -95,7 +95,7 @@
          <children>
             <Pane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="86.0" prefWidth="902.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="78.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="78.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#logoToMenu">
                      <image>
                         <Image url="@/vistas/img/Logo.png" />
                      </image>
