@@ -4,14 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Movimiento implements Serializable {
@@ -26,7 +24,7 @@ public class Movimiento implements Serializable {
     @Column
     private Boolean pendiente;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Transient
     private List<Producto> productos;
     
     public Movimiento() {
@@ -38,6 +36,14 @@ public class Movimiento implements Serializable {
         this.id = id;
         this.tipo = tipo;
         this.fecha_alta = fecha_alta;
+    }
+    
+    public Movimiento(String tipo, Boolean pendiente, LocalDateTime fecha_alta, List<Producto> listaProd) {
+        super();        
+        this.tipo = tipo;
+        this.fecha_alta = fecha_alta;
+        this.pendiente = pendiente;
+        this.productos = listaProd;
     }
     public int getId() {
         return id;

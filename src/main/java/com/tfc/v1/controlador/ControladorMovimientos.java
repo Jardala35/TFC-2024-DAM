@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -149,6 +150,17 @@ public class ControladorMovimientos implements Initializable {
 		// Agrega el nuevo ScrollPane
 		vbox_ini.getChildren().add(panel);
 
+	}
+	
+	public void enviarMovimiento() {
+		List<Producto> listaProductos = new ArrayList<>();
+
+		for (Producto producto : tblprod1.getItems()) {
+		    listaProductos.add(producto);
+		}
+		Movimiento mov = new Movimiento("salida", true, LocalDateTime.now(),  listaProductos);
+		gestor.getContRest().altaMovimiento(mov);
+		
 	}
 
 	public void altaMovimiento() {

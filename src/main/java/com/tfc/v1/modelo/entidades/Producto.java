@@ -28,6 +28,8 @@ public class Producto implements Serializable {
 	@JoinColumn(name="fk_seccion", referencedColumnName="id")
 	private Seccion seccion;
 	
+	
+	
 	public Producto() {
 		
 	}
