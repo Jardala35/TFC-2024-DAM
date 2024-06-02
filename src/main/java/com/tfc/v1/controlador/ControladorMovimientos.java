@@ -12,15 +12,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tfc.v1.SpringFXMLLoader;
+import com.tfc.v1.conexion.ColaLeeMovimientos;
 import com.tfc.v1.conexion.ColaMovimientos;
 import com.tfc.v1.modelo.entidades.Movimiento;
 import com.tfc.v1.modelo.entidades.Producto;
+import com.tfc.v1.modelo.entidades.Seccion;
 import com.tfc.v1.negocio.Gestor;
 
 import javafx.collections.FXCollections;
@@ -33,11 +36,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -49,8 +54,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 @Component
 public class ControladorMovimientos implements Initializable {
@@ -64,7 +70,8 @@ public class ControladorMovimientos implements Initializable {
 	private SpringFXMLLoader springFXMLLoader;
 	@Autowired
 	private ColaMovimientos cm;
-
+	@Autowired
+	private ColaLeeMovimientos clm;
 	@FXML
 	private Button btnAtras;
 	@FXML
@@ -132,14 +139,10 @@ public class ControladorMovimientos implements Initializable {
 
 		exportarBtn.setOnAction(event -> exportarCSV2(event));
 
-		
-
 		// Configuración del TextField de búsqueda
 		searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 			buscarMovimientos(newValue.trim().toLowerCase());
 		});
-
-		
 
 	}
 
@@ -154,18 +157,18 @@ public class ControladorMovimientos implements Initializable {
 		vbox_ini.getChildren().add(panel);
 
 	}
-	
+
 	public void enviarMovimiento() {
 		List<Producto> listaProductos = new ArrayList<>();
 
 		for (Producto producto : tblprod1.getItems()) {
-		    listaProductos.add(producto);
+			listaProductos.add(producto);
 		}
-		Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(),  listaProductos);
+		Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(), listaProductos);
 		gestor.getContRest().altaMovimiento(mov);
-		
+
 		this.cm.setMovimiento(mov);
-		
+
 	}
 
 	public void altaMovimiento() {
@@ -195,24 +198,141 @@ public class ControladorMovimientos implements Initializable {
 			ObservableList<Producto> items = FXCollections.observableArrayList(productos);
 			tblprod.setItems(items);
 			tblprod1.setEditable(true);
-			
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@FXML
 	public void movimientoPendiente() {
-//		Producto movimientoSeleccionado = tblprodmov.getSelectionModel().getSelectedItem();
-		
-			try {
-				showScrollPane("/vistas/panel_mov_tblmov.fxml");
-//				confTabla_llegadas(movimientoSeleccionado);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		
+		try {
+			showScrollPane("/vistas/panel_mov_tblmov.fxml");
+
+			// Configuración de la tabla tblmovpend
+			tblmovpend.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+			// Listener para detectar cambios en la selección de la tabla tblmovpend
+			tblmovpend.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+				if (newSelection != null) {
+					// Cuando se selecciona un nuevo movimiento, cargamos los productos asociados
+					cargarProductosAsociados(newSelection);
+				}
+			});
+
+			// Cargar movimientos pendientes en la tabla tblmovpend
+			cargarMovimientosPendientes();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		LinkedBlockingQueue<Movimiento> movimientos = clm.getColaMensajes();
+		if (!movimientos.isEmpty()) {
+			ObservableList<Movimiento> movimientosObservableList = FXCollections.observableArrayList(movimientos);
+			tblmovpend.setItems(movimientosObservableList);
+
+			// Definir las columnas de la tabla tblmovpend
+			TableColumn<Movimiento, Integer> idColumn = new TableColumn<>("ID");
+			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+			TableColumn<Movimiento, String> descripcionColumn = new TableColumn<>("Tipo");
+			descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+
+			TableColumn<Movimiento, String> fechaColumn = new TableColumn<>("Fecha");
+			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
+			tblmovpend.getColumns().setAll(idColumn, descripcionColumn, fechaColumn);
+		}
+	}
+
+	private void cargarProductosAsociados(Movimiento movimiento) {
+		if (movimiento == null) {
+			return;
+		}
+
+		List<Producto> productos = movimiento.getProductos();
+		List<Seccion> secciones = gestor.getAllSecciones();
+		ObservableList<Seccion> seccionesObservableList = FXCollections.observableArrayList(secciones);
+
+		if (productos != null && !productos.isEmpty()) {
+			tblprodmov.getColumns().clear();
+			tblprodmov.getItems().clear();
+
+			// Columna de Sección
+			TableColumn<Producto, Seccion> seccionColumn = new TableColumn<>("Sección");
+			seccionColumn.setCellValueFactory(new PropertyValueFactory<>("seccion"));
+			seccionColumn.setCellFactory(param -> new TableCell<Producto, Seccion>() {
+				private ComboBox<Seccion> comboBox;
+
+				{
+					comboBox = new ComboBox<>(seccionesObservableList);
+					comboBox.setConverter(new StringConverter<Seccion>() {
+						@Override
+						public String toString(Seccion seccion) {
+							return seccion != null ? seccion.getNombre_seccion() : "";
+						}
+
+						@Override
+						public Seccion fromString(String string) {
+							return null;
+						}
+					});
+					comboBox.setOnAction(event -> {
+						Producto producto = getTableView().getItems().get(getIndex());
+						producto.setSeccion(comboBox.getValue());
+					});
+				}
+
+				@Override
+				protected void updateItem(Seccion item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty) {
+						setGraphic(null);
+					} else {
+						comboBox.setValue(item);
+						setGraphic(comboBox);
+					}
+				}
+			});
+			
+			seccionColumn.setOnEditCommit(event -> {
+                TableView.TableViewSelectionModel<Producto> selectionModel = tblprodmov.getSelectionModel();
+                Producto producto = selectionModel.getSelectedItem();
+                if (producto != null) {
+                    producto.setSeccion(event.getNewValue());
+                }
+            });
+
+			tblprodmov.getColumns().add(seccionColumn);
+
+			// Otras columnas
+			TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
+			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+			tblprodmov.getColumns().add(idColumn);
+
+			TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
+			nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
+			tblprodmov.getColumns().add(nombreColumn);
+
+			TableColumn<Producto, Double> cantidadColumn = new TableColumn<>("Valor Unidad");
+			cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
+			cantidadColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter())); // Usamos DoubleStringConverter
+			cantidadColumn.setOnEditCommit(event -> {
+			    Producto producto = event.getRowValue();
+			    producto.setValor_producto_unidad(event.getNewValue());
+			});
+			tblprodmov.getColumns().add(cantidadColumn);
+
+			TableColumn<Producto, String> caducidadColumn = new TableColumn<>("Cantidad");
+			caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+			tblprodmov.getColumns().add(caducidadColumn);
+
+			tblprodmov.setItems(FXCollections.observableArrayList(productos));
+			tblprodmov.setEditable(true);
+		}
 	}
 
 	@FXML
@@ -333,8 +453,8 @@ public class ControladorMovimientos implements Initializable {
 				fechaAltaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
 				fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 				fechaAltaColumn.setOnEditCommit(event -> {
-				    Movimiento movimiento = event.getRowValue();
-				    movimiento.setFecha(event.getNewValue());
+					Movimiento movimiento = event.getRowValue();
+					movimiento.setFecha(event.getNewValue());
 				});
 
 				TableColumn<Movimiento, String> tipoColumn = new TableColumn<>("Tipo");
@@ -373,6 +493,9 @@ public class ControladorMovimientos implements Initializable {
 		tableView2.getItems().add(newMovimiento);
 
 		gestor.insertarMovimiento(newMovimiento);
+
+		Movimiento movimiento = new Movimiento();
+		tblmovpend.getItems().add(movimiento);
 	}
 
 	@FXML
@@ -460,18 +583,17 @@ public class ControladorMovimientos implements Initializable {
 		// FXCollections.observableArrayList(productos);
 		// tblmov.setItems(items);
 	}
-	
+
 	@FXML
 	public void logoToMenu(MouseEvent event) throws IOException {
-	    Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
-	    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-	    Scene scene = new Scene(root);
-	    stage.setScene(scene);
-	    stage.setFullScreen(true);
-	    stage.setFullScreenExitHint("");
-	    stage.show();
+		Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setFullScreen(true);
+		stage.setFullScreenExitHint("");
+		stage.show();
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private void cargarHistoricoMovimientos() {
@@ -495,8 +617,8 @@ public class ControladorMovimientos implements Initializable {
 				fechaAltaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
 				fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 				fechaAltaColumn.setOnEditCommit(event -> {
-				    Movimiento movimiento = event.getRowValue();
-				    movimiento.setFecha(event.getNewValue());
+					Movimiento movimiento = event.getRowValue();
+					movimiento.setFecha(event.getNewValue());
 				});
 
 				TableColumn<Movimiento, String> tipoColumn = new TableColumn<>("Tipo");
@@ -517,5 +639,54 @@ public class ControladorMovimientos implements Initializable {
 			}
 
 		}
+
 	}
+	@SuppressWarnings("unchecked")
+	private void cargarMovimientosPendientes() {
+		LinkedBlockingQueue<Movimiento> colaMensajes = clm.getColaMensajes();
+        List<Movimiento> movimientos = new ArrayList<>(colaMensajes);
+		if (!movimientos.isEmpty()) {
+			ObservableList<Movimiento> movimientosObservableList = FXCollections.observableArrayList(movimientos);
+            tblmovpend.setItems(movimientosObservableList);
+
+			// Definir las columnas de la tabla tblmovpend
+			TableColumn<Movimiento, Integer> idColumn = new TableColumn<>("ID");
+			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+			TableColumn<Movimiento, String> descripcionColumn = new TableColumn<>("Tipo");
+			descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+
+			TableColumn<Movimiento, String> fechaColumn = new TableColumn<>("Fecha");
+			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
+			tblmovpend.getColumns().setAll(idColumn, descripcionColumn, fechaColumn);
+		}
+	}
+	
+	@FXML
+	public void subirProductoPendienteBBDD() {
+		 List<Producto> productosPendientes = tblprodmov.getItems();
+
+		    // Verificar si hay productos pendientes
+		    if (productosPendientes.isEmpty()) {
+		        System.out.println("No hay productos pendientes para subir a la base de datos.");
+		        return;
+		    }
+
+		    // Iterar sobre los productos pendientes y subirlos a la base de datos
+		    for (Producto producto : productosPendientes) {
+		        try {
+		            // Lógica para subir el producto a la base de datos utilizando el gestor
+		            gestor.getContRest().altaProducto(producto);
+		            System.out.println("Producto subido a la base de datos: " + producto.getNombre_producto());
+		        } catch (Exception e) {
+		            System.out.println("Error al subir el producto a la base de datos: " + producto.getNombre_producto());
+		            e.printStackTrace();
+		        }
+		    }
+
+		    // Limpiar la tabla de productos pendientes después de subirlos a la base de datos
+		    productosPendientes.clear();
+
+}
 }

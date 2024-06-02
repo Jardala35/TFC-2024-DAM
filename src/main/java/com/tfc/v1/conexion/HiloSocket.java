@@ -18,16 +18,17 @@ public class HiloSocket implements Runnable {
     private Socket socketCliente;
     private Gestor gestor;
     private ColaMovimientos cm;
+    private ColaLeeMovimientos clm;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     
     private volatile boolean running = true;
-    private LinkedBlockingQueue<Movimiento> colaMensajes = new LinkedBlockingQueue<>();
     
-    public HiloSocket(Socket socketCliente, Gestor gestor, ColaMovimientos cm) {
+    public HiloSocket(Socket socketCliente, Gestor gestor, ColaMovimientos cm, ColaLeeMovimientos clm) {
         this.socketCliente = socketCliente;
         this.gestor = gestor;
         this.cm = cm;
+        this.clm = clm;
     }
 
     public void enviarMovimiento() throws IOException {
@@ -38,31 +39,32 @@ public class HiloSocket implements Runnable {
         out.flush();
         System.out.println("Objeto enviado: " + movimiento);
     }
-    
-    public void enviarMovimiento2(Movimiento movimiento) throws IOException {
-        // Agregar el movimiento a la cola de mensajes
-        colaMensajes.add(movimiento);
+   
+
+    private void recibir() {
+        
     }
 
-    public void recibir() {
-        // Implementar lógica de recepción si es necesario
-    }
 
     private void handleClientInput() {
-        try {
-            while (running) {
-                // Lógica de manejo de datos de entrada
-                recibir();
+    	try {		
+            Object receivedObject = in.readObject();
+            if (receivedObject instanceof Movimiento) {
+                Movimiento receivedMovimiento = (Movimiento) receivedObject;
+                clm.getColaMensajes().add(receivedMovimiento);          
+                System.out.println("Movimiento recibido: " + receivedMovimiento);
+            } else {
+                System.out.println("Objeto recibido no es un movimiento.");
             }
-        } finally {
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al recibir datos del cliente: " + e.getMessage());
             stop();
         }
     }
 
     private void handleClientOutput() {
     	try {
-            while (running) {
-            	
+            while (running) {  	
                 if (!cm.getColaMensajes().isEmpty()) {
                     Movimiento movimiento = cm.getColaMensajes().poll();
                     out.writeObject(movimiento);
@@ -90,13 +92,10 @@ public class HiloSocket implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
+    private void handleAuthentication() {
         try {
-            in = new ObjectInputStream(socketCliente.getInputStream());
-            out = new ObjectOutputStream(socketCliente.getOutputStream());
             boolean flag = false;
-            do {
+            while (!flag) {
                 System.out.println("Inicio del hilo de autenticación");
                 String[] up = ((String) in.readObject()).split(",");
                 System.out.println("Mensaje recibido: " + up[0] + ", " + up[1]);
@@ -109,10 +108,24 @@ public class HiloSocket implements Runnable {
                 } catch (Exception e) {
                     System.out.println("Fallo de autenticación");
                     out.writeObject("n");
-                    flag = false;
                 }
-            } while (!flag);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al manejar la autenticación: " + e.getMessage());
+            stop();
+        }
+    }
 
+    @Override
+    public void run() {
+        try {
+            in = new ObjectInputStream(socketCliente.getInputStream());
+            out = new ObjectOutputStream(socketCliente.getOutputStream());
+
+            // Manejar la autenticación
+            handleAuthentication();
+
+            // Ahora que el cliente está autenticado, podemos comenzar a manejar la entrada y salida de datos
             // Hilo para lectura
             Thread inputThread = new Thread(this::handleClientInput);
 
@@ -126,11 +139,12 @@ public class HiloSocket implements Runnable {
             inputThread.join();
             outputThread.join();
 
-        } catch (IOException | ClassNotFoundException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println("Error al manejar el cliente: " + e.getMessage());
             e.printStackTrace();
         } finally {
             stop();
+       
         }
     }
 }
