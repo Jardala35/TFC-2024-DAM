@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -45,7 +44,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -81,10 +79,6 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	private MenuItem menuItem1 = new MenuItem();
 	@FXML
-	private Button exportarBtn = new Button();
-	@FXML
-	private Button addRowButton = new Button();
-	@FXML
 	private VBox vbox_ini;
 	@FXML
 	private TableView<Movimiento> tableView2;
@@ -100,13 +94,8 @@ public class ControladorMovimientos implements Initializable {
 	private TableView<Movimiento> tblmovpend;
 	@FXML
 	private ScrollPane scrollPane;
-	@FXML
-	private Button deleteRowButton = new Button();
-	@FXML
-	private TextField searchTextField;
 
 	private String delimiter = ",";
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	// Guarda la lista original de movimientos
 	private ObservableList<Movimiento> movimientosOriginales;
@@ -130,20 +119,6 @@ public class ControladorMovimientos implements Initializable {
 				e.printStackTrace();
 			}
 		});
-
-		if (!esUsuarioAdmin()) {
-			deleteRowButton.setDisable(true);
-		}
-
-		addRowButton.setOnAction(event -> addRow());
-
-		exportarBtn.setOnAction(event -> exportarCSV2(event));
-
-		// Configuración del TextField de búsqueda
-		searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-			buscarMovimientos(newValue.trim().toLowerCase());
-		});
-
 	}
 
 	private void showScrollPane(String fxmlPath) throws IOException {
