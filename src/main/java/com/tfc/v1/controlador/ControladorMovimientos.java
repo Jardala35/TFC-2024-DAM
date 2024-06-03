@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
@@ -19,17 +20,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.itextpdf.text.log.SysoCounter;
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.conexion.ColaLeeMovimientos;
 import com.tfc.v1.conexion.ColaMovimientos;
+import com.tfc.v1.conexion.UsuarioConectado;
 import com.tfc.v1.modelo.entidades.Movimiento;
 import com.tfc.v1.modelo.entidades.Producto;
 import com.tfc.v1.modelo.entidades.Seccion;
 import com.tfc.v1.negocio.Gestor;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +43,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -53,8 +58,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -63,6 +71,8 @@ import javafx.util.converter.IntegerStringConverter;
 public class ControladorMovimientos implements Initializable {
 	@Autowired
 	private Gestor gestor;
+	@Autowired
+	private UsuarioConectado uc;
 	@FXML
 	private Stage stage;
 	@FXML
@@ -97,11 +107,15 @@ public class ControladorMovimientos implements Initializable {
 	private TableView<Movimiento> tblmovpend;
 	@FXML
 	private ScrollPane scrollPane;
+	@FXML
+	private ListView<String> listview;
 
 	private String delimiter = ",";
 
 	// Guarda la lista original de movimientos
 	private ObservableList<Movimiento> movimientosOriginales;
+	
+	private ObservableList<String> usuariosObservableList;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -122,7 +136,43 @@ public class ControladorMovimientos implements Initializable {
 				e.printStackTrace();
 			}
 		});
-	}
+		
+		usuariosObservableList = FXCollections.observableArrayList();
+
+        listview.setItems(usuariosObservableList);
+        listview.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<String> call(ListView<String> listView) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            setText(item);
+                            Circle circle = new Circle(5, Color.GREEN);
+                            setGraphic(circle);
+                        }
+                    }
+                };
+            }
+        });
+
+        uc.getListaconect().addListener((MapChangeListener.Change<? extends Integer, ? extends String> change) -> {
+            actualizarListaUsuarios();
+        });
+    }
+
+    private void actualizarListaUsuarios() {
+    	Platform.runLater(() -> {
+            usuariosObservableList.clear();
+            for (Entry<Integer, String> entry : uc.getListaconect().entrySet()) {
+                usuariosObservableList.add(entry.getValue());
+            }
+        });
+    }
 
 	private void showScrollPane(String fxmlPath) throws IOException {
 		Parent panel = springFXMLLoader.load(fxmlPath);

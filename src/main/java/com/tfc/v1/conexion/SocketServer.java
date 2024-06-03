@@ -18,7 +18,9 @@ public class SocketServer implements Runnable {
     private ColaMovimientos cm;
     @Autowired
     private ColaLeeMovimientos clm;
-
+    @Autowired
+    private UsuarioConectado uc;
+    
 //    @Autowired
 //    private RepositorioProducto productoRepository;
 
@@ -39,9 +41,9 @@ public class SocketServer implements Runnable {
             while (true) {
             	Socket socketCliente = serverSocket.accept();
 				System.out.println("Cliente conectado");
-
+				
 				// Aquí se inicia un nuevo hilo para manejar cada cliente
-				new Thread(new HiloSocket(socketCliente, gestor, cm, clm)).start();
+				new Thread(new HiloSocket(socketCliente, gestor, cm, clm, uc)).start();
             	
 //                try (Socket clientSocket = serverSocket.accept();
 //                     ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());

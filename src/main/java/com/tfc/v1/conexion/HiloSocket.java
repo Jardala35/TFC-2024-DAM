@@ -19,16 +19,19 @@ public class HiloSocket implements Runnable {
     private Gestor gestor;
     private ColaMovimientos cm;
     private ColaLeeMovimientos clm;
+    private UsuarioConectado uc;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private int cont = 0;
     
     private volatile boolean running = true;
     
-    public HiloSocket(Socket socketCliente, Gestor gestor, ColaMovimientos cm, ColaLeeMovimientos clm) {
+    public HiloSocket(Socket socketCliente, Gestor gestor, ColaMovimientos cm, ColaLeeMovimientos clm, UsuarioConectado uc) {
         this.socketCliente = socketCliente;
         this.gestor = gestor;
         this.cm = cm;
         this.clm = clm;
+        this.uc = uc;
     }
 
     public void enviarMovimiento() throws IOException {
@@ -87,6 +90,7 @@ public class HiloSocket implements Runnable {
             if (socketCliente != null && !socketCliente.isClosed()) {
                 socketCliente.close();
             }
+            uc.getListaconect().remove(cont);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,6 +109,8 @@ public class HiloSocket implements Runnable {
                     out.writeObject("y");
                     flag = true;
                     System.out.println("Autenticación exitosa");
+                    cont = uc.getListaconect().size();
+                    uc.getListaconect().put(cont, up[0]);
                 } catch (Exception e) {
                     System.out.println("Fallo de autenticación");
                     out.writeObject("n");
@@ -139,7 +145,7 @@ public class HiloSocket implements Runnable {
             inputThread.join();
             outputThread.join();
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {        	
             System.out.println("Error al manejar el cliente: " + e.getMessage());
             e.printStackTrace();
         } finally {
