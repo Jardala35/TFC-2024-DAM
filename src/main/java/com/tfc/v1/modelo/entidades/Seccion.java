@@ -1,5 +1,6 @@
 package com.tfc.v1.modelo.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -14,7 +15,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nombre"})})
-public class Seccion {
+public class Seccion implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int id;

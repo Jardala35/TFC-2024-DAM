@@ -15,8 +15,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.itextpdf.text.log.SysoCounter;
 import com.tfc.v1.SpringFXMLLoader;
 import com.tfc.v1.conexion.ColaLeeMovimientos;
 import com.tfc.v1.conexion.ColaMovimientos;
@@ -134,17 +137,48 @@ public class ControladorMovimientos implements Initializable {
 	}
 
 	public void enviarMovimiento() {
-		List<Producto> listaProductos = new ArrayList<>();
+	    List<Producto> listaProductos = new ArrayList<>();
 
-		for (Producto producto : tblprod1.getItems()) {
-			listaProductos.add(producto);
-		}
-		Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(), listaProductos);
-		gestor.getContRest().altaMovimiento(mov);
+	    // Obtener productos de la TableView
+	    for (Producto producto : tblprod1.getItems()) {
+	        listaProductos.add(producto);
+	    }
 
-		this.cm.setMovimiento(mov);
+	    Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(), listaProductos);
+	    gestor.getContRest().altaMovimiento(mov);
 
+	    // Restar la cantidad de los productos en la base de datos
+	    for (Producto producto : listaProductos) {
+	        try {
+	            // Obtener el producto de la base de datos
+	            ResponseEntity<Producto> response = gestor.getContRest().getProducto(producto.getId());
+	            if (response.getStatusCode() == HttpStatus.OK) {
+	                Producto productoEnBBDD = response.getBody();
+	                // Restar la cantidad del producto con la cantidad editada en la TableView
+	                if (productoEnBBDD != null) {
+	                	System.out.println("Cantidad en BBDD: " + productoEnBBDD.getCantidad());
+	                	System.out.println("Cantidad en TableView: " + producto.getCantidad());
+	                    int nuevaCantidad = productoEnBBDD.getCantidad() - producto.getCantidad();
+	                    if (nuevaCantidad < 0) {
+	                    	gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
+	                        nuevaCantidad = 0; // Asegurar que la cantidad no sea negativa
+	                    } else if (nuevaCantidad == 0) {
+							gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
+	                    }
+	                    productoEnBBDD.setCantidad(nuevaCantidad);
+	                    // Actualizar el producto en la base de datos
+	                    gestor.getContRest().updateProducto(productoEnBBDD.getId(), productoEnBBDD);
+	                }
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Error al actualizar la cantidad del producto en la base de datos: " + producto.getNombre_producto());
+	            e.printStackTrace();
+	        }
+	    }
+
+	    this.cm.setMovimiento(mov);
 	}
+
 
 	public void altaMovimiento() {
 		try {
