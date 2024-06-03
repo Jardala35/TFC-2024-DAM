@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="674.0" prefWidth="957.0" stylesheets="@/vistas/img/graficos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfc.v1.controlador.ControladorInformes">
+   <children>
+      <HBox layoutY="86.0" prefHeight="0.0" prefWidth="957.0" AnchorPane.bottomAnchor="588.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0" />
+      <VBox fx:id="chartContainer" alignment="CENTER" layoutX="-1.0" layoutY="86.0" prefHeight="586.0" prefWidth="779.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="179.0" AnchorPane.topAnchor="86.0">
+         <children>
+            <AreaChart visible="false">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </AreaChart>
+            <BarChart fx:id="barChart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="197.0" prefWidth="496.0" visible="false" VBox.vgrow="ALWAYS">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <LineChart prefHeight="397.0" prefWidth="496.0" visible="false">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children></VBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false">
+              <items>
+                <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout" text="Cerrar sesión" />
+              </items>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="3.0" />
+               </HBox.margin>
+            </MenuButton>
+         </children>
+      </HBox>
+      <VBox layoutX="676.0" layoutY="226.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="281.0" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="797.0" layoutY="86.0" prefHeight="586.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="86.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="586.0" prefWidth="132.0" VBox.vgrow="NEVER">
+               <children>
+                  <ComboBox fx:id="comboBoxSeccion" prefWidth="150.0" promptText="Elije la sección">
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="150.0" />
+                     </VBox.margin>
+                  </ComboBox>
+                  <MenuButton mnemonicParsing="false" text="Elije el tipo de gráfico">
+                     <items>
+                        <MenuItem fx:id="barChartItem" mnemonicParsing="false" text="Gráfico de Barras" />
+                        <MenuItem fx:id="lineChartItem" mnemonicParsing="false" text="Gráfico de Lineas" />
+                        <MenuItem fx:id="areaChartItem" mnemonicParsing="false" text="Gráfico de area" />
+                        <MenuItem fx:id="pieChartItem" mnemonicParsing="false" text="PieChart" />
+                     </items>
+                     <VBox.margin>
+                        <Insets bottom="25.0" />
+                     </VBox.margin>
+                  </MenuButton>
+                  <RadioButton fx:id="rbCantidad" mnemonicParsing="false" text="Cantidad">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <RadioButton fx:id="rbPrecio" mnemonicParsing="false" text="precio">
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <Button fx:id="exportar" mnemonicParsing="false" onAction="#generarPDF" text="Exportar a PDF">
+                     <VBox.margin>
+                        <Insets bottom="200.0" />
+                     </VBox.margin>
+                  </Button>
+                  <ImageView fitHeight="30.0" fitWidth="33.0" onMouseClicked="#abrirVentanaprincipal" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/vistas/img/flecha-hacia-atras-curvada.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
