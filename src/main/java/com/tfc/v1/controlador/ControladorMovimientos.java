@@ -9,9 +9,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
@@ -163,13 +166,24 @@ public class ControladorMovimientos implements Initializable {
         uc.getListaconect().addListener((MapChangeListener.Change<? extends Integer, ? extends String> change) -> {
             actualizarListaUsuarios();
         });
+        
+        actualizarListaUsuarios();
     }
 
     private void actualizarListaUsuarios() {
     	Platform.runLater(() -> {
-            usuariosObservableList.clear();
-            for (Entry<Integer, String> entry : uc.getListaconect().entrySet()) {
-                usuariosObservableList.add(entry.getValue());
+            Set<String> usuariosConectados = new HashSet<>(uc.getListaconect().values());
+            Iterator<String> iterator = usuariosObservableList.iterator();
+            while (iterator.hasNext()) {
+                String usuarioEnLista = iterator.next();
+                if (!usuariosConectados.contains(usuarioEnLista)) {
+                    iterator.remove(); 
+                }
+            }
+            for (String usuario : usuariosConectados) {
+                if (!usuariosObservableList.contains(usuario)) {
+                    usuariosObservableList.add(usuario); 
+                }
             }
         });
     }
@@ -225,8 +239,9 @@ public class ControladorMovimientos implements Initializable {
 	            e.printStackTrace();
 	        }
 	    }
-
+	    
 	    this.cm.setMovimiento(mov);
+	    vbox_ini.getChildren().removeAll(vbox_ini.getChildrenUnmodifiable());
 	}
 
 
@@ -746,6 +761,7 @@ public class ControladorMovimientos implements Initializable {
 
 		    // Limpiar la tabla de productos pendientes después de subirlos a la base de datos
 		    productosPendientes.clear();
+		    
 
 }
 }
