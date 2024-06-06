@@ -32,32 +32,21 @@ public class HiloSocket implements Runnable {
         this.cm = cm;
         this.clm = clm;
         this.uc = uc;
-    }
-
-    public void enviarMovimiento() throws IOException {
-    	Movimiento movimiento = new Movimiento(0, "tipo 1", LocalDateTime.now().toString());
-        System.out.println(movimiento.toString());
-        out.writeObject(movimiento);
-        out.flush();
-        System.out.println("Objeto enviado: " + movimiento);
-    }
-   
-
-    private void recibir() {
-        
-    }
+    }    
 
 
     private void handleClientInput() {
-    	try {		
+    	try {	
+    		while (running) { 
             Object receivedObject = in.readObject();
             if (receivedObject instanceof Movimiento) {
                 Movimiento receivedMovimiento = (Movimiento) receivedObject;
-                clm.getColaMensajes().add(receivedMovimiento);          
+                clm.getColaMensajes().add( gestor.getContRest().altaMovimiento(receivedMovimiento).getBody());                  
                 System.out.println("Movimiento recibido: " + receivedMovimiento);
             } else {
                 System.out.println("Objeto recibido no es un movimiento.");
             }
+    		}
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error al recibir datos del cliente: " + e.getMessage());
             stop();

@@ -318,7 +318,7 @@ public class ControladorMovimientos implements Initializable {
 			descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
 
 			TableColumn<Movimiento, String> fechaColumn = new TableColumn<>("Fecha");
-			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
 
 			tblmovpend.getColumns().setAll(idColumn, descripcionColumn, fechaColumn);
 		}
@@ -680,19 +680,39 @@ public class ControladorMovimientos implements Initializable {
 			ObservableList<Movimiento> movimientosObservableList = FXCollections.observableArrayList(movimientos);
             tblmovpend.setItems(movimientosObservableList);
 
-			TableColumn<Movimiento, Integer> idColumn = new TableColumn<>("ID");
-			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-
 			TableColumn<Movimiento, String> descripcionColumn = new TableColumn<>("Tipo");
 			descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
 
 			TableColumn<Movimiento, String> fechaColumn = new TableColumn<>("Fecha");
 			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
 
-			tblmovpend.getColumns().setAll(idColumn, descripcionColumn, fechaColumn);
+			tblmovpend.getColumns().setAll(descripcionColumn, fechaColumn);
 		}
-		
+		 // Iniciar el hilo para verificar cambios en la cola
+        new Thread(() -> {
+            int previousSize = colaMensajes.size();
+            while (true) {
+                try {
+                    Thread.sleep(1000); // Verificar cada segundo
+                    int currentSize = colaMensajes.size();
+                    if (currentSize != previousSize) {
+                        previousSize = currentSize;
+                        Platform.runLater(() -> actualizarTablaMovimientos());
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        
+        
 	}
+	private void actualizarTablaMovimientos() {
+        LinkedBlockingQueue<Movimiento> colaMensajes = clm.getColaMensajes();
+        List<Movimiento> movimientos = new ArrayList<>(colaMensajes);
+        ObservableList<Movimiento> movimientosObservableList = FXCollections.observableArrayList(movimientos);
+        tblmovpend.setItems(movimientosObservableList);
+    }
 	
 	@FXML
 	public void subirProductoPendienteBBDD() {
