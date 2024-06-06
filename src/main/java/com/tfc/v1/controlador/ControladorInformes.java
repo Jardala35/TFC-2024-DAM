@@ -100,6 +100,8 @@ public class ControladorInformes implements Initializable {
 
     private final ToggleGroup toggleGroup = new ToggleGroup();
     private Map<String, Color> colorMap = new HashMap<>();
+    
+    
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -228,6 +230,7 @@ public class ControladorInformes implements Initializable {
             List<String> nombresSecciones = secciones.stream()
                     .map(Seccion::getNombre_seccion)
                     .collect(Collectors.toList());
+            nombresSecciones.add(0, "TODAS");
             comboBoxSeccion.setItems(FXCollections.observableArrayList(nombresSecciones));
         }
     }
@@ -236,14 +239,20 @@ public class ControladorInformes implements Initializable {
     public void filtrarPorSeccion() {
         String seccionSeleccionada = comboBoxSeccion.getValue();
         if (seccionSeleccionada != null && !seccionSeleccionada.isEmpty()) {
-            List<Producto> productosFiltrados = gestor.getContRest().listarProductos().getBody().stream()
-                    .filter(producto -> seccionSeleccionada.equals(producto.getSeccion().getNombre_seccion()))
-                    .collect(Collectors.toList());
+            List<Producto> productosFiltrados;
+            if ("TODAS".equals(seccionSeleccionada)) {
+                productosFiltrados = gestor.getContRest().listarProductos().getBody();
+            } else {
+                productosFiltrados = gestor.getContRest().listarProductos().getBody().stream()
+                        .filter(producto -> seccionSeleccionada.equals(producto.getSeccion().getNombre_seccion()))
+                        .collect(Collectors.toList());
+            }
             actualizarGraficos(productosFiltrados);
         } else {
             cargarProductos();
         }
     }
+
 
     private void actualizarGraficos(List<Producto> productos) {
         if (productos != null && !productos.isEmpty()) {
