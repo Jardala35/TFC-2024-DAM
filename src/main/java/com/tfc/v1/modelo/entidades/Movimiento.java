@@ -78,11 +78,11 @@ public class Movimiento implements Serializable {
 	
 	
 
-	public String getFecha() {
+	public String getFecha_alta() {
 		return fecha_alta;
 	}
 
-	public void setFecha(String fecha) {
+	public void setFecha_alta(String fecha) {
 		this.fecha_alta = fecha;
 	}
 
