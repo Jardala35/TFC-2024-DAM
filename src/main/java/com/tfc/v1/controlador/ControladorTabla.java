@@ -87,18 +87,15 @@ public class ControladorTabla implements Initializable {
 		cargarProductos();
 		cargarSecciones();
 		ImageView imageView = new ImageView(new Image("/vistas/img/usuario.png"));
-		imageView.setFitWidth(50); // Ajusta el ancho de la imagen
-		imageView.setFitHeight(50); // Ajusta la altura de la imagen
+		imageView.setFitWidth(50);
+		imageView.setFitHeight(50);
 		lblusr = new Label(ControladorMainWindow.usuario);
 
-		// Crear el VBox y agregar la imagen y el texto
 		VBox vbox = new VBox();
 		vbox.getChildren().addAll(imageView, lblusr);
 
-		// Asignar el VBox como gráfico del MenuButton
 		menuBtn.setGraphic(vbox);
 
-		// Configurar el manejador de acción para el MenuItem
 		menuItem1.setOnAction(event -> {
 			try {
 				logout(event);
@@ -111,15 +108,12 @@ public class ControladorTabla implements Initializable {
 			deleteRowButton.setDisable(true);
 		}
 
-		// Configurar el botón para añadir filas
 		addRowButton.setOnAction(event -> addRow());
 
-		// Configurar el TextField de búsqueda
 		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
 			buscarProductos(newValue.trim().toLowerCase());
 		});
-		
-		// Configurar el ComboBox para filtrar productos por sección
+
 	    cbxSeccion.valueProperty().addListener((observable, oldValue, newValue) -> {
 	        filtrarProductosPorSeccion(newValue);
 	    });
@@ -137,21 +131,17 @@ public class ControladorTabla implements Initializable {
 	        cbxSeccion.getItems().clear();
 	        cbxSeccion.getItems().addAll(seccionestxt);
 	    }
-
-	    // Agregar la opción "Todas"	    
+	    
 	    cbxSeccion.getItems().add(0, "Todas");
 
-	    // Seleccionar la opción "Todas" por defecto
 	    cbxSeccion.getSelectionModel().select(0);
 	}
 	
 	
 	public void filtrarProductosPorSeccion(String seccionSeleccionada) {
 	    if (seccionSeleccionada == null || "Todas".equals(seccionSeleccionada)) {
-	        // Mostrar todos los productos
 	        tableView2.setItems(productosOriginales);
 	    } else {
-	        // Filtrar productos por la sección seleccionada
 	        List<Producto> productosFiltrados = productosOriginales.stream()
 	                .filter(producto -> seccionSeleccionada.equals(producto.getSeccion().getNombre_seccion()))
 	                .collect(Collectors.toList());
@@ -186,7 +176,6 @@ public class ControladorTabla implements Initializable {
 	}
 
 	private boolean esUsuarioAdmin() {
-		// Obtener el rol del usuario desde el gestor
 		String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
 		return "admin".equals(rol);
 	}
@@ -272,19 +261,15 @@ public class ControladorTabla implements Initializable {
 		                Producto producto = event.getRowValue();
 		                String nombreSeccion = event.getNewValue();
 
-		                // Verificar si el nombre de la sección no es nulo o vacío
 		                if (nombreSeccion != null && !nombreSeccion.isEmpty()) {
 		                    Optional<Seccion> seccionOpt = Optional.ofNullable(gestor.getContRest().getSeccion(nombreSeccion).getBody());
 
 		                    Seccion nuevaSeccion = seccionOpt.orElseGet(() -> {
-		                        // Si no existe, crear una nueva sección
 		                        return gestor.getContRest().altaSeccion(new Seccion(nombreSeccion)).getBody();
 		                    });
 
 		                    producto.setSeccion(nuevaSeccion);
 		                } else {
-		                    // Manejar el caso en que el nombre de la sección es nulo o vacío
-		                    // Puedes lanzar una excepción, imprimir un mensaje de error o hacer cualquier otra cosa necesaria
 		                    System.err.println("El nombre de la sección es nulo o vacío");
 		                }
 		            });
@@ -292,7 +277,6 @@ public class ControladorTabla implements Initializable {
 				tableView2.getColumns().addAll(idColumn, nombreColumn, precioColumn, cantidadColumn, pesoColumn,
 						descColumn, secColumn);
 
-				// Guarda la lista original de productos
 				productosOriginales = FXCollections.observableArrayList(productos);
 
 				ObservableList<Producto> items = FXCollections.observableArrayList(productos);
@@ -312,31 +296,24 @@ public class ControladorTabla implements Initializable {
 	@FXML
 	public void addRow() {
 		Producto newProducto = new Producto();
-		// Configurar los valores del nuevo producto, por ejemplo:
 		newProducto.setNombre_producto("Nuevo producto");
 		newProducto.setValor_producto_unidad(0.0);
 		newProducto.setCantidad(0);
 		newProducto.setPeso(0.0);
 		newProducto.setDescripcion("Descripción del nuevo producto");
-
-		// Agregar el nuevo producto a la lista observable de la tabla
+		
 		tableView2.getItems().add(newProducto);
 
-		// Insertar el nuevo producto en la base de datos
 		gestor.insertarProducto(newProducto);
 	}
 
 	@FXML
 	public void deleteSelectedRow() {
-		// Obtener la fila seleccionada
 		Producto selectedProduct = tableView2.getSelectionModel().getSelectedItem();
 
-		// Verificar si se ha seleccionado una fila
 		if (selectedProduct != null) {
-			// Eliminar la fila de la tabla
 			tableView2.getItems().remove(selectedProduct);
 
-			// Eliminar la fila de la base de datos
 			gestor.eliminarProducto(selectedProduct.getId());
 		}
 	}
@@ -360,29 +337,20 @@ public class ControladorTabla implements Initializable {
 		Parent root = springFXMLLoader.load(fxmlPath);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.hide();
-		// Obtener el tamaño actual de la pantalla
-//		double width = stage.getWidth();
-//		double height = stage.getHeight();
-
+		
 		Scene scene = new Scene(root);
 
-		// Ajustar la nueva pantalla al tamaño actual
 		stage.setScene(scene);
-//		stage.setWidth(width);
-//		stage.setHeight(height);
 		stage.setFullScreen(true); 
 		stage.setFullScreenExitHint("");
 		stage.show();
 	}
 
 	private void buscarProductos(String searchTerm) {
-		// Verificar si el término de búsqueda está vacío
 		if (searchTerm.isEmpty()) {
 			tableView2.setItems(productosOriginales);
 			return;
 		}
-
-		// Filtrar los productos según el término de búsqueda
 		List<Producto> filteredList = productosOriginales.stream()
 				.filter(producto -> producto.getNombre_producto().toLowerCase().contains(searchTerm)
 						|| String.valueOf(producto.getId()).contains(searchTerm)
@@ -392,7 +360,6 @@ public class ControladorTabla implements Initializable {
 						|| producto.getDescripcion().toLowerCase().contains(searchTerm))
 				.collect(Collectors.toList());
 
-		// Actualizar la tabla con los productos filtrados
 		tableView2.setItems(FXCollections.observableArrayList(filteredList));
 	}
 	

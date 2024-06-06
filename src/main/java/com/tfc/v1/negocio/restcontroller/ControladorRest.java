@@ -37,7 +37,6 @@ public class ControladorRest {
     @Autowired
     private RepositorioUsuario repoUsuario;
 
-    // Métodos para Sección
     @PostMapping(value = "seccion")
     public ResponseEntity<Seccion> altaSeccion(@RequestBody Seccion seccion) {
         repoSeccion.save(seccion);
@@ -72,7 +71,6 @@ public class ControladorRest {
         }
     }
 
-    // Métodos para Producto
     @PostMapping(value = "producto")
     public ResponseEntity<Producto> altaProducto(@RequestBody Producto producto) {
         repoProducto.save(producto);
@@ -128,7 +126,6 @@ public class ControladorRest {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // Métodos para Movimiento
     @PostMapping(value = "movimiento")
     public ResponseEntity<Movimiento> altaMovimiento(@RequestBody Movimiento movimiento) {
         repoMovimiento.save(movimiento);
@@ -189,7 +186,7 @@ public class ControladorRest {
         
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
-            String rol = usuario.getRol().name(); // Obtener el nombre del rol
+            String rol = usuario.getRol().name();
             return new ResponseEntity<>(rol, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

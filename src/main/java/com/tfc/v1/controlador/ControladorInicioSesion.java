@@ -71,7 +71,6 @@ public class ControladorInicioSesion implements Initializable {
 			System.out.println(re.getBody() + " " + re.getStatusCodeValue());
 			this.lblerroracceso.setVisible(false);	
 			ControladorMainWindow.usuario = usuario;
-			 // Usar SpringFXMLLoader para cargar la nueva vista
 			Parent root = springFXMLLoader.load("/vistas/main_wind.fxml");			
 			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			scene = new Scene(root);
@@ -89,8 +88,6 @@ public class ControladorInicioSesion implements Initializable {
 
 	
 	public void abrirVentanaRegistro(ActionEvent event) throws IOException {
-
-		// Usar SpringFXMLLoader para cargar la nueva vista
 		Parent root = springFXMLLoader.load("/vistas/Registro.fxml");
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);

@@ -71,10 +71,9 @@ public class ControladorRegistro implements Initializable {
 			aux[i] = roles[i].name();
 		}
 		cbxRol.getItems().setAll(aux);
-		// Deshabilitar el botón al inicio
+
 		btnRegistro.setDisable(true);
 
-		// Añadir listeners a los campos de texto y a la ChoiceBox
 		ChangeListener<String> listener = new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

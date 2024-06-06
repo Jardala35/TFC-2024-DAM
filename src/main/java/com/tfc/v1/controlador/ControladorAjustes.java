@@ -498,7 +498,6 @@ public class ControladorAjustes implements Initializable {
                                 return seccionesObservableList.stream().filter(seccion -> seccion.getNombre_seccion().equals(nombre)).findFirst().orElse(null);
                             }
                         });
-//                        comboBox.setEditable(false);
                         comboBox.setOnAction(event -> {
                             Seccion selectedSeccion = comboBox.getValue();
                             if (selectedSeccion != null) {
@@ -537,8 +536,6 @@ public class ControladorAjustes implements Initializable {
                     }
                 });
 
-             // Evento para actualizar la sección del producto cuando se selecciona una
-				// opción del ComboBox
 				seccionColumn.setOnEditCommit(event -> {
 					TableView.TableViewSelectionModel<Producto> selectionModel = tblprodsec.getSelectionModel();
 					Producto producto = selectionModel.getSelectedItem();

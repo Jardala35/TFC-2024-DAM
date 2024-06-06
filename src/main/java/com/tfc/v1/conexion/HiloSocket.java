@@ -35,7 +35,6 @@ public class HiloSocket implements Runnable {
     }
 
     public void enviarMovimiento() throws IOException {
-//        Movimiento movimiento = gestor.getContRest().getMovimiento(1).getBody();
     	Movimiento movimiento = new Movimiento(0, "tipo 1", LocalDateTime.now().toString());
         System.out.println(movimiento.toString());
         out.writeObject(movimiento);
@@ -74,7 +73,7 @@ public class HiloSocket implements Runnable {
                     out.flush();
                     System.out.println("Objeto enviado: " + movimiento);
                 }
-                Thread.sleep(3000); // Ajustar el intervalo según sea necesario
+                Thread.sleep(3000);
             }
         } catch (IOException | InterruptedException e) {
             System.out.println("Error al enviar datos al cliente: " + e.getMessage());
@@ -128,20 +127,15 @@ public class HiloSocket implements Runnable {
             in = new ObjectInputStream(socketCliente.getInputStream());
             out = new ObjectOutputStream(socketCliente.getOutputStream());
 
-            // Manejar la autenticación
             handleAuthentication();
 
-            // Ahora que el cliente está autenticado, podemos comenzar a manejar la entrada y salida de datos
-            // Hilo para lectura
             Thread inputThread = new Thread(this::handleClientInput);
 
-            // Hilo para escritura
             Thread outputThread = new Thread(this::handleClientOutput);
 
             inputThread.start();
             outputThread.start();
 
-            // Esperar a que los hilos terminen
             inputThread.join();
             outputThread.join();
 

@@ -27,8 +27,7 @@ public class TrabajoFindeCicloApplication extends Application {
     @Override
     public void init() throws Exception {
         contexto = SpringApplication.run(TrabajoFindeCicloApplication.class);
-        
-        // Iniciar el servidor de sockets en un nuevo hilo
+
         SocketServer socketServer = contexto.getBean(SocketServer.class);
         new Thread(socketServer).start();
     }

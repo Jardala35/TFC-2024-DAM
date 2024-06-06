@@ -20,13 +20,10 @@ public class SocketServer implements Runnable {
     private ColaLeeMovimientos clm;
     @Autowired
     private UsuarioConectado uc;
-    
-//    @Autowired
-//    private RepositorioProducto productoRepository;
 
     public SocketServer() {
         try {
-            serverSocket = new ServerSocket(12345); // Puerto en el que el servidor escuchará
+            serverSocket = new ServerSocket(12345);
             System.out.println("Servidor de sockets iniciado en el puerto 12345...");
             
             
@@ -42,29 +39,8 @@ public class SocketServer implements Runnable {
             	Socket socketCliente = serverSocket.accept();
 				System.out.println("Cliente conectado");
 				
-				// Aquí se inicia un nuevo hilo para manejar cada cliente
 				new Thread(new HiloSocket(socketCliente, gestor, cm, clm, uc)).start();
-            	
-//                try (Socket clientSocket = serverSocket.accept();
-//                     ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-//                     ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
-//
-//                    // Recibir objeto Movimiento del cliente
-//                    Movimiento movimiento = (Movimiento) in.readObject();
-//                    System.out.println("Movimiento recibido del cliente: " + movimiento.toString());
-//
-//                    // Imprimir los productos añadidos al movimiento
-//                    System.out.println("Productos añadidos al movimiento:");
-//                    for (Producto producto : movimiento.getProductos()) {
-//                        System.out.println(producto.toString());
-//                    }
-//
-//                    // Enviar respuesta al cliente
-//                    out.writeObject("Respuesta del servidor: Movimiento recibido y procesado correctamente");
-//                    out.flush();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+            
             }
         } catch (Exception e) {
             e.printStackTrace();

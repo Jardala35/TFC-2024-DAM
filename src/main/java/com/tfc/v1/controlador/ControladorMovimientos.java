@@ -115,7 +115,6 @@ public class ControladorMovimientos implements Initializable {
 
 	private String delimiter = ",";
 
-	// Guarda la lista original de movimientos
 	private ObservableList<Movimiento> movimientosOriginales;
 	
 	private ObservableList<String> usuariosObservableList;
@@ -191,11 +190,9 @@ public class ControladorMovimientos implements Initializable {
 	private void showScrollPane(String fxmlPath) throws IOException {
 		Parent panel = springFXMLLoader.load(fxmlPath);
 
-		// Remueve el último hijo del VBox si es un ScrollPane
 		if (vbox_ini.getChildren().size() == 1 && vbox_ini.getChildren().get(0) instanceof Parent) {
 			vbox_ini.getChildren().removeAll(vbox_ini.getChildrenUnmodifiable());
 		}
-		// Agrega el nuevo ScrollPane
 		vbox_ini.getChildren().add(panel);
 
 	}
@@ -203,7 +200,6 @@ public class ControladorMovimientos implements Initializable {
 	public void enviarMovimiento() {
 	    List<Producto> listaProductos = new ArrayList<>();
 
-	    // Obtener productos de la TableView
 	    for (Producto producto : tblprod1.getItems()) {
 	        listaProductos.add(producto);
 	    }
@@ -211,21 +207,18 @@ public class ControladorMovimientos implements Initializable {
 	    Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(), listaProductos);
 	    gestor.getContRest().altaMovimiento(mov);
 
-	    // Restar la cantidad de los productos en la base de datos
 	    for (Producto producto : listaProductos) {
 	        try {
-	            // Obtener el producto de la base de datos
 	            ResponseEntity<Producto> response = gestor.getContRest().getProducto(producto.getId());
 	            if (response.getStatusCode() == HttpStatus.OK) {
 	                Producto productoEnBBDD = response.getBody();
-	                // Restar la cantidad del producto con la cantidad editada en la TableView
 	                if (productoEnBBDD != null) {
 	                	System.out.println("Cantidad en BBDD: " + productoEnBBDD.getCantidad());
 	                	System.out.println("Cantidad en TableView: " + producto.getCantidad());
 	                    int nuevaCantidad = productoEnBBDD.getCantidad() - producto.getCantidad();
 	                    if (nuevaCantidad < 0) {
 	                    	gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
-	                        nuevaCantidad = 0; // Asegurar que la cantidad no sea negativa
+	                        nuevaCantidad = 0;
 	                    } else if (nuevaCantidad == 0) {
 							gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
 	                    }
@@ -284,18 +277,13 @@ public class ControladorMovimientos implements Initializable {
 		try {
 			showScrollPane("/vistas/panel_mov_tblmov.fxml");
 
-			// Configuración de la tabla tblmovpend
 			tblmovpend.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-			// Listener para detectar cambios en la selección de la tabla tblmovpend
 			tblmovpend.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 				if (newSelection != null) {
-					// Cuando se selecciona un nuevo movimiento, cargamos los productos asociados
 					cargarProductosAsociados(newSelection);
 				}
 			});
-
-			// Cargar movimientos pendientes en la tabla tblmovpend
 			cargarMovimientosPendientes();
 
 		} catch (IOException e) {
@@ -307,7 +295,6 @@ public class ControladorMovimientos implements Initializable {
 			ObservableList<Movimiento> movimientosObservableList = FXCollections.observableArrayList(movimientos);
 			tblmovpend.setItems(movimientosObservableList);
 
-			// Definir las columnas de la tabla tblmovpend
 			TableColumn<Movimiento, Integer> idColumn = new TableColumn<>("ID");
 			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -334,7 +321,6 @@ public class ControladorMovimientos implements Initializable {
 			tblprodmov.getColumns().clear();
 			tblprodmov.getItems().clear();
 
-			// Columna de Sección
 			TableColumn<Producto, Seccion> seccionColumn = new TableColumn<>("Sección");
 			seccionColumn.setCellValueFactory(new PropertyValueFactory<>("seccion"));
 			seccionColumn.setCellFactory(param -> new TableCell<Producto, Seccion>() {
@@ -381,7 +367,6 @@ public class ControladorMovimientos implements Initializable {
 
 			tblprodmov.getColumns().add(seccionColumn);
 
-			// Otras columnas
 			TableColumn<Producto, Integer> idColumn = new TableColumn<>("ID");
 			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 			tblprodmov.getColumns().add(idColumn);
@@ -436,7 +421,6 @@ public class ControladorMovimientos implements Initializable {
 		TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
 		descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
-		// Configurar la tabla para que no sea editable
 		table.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
 		table.setEditable(false);
 	}
@@ -455,7 +439,6 @@ public class ControladorMovimientos implements Initializable {
 		cantidadColumn.setOnEditCommit(event -> {
 			Producto producto = event.getRowValue();
 			producto.setCantidad(event.getNewValue());
-			// Aquí puedes añadir la lógica para actualizar el producto en tu backend
 		});
 
 		TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
@@ -465,7 +448,7 @@ public class ControladorMovimientos implements Initializable {
 		descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
 		tblprod1.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
-		tblprod1.setEditable(true); // Hacer que la tabla en general sea editable
+		tblprod1.setEditable(true);
 	}
 
 	private void logout(ActionEvent event) throws IOException {
@@ -486,7 +469,6 @@ public class ControladorMovimientos implements Initializable {
 	}
 
 	private boolean esUsuarioAdmin() {
-		// Obtener el rol del usuario desde el gestor
 		String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
 		return "admin".equals(rol);
 	}
@@ -540,7 +522,6 @@ public class ControladorMovimientos implements Initializable {
 
 				tableView2.getColumns().addAll(idColumn, fechaAltaColumn, tipoColumn);
 
-				// Guarda la lista original de movimientos
 				movimientosOriginales = FXCollections.observableArrayList(movimientos);
 
 				ObservableList<Movimiento> items = FXCollections.observableArrayList(movimientos);
@@ -629,7 +610,6 @@ public class ControladorMovimientos implements Initializable {
 
 	@SuppressWarnings("unchecked")
 	private void confTabla_llegadas(Producto movimientoSeleccionado) {
-		// List<Producto> productos = movimientoSeleccionado.getProductos();
 
 		tblprodmov.getColumns().clear();
 
@@ -650,11 +630,6 @@ public class ControladorMovimientos implements Initializable {
 
 		tblprodmov.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
 
-		// Establecer los elementos de la tabla con la lista de productos asociados al
-		// movimiento
-		// ObservableList<Producto> items =
-		// FXCollections.observableArrayList(productos);
-		// tblmov.setItems(items);
 	}
 
 	@FXML
@@ -704,7 +679,6 @@ public class ControladorMovimientos implements Initializable {
 
 				tblhistmov.getColumns().addAll(idColumn, fechaAltaColumn, tipoColumn);
 
-				// Guarda la lista original de movimientos
 				movimientosOriginales = FXCollections.observableArrayList(movimientos);
 
 				ObservableList<Movimiento> items = FXCollections.observableArrayList(movimientos);
@@ -722,7 +696,6 @@ public class ControladorMovimientos implements Initializable {
 			ObservableList<Movimiento> movimientosObservableList = FXCollections.observableArrayList(movimientos);
             tblmovpend.setItems(movimientosObservableList);
 
-			// Definir las columnas de la tabla tblmovpend
 			TableColumn<Movimiento, Integer> idColumn = new TableColumn<>("ID");
 			idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -740,16 +713,13 @@ public class ControladorMovimientos implements Initializable {
 	public void subirProductoPendienteBBDD() {
 		 List<Producto> productosPendientes = tblprodmov.getItems();
 
-		    // Verificar si hay productos pendientes
 		    if (productosPendientes.isEmpty()) {
 		        System.out.println("No hay productos pendientes para subir a la base de datos.");
 		        return;
 		    }
 
-		    // Iterar sobre los productos pendientes y subirlos a la base de datos
 		    for (Producto producto : productosPendientes) {
 		        try {
-		            // Lógica para subir el producto a la base de datos utilizando el gestor
 		            gestor.getContRest().altaProducto(producto);
 		            System.out.println("Producto subido a la base de datos: " + producto.getNombre_producto());
 		        } catch (Exception e) {
@@ -757,8 +727,6 @@ public class ControladorMovimientos implements Initializable {
 		            e.printStackTrace();
 		        }
 		    }
-
-		    // Limpiar la tabla de productos pendientes después de subirlos a la base de datos
 		    productosPendientes.clear();
 		    
 

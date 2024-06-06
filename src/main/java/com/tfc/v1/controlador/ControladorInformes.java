@@ -241,7 +241,7 @@ public class ControladorInformes implements Initializable {
                     .collect(Collectors.toList());
             actualizarGraficos(productosFiltrados);
         } else {
-            cargarProductos(); // Si no hay sección seleccionada, carga todos los productos
+            cargarProductos();
         }
     }
 
