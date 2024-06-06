@@ -230,7 +230,6 @@ public class ControladorMovimientos implements Initializable {
 							gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
 	                    }
 	                    productoEnBBDD.setCantidad(nuevaCantidad);
-	                    // Actualizar el producto en la base de datos
 	                    gestor.getContRest().updateProducto(productoEnBBDD.getId(), productoEnBBDD);
 	                }
 	            }
