@@ -43,7 +43,6 @@ public class Gestor {
         this.contRest = contRest;
     }
 
-    // Métodos para Producto
     public Producto actualizarProducto(int id, Producto producto) {
         return contRest.updateProducto(id, producto).getBody();
     }
@@ -64,7 +63,6 @@ public class Gestor {
         return contRest.obtenerPrecioProducto(idProducto).getBody();
     }
 
-    // Métodos para Movimiento
     public List<Movimiento> listarMovimientos() {
         return contRest.listarMovimientos().getBody();
     }

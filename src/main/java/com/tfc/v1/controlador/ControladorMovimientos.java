@@ -509,7 +509,7 @@ public class ControladorMovimientos implements Initializable {
 				fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 				fechaAltaColumn.setOnEditCommit(event -> {
 					Movimiento movimiento = event.getRowValue();
-					movimiento.setFecha(event.getNewValue());
+					movimiento.setFecha_alta(event.getNewValue());
 				});
 
 				TableColumn<Movimiento, String> tipoColumn = new TableColumn<>("Tipo");
@@ -541,7 +541,7 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	public void addRow() {
 		Movimiento newMovimiento = new Movimiento();
-		newMovimiento.setFecha(LocalDateTime.now().toString());
+		newMovimiento.setFecha_alta(LocalDateTime.now().toString());
 		newMovimiento.setTipo("Nuevo tipo");
 
 		tableView2.getItems().add(newMovimiento);
@@ -588,7 +588,7 @@ public class ControladorMovimientos implements Initializable {
 	}
 
 	private String getMovimientoStringValues(Movimiento m, String delimiter) {
-		return String.valueOf(m.getId()) + delimiter + m.getFecha() + delimiter + m.getTipo();
+		return String.valueOf(m.getId()) + delimiter + m.getFecha_alta() + delimiter + m.getTipo();
 	}
 
 	private void buscarMovimientos(String searchText) {
@@ -604,7 +604,7 @@ public class ControladorMovimientos implements Initializable {
 
 	private boolean contieneTexto(Movimiento movimiento, String searchText) {
 		return String.valueOf(movimiento.getId()).toLowerCase().contains(searchText)
-				|| movimiento.getFecha().toLowerCase().contains(searchText)
+				|| movimiento.getFecha_alta().toLowerCase().contains(searchText)
 				|| movimiento.getTipo().toLowerCase().contains(searchText);
 	}
 
@@ -666,7 +666,7 @@ public class ControladorMovimientos implements Initializable {
 				fechaAltaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 				fechaAltaColumn.setOnEditCommit(event -> {
 					Movimiento movimiento = event.getRowValue();
-					movimiento.setFecha(event.getNewValue());
+					movimiento.setFecha_alta(event.getNewValue());
 				});
 
 				TableColumn<Movimiento, String> tipoColumn = new TableColumn<>("Tipo");
