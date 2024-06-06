@@ -31,7 +31,7 @@
                   <Insets bottom="10.0" />
                </HBox.margin>
                 </HBox>
-                <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/mainW.css" HBox.hgrow="ALWAYS">
+                <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/mainW.css" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                     <items>
                         <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
                     </items>

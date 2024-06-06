@@ -96,7 +96,7 @@
          </children></VBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="86.0" prefWidth="602.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuButton fx:id="menuBtn" mnemonicParsing="false">
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-color: transparent;">
               <items>
                 <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout" text="Cerrar sesión" />
               </items>

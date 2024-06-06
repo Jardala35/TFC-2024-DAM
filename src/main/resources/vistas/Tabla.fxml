@@ -81,7 +81,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
               <items>
                 <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout" text="Cerrar sesión" />
               </items>

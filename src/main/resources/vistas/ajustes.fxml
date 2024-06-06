@@ -25,7 +25,7 @@
 				</ImageView>
                </children>
             </Pane>
-            <MenuButton fx:id="menuBtn" alignment="CENTER_RIGHT" mnemonicParsing="false">
+            <MenuButton fx:id="menuBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                <items>
                   <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout_2" text="Cerrar sesión" />
                </items>
