@@ -89,6 +89,10 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	private Button btnAtras;
 	@FXML
+	private Button btnEnvmov;
+	@FXML
+	private Button btnRecmov;
+	@FXML
 	private Label lblusr;
 	@FXML
 	private MenuButton menuBtn;
@@ -203,37 +207,39 @@ public class ControladorMovimientos implements Initializable {
 	    for (Producto producto : tblprod1.getItems()) {
 	        listaProductos.add(producto);
 	    }
-
-	    Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(), listaProductos);
-	    gestor.getContRest().altaMovimiento(mov);
-
-	    for (Producto producto : listaProductos) {
-	        try {
-	            ResponseEntity<Producto> response = gestor.getContRest().getProducto(producto.getId());
-	            if (response.getStatusCode() == HttpStatus.OK) {
-	                Producto productoEnBBDD = response.getBody();
-	                if (productoEnBBDD != null) {
-	                	System.out.println("Cantidad en BBDD: " + productoEnBBDD.getCantidad());
-	                	System.out.println("Cantidad en TableView: " + producto.getCantidad());
-	                    int nuevaCantidad = productoEnBBDD.getCantidad() - producto.getCantidad();
-	                    if (nuevaCantidad < 0) {
-	                    	gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
-	                        nuevaCantidad = 0;
-	                    } else if (nuevaCantidad == 0) {
-							gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
-	                    }
-	                    productoEnBBDD.setCantidad(nuevaCantidad);
-	                    gestor.getContRest().updateProducto(productoEnBBDD.getId(), productoEnBBDD);
-	                }
-	            }
-	        } catch (Exception e) {
-	            System.out.println("Error al actualizar la cantidad del producto en la base de datos: " + producto.getNombre_producto());
-	            e.printStackTrace();
-	        }
-	    }
 	    
-	    this.cm.setMovimiento(mov);
-	    vbox_ini.getChildren().removeAll(vbox_ini.getChildrenUnmodifiable());
+	    	
+	    	Movimiento mov = new Movimiento("salida", true, LocalDateTime.now().toString(), listaProductos);
+	    	gestor.getContRest().altaMovimiento(mov);
+	    	
+	    	for (Producto producto : listaProductos) {
+	    		try {
+	    			ResponseEntity<Producto> response = gestor.getContRest().getProducto(producto.getId());
+	    			if (response.getStatusCode() == HttpStatus.OK) {
+	    				Producto productoEnBBDD = response.getBody();
+	    				if (productoEnBBDD != null) {
+	    					System.out.println("Cantidad en BBDD: " + productoEnBBDD.getCantidad());
+	    					System.out.println("Cantidad en TableView: " + producto.getCantidad());
+	    					int nuevaCantidad = productoEnBBDD.getCantidad() - producto.getCantidad();
+	    					if (nuevaCantidad < 0) {
+	    						gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
+	    						nuevaCantidad = 0;
+	    					} else if (nuevaCantidad == 0) {
+	    						gestor.getContRest().eliminarProducto(productoEnBBDD.getId());
+	    					}
+	    					productoEnBBDD.setCantidad(nuevaCantidad);
+	    					gestor.getContRest().updateProducto(productoEnBBDD.getId(), productoEnBBDD);
+	    				}
+	    			}
+	    		} catch (Exception e) {
+	    			System.out.println("Error al actualizar la cantidad del producto en la base de datos: " + producto.getNombre_producto());
+	    			e.printStackTrace();
+	    		}
+	    	}
+	    	
+	    	this.cm.setMovimiento(mov);
+	    	vbox_ini.getChildren().removeAll(vbox_ini.getChildrenUnmodifiable());
+	    
 	}
 
 
@@ -260,6 +266,14 @@ public class ControladorMovimientos implements Initializable {
 					}
 				}
 			});
+			 tblprod1.getItems().addListener((ListChangeListener<Producto>) change -> {
+	                if (tblprod1.getItems().isEmpty()) {
+	                	btnEnvmov.setDisable(true);
+	                } else {
+	                	btnEnvmov.setDisable(false);
+	                }
+	                
+	            });
 			List<Producto> productos = gestor.getContRest().listarProductos().getBody();
 			ObservableList<Producto> items = FXCollections.observableArrayList(productos);
 			tblprod.setItems(items);
@@ -285,6 +299,8 @@ public class ControladorMovimientos implements Initializable {
 				}
 			});
 			cargarMovimientosPendientes();
+			
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -362,6 +378,7 @@ public class ControladorMovimientos implements Initializable {
                 Producto producto = selectionModel.getSelectedItem();
                 if (producto != null) {
                     producto.setSeccion(event.getNewValue());
+                    checkAllSectionsFilled();
                 }
             });
 
@@ -390,8 +407,15 @@ public class ControladorMovimientos implements Initializable {
 
 			tblprodmov.setItems(FXCollections.observableArrayList(productos));
 			tblprodmov.setEditable(true);
+			
+			checkAllSectionsFilled();
 		}
 	}
+	
+	private void checkAllSectionsFilled() {
+        boolean allFilled = tblprodmov.getItems().stream().allMatch(producto -> producto.getSeccion() != null);
+        btnRecmov.setDisable(!allFilled);
+    }
 
 	@FXML
 	public void historico() {
@@ -590,47 +614,7 @@ public class ControladorMovimientos implements Initializable {
 	private String getMovimientoStringValues(Movimiento m, String delimiter) {
 		return String.valueOf(m.getId()) + delimiter + m.getFecha_alta() + delimiter + m.getTipo();
 	}
-
-	private void buscarMovimientos(String searchText) {
-		ObservableList<Movimiento> movimientos = tableView2.getItems();
-		if (searchText == null || searchText.isEmpty()) {
-			tableView2.setItems(movimientosOriginales);
-		} else {
-			List<Movimiento> filteredList = movimientosOriginales.stream()
-					.filter(movimiento -> contieneTexto(movimiento, searchText)).collect(Collectors.toList());
-			tableView2.setItems(FXCollections.observableArrayList(filteredList));
-		}
-	}
-
-	private boolean contieneTexto(Movimiento movimiento, String searchText) {
-		return String.valueOf(movimiento.getId()).toLowerCase().contains(searchText)
-				|| movimiento.getFecha_alta().toLowerCase().contains(searchText)
-				|| movimiento.getTipo().toLowerCase().contains(searchText);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void confTabla_llegadas(Producto movimientoSeleccionado) {
-
-		tblprodmov.getColumns().clear();
-
-		TableColumn<Producto, String> nombreColumn = new TableColumn<>("Nombre");
-		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
-
-		TableColumn<Producto, Double> precioColumn = new TableColumn<>("Precio");
-		precioColumn.setCellValueFactory(new PropertyValueFactory<>("valor_producto_unidad"));
-
-		TableColumn<Producto, Integer> cantidadColumn = new TableColumn<>("Cantidad");
-		cantidadColumn.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-
-		TableColumn<Producto, Double> pesoColumn = new TableColumn<>("Peso (Kg)");
-		pesoColumn.setCellValueFactory(new PropertyValueFactory<>("peso"));
-
-		TableColumn<Producto, String> descColumn = new TableColumn<>("Descripcion");
-		descColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-
-		tblprodmov.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
-
-	}
+	
 
 	@FXML
 	public void logoToMenu(MouseEvent event) throws IOException {
@@ -703,10 +687,11 @@ public class ControladorMovimientos implements Initializable {
 			descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
 
 			TableColumn<Movimiento, String> fechaColumn = new TableColumn<>("Fecha");
-			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+			fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha_alta"));
 
 			tblmovpend.getColumns().setAll(idColumn, descripcionColumn, fechaColumn);
 		}
+		
 	}
 	
 	@FXML
