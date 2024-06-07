@@ -24,12 +24,12 @@
                         <VBox prefHeight="502.0" prefWidth="227.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <ListView fx:id="listview" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="266.0" prefWidth="227.0" VBox.vgrow="NEVER" />
-                              <Button mnemonicParsing="false" onAction="#altaMovimiento" prefHeight="26.0" prefWidth="228.0" text="Nuevo movimiento">
+                              <Button fx:id="btnewmov" mnemonicParsing="false" onAction="#altaMovimiento" prefHeight="26.0" prefWidth="228.0" text="Nuevo movimiento">
                                  <VBox.margin>
                                     <Insets left="10.0" right="10.0" top="20.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#movimientoPendiente" prefHeight="26.0" prefWidth="228.0" text="Movimientos pendientes">
+                              <Button fx:id="btnmovpend" mnemonicParsing="false" onAction="#movimientoPendiente" prefHeight="26.0" prefWidth="228.0" text="Movimientos pendientes">
                                  <VBox.margin>
                                     <Insets left="10.0" right="10.0" top="30.0" />
                                  </VBox.margin>
@@ -78,7 +78,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-color: transparent;" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
                <items>
                   <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Cerrar sesión" />
                </items>

@@ -77,6 +77,8 @@ public class ControladorTabla implements Initializable {
 	@FXML
 	private Button deleteRowButton = new Button();
 	@FXML
+	private Button btnupdate = new Button();
+	@FXML
 	private ComboBox<String> cbxSeccion;
 	private String delimiter = ",";
 
@@ -106,9 +108,12 @@ public class ControladorTabla implements Initializable {
 
 		if (!esUsuarioAdmin()) {
 			deleteRowButton.setDisable(true);
+			addRowButton.setDisable(true);
+			btnupdate.setDisable(true);
+			
 		}
 
-		addRowButton.setOnAction(event -> addRow());
+//		addRowButton.setOnAction(event -> addRow());
 
 		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
 			buscarProductos(newValue.trim().toLowerCase());

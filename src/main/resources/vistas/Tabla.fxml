@@ -49,12 +49,12 @@
                      </HBox.margin>
                   </Button>
                   <TextField fx:id="filterField" />
-                  <Button mnemonicParsing="false" onAction="#commitearCambios" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Actualizar">
+                  <Button fx:id="btnupdate" mnemonicParsing="false" onAction="#commitearCambios" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Actualizar">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#addRow" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Añadir fila">
+                  <Button fx:id="addRowButton" mnemonicParsing="false" onAction="#addRow" styleClass="buttons" stylesheets="@/vistas/img/tabla.css" text="Añadir fila">
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
@@ -81,7 +81,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <MenuButton fx:id="menuBtn" mnemonicParsing="false" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <MenuButton fx:id="menuBtn" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-color: transparent;" styleClass="image-view" stylesheets="@/vistas/img/tabla.css" HBox.hgrow="ALWAYS">
               <items>
                 <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#logout" text="Cerrar sesión" />
               </items>

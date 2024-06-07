@@ -120,8 +120,16 @@ public class ControladorMainWindow implements Initializable {
         botonAju.widthProperty().addListener((obs, oldVal, newVal) -> ajustarTamaño(botonAju, imgAju, textAju));
         botonAju.heightProperty().addListener((obs, oldVal, newVal) -> ajustarTamaño(botonAju, imgAju, textAju));
         
-        
+        if (!esUsuarioAdmin()) {
+        	botonAju.setDisable(true);			
+			
+		}
     }
+    
+    private boolean esUsuarioAdmin() {
+		String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
+		return "admin".equals(rol);
+	}
 
     private void ajustarTamaño(Button button, ImageView imageView, Text text) {
         double newSize = Math.min(button.getWidth(), button.getHeight()) / 2.5;

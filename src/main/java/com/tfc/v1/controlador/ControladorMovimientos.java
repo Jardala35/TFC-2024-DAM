@@ -91,7 +91,11 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	private Button btnEnvmov;
 	@FXML
-	private Button btnRecmov;
+	private Button btnRecmov;	
+	@FXML
+	private Button btnewmov;
+	@FXML
+	private Button btnmovpend;
 	@FXML
 	private Label lblusr;
 	@FXML
@@ -142,6 +146,13 @@ public class ControladorMovimientos implements Initializable {
 				e.printStackTrace();
 			}
 		});
+		
+		if (!esUsuarioAdmin()) {
+			btnewmov.setDisable(true);
+			btnmovpend.setDisable(true);
+			
+			
+		}
 		
 		usuariosObservableList = FXCollections.observableArrayList();
 
@@ -199,6 +210,11 @@ public class ControladorMovimientos implements Initializable {
 		}
 		vbox_ini.getChildren().add(panel);
 
+	}
+	
+	private boolean esUsuarioAdmin() {
+		String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
+		return "admin".equals(rol);
 	}
 
 	public void enviarMovimiento() {
@@ -490,12 +506,7 @@ public class ControladorMovimientos implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private boolean esUsuarioAdmin() {
-		String rol = gestor.obtenerRolUsuario(ControladorMainWindow.usuario).toLowerCase();
-		return "admin".equals(rol);
-	}
+	}	
 
 	@FXML
 	public void abrirVentanaprincipal(MouseEvent event) throws IOException {
