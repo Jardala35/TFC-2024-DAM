@@ -385,6 +385,7 @@ public class ControladorMovimientos implements Initializable {
 					comboBox.setOnAction(event -> {
 						Producto producto = getTableView().getItems().get(getIndex());
 						producto.setSeccion(comboBox.getValue());
+						checkAllSectionsFilled();
 					});
 				}
 
@@ -434,14 +435,31 @@ public class ControladorMovimientos implements Initializable {
 
 			tblprodmov.setItems(FXCollections.observableArrayList(productos));
 			tblprodmov.setEditable(true);
-			
+						 
 			checkAllSectionsFilled();
+			
+			 tblprodmov.getItems().addListener((ListChangeListener<Producto>) change -> {
+		            while (change.next()) {
+		                if (change.wasAdded() || change.wasRemoved() || change.wasUpdated()) {
+		                    checkAllSectionsFilled();
+		                }
+		            }
+		        });
 		}
 	}
 	
 	private void checkAllSectionsFilled() {
-        boolean allFilled = tblprodmov.getItems().stream().allMatch(producto -> producto.getSeccion() != null);
-        btnRecmov.setDisable(!allFilled);
+		 Movimiento movimientoSeleccionado = tblmovpend.getSelectionModel().getSelectedItem();
+
+		    if (movimientoSeleccionado == null) {
+		        btnRecmov.setDisable(true);
+		        return;
+		    }
+
+		    boolean allFilled = movimientoSeleccionado.getProductos().stream()
+		            .allMatch(producto -> producto.getSeccion() != null);
+
+		    btnRecmov.setDisable(!allFilled);
     }
 
 	@FXML
@@ -710,12 +728,12 @@ public class ControladorMovimientos implements Initializable {
 
 			tblmovpend.getColumns().setAll(descripcionColumn, fechaColumn);
 		}
-		 // Iniciar el hilo para verificar cambios en la cola
+		 // hilo para verificar cambios en la cola de movimientos
         new Thread(() -> {
             int previousSize = colaMensajes.size();
             while (true) {
                 try {
-                    Thread.sleep(1000); // Verificar cada segundo
+                    Thread.sleep(1000);
                     int currentSize = colaMensajes.size();
                     if (currentSize != previousSize) {
                         previousSize = currentSize;
@@ -739,6 +757,7 @@ public class ControladorMovimientos implements Initializable {
 	@FXML
 	public void subirProductoPendienteBBDD() {
 		 List<Producto> productosPendientes = tblprodmov.getItems();
+		 Movimiento movimientoSeleccionado = tblmovpend.getSelectionModel().getSelectedItem();
 
 		    if (productosPendientes.isEmpty()) {
 		        System.out.println("No hay productos pendientes para subir a la base de datos.");
@@ -753,9 +772,10 @@ public class ControladorMovimientos implements Initializable {
 		            System.out.println("Error al subir el producto a la base de datos: " + producto.getNombre_producto());
 		            e.printStackTrace();
 		        }
-		    }
-		    productosPendientes.clear();
-		    
+		    } 
+		    tblprodmov.getItems().clear();
+		    tblmovpend.getItems().remove(movimientoSeleccionado);
+		    clm.getColaMensajes().remove(movimientoSeleccionado);
 
-}
+	}
 }
