@@ -1,0 +1,11 @@
+com.tfc.v1
+com.tfc.v1.auth
+com.tfc.v1.auth.jwt
+com.tfc.v1.conexion
+com.tfc.v1.config
+com.tfc.v1.controlador
+com.tfc.v1.modelo.entidades
+com.tfc.v1.modelo.entidades.usuario
+com.tfc.v1.modelo.persistencia
+com.tfc.v1.negocio
+com.tfc.v1.negocio.restcontroller

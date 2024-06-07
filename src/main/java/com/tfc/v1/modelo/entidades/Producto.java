@@ -9,9 +9,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
+/**
+ * Entidad que representa un producto en el almacén.
+ * 
+ * <p>Esta clase define los atributos y métodos asociados con un producto
+ * en el almacén, como el nombre, el valor por unidad, la cantidad disponible,
+ * el peso, la descripción y la sección a la que pertenece.</p>
+ * 
+ * @author Pablo Navarro Duro 
+ */
 @Entity
-
 public class Producto implements Serializable {
 	 private static final long serialVersionUID = 7772400257406297643L;
 	@Id
@@ -29,11 +36,23 @@ public class Producto implements Serializable {
 	private Seccion seccion;
 	
 	
-	
+	/**
+	 * Constructor por defecto
+	 */
 	public Producto() {
 		
 	}
-
+	/**
+     * Constructor con parámetros.
+     * 
+     * @param id El ID del producto.
+     * @param nombre_producto El nombre del producto.
+     * @param valor_producto_unidad El valor del producto por unidad.
+     * @param cantidad La cantidad disponible del producto.
+     * @param peso El peso del producto.
+     * @param descripcion La descripción del producto.
+     * @param seccion La sección a la que pertenece el producto.
+     */
 	public Producto(int id, String nombre_producto, double valor_producto_unidad, int cantidad, double peso,
 			String descripcion, Seccion seccion) {
 		super();

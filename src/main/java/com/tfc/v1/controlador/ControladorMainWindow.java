@@ -27,7 +27,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/**
+ * Controlador para la vista principal.
+ * 
+ * @author Sergio Rubio Núñez 
+ * @author Pablo Navarro Duro 
+ * 
+ * @see main_wind.fxml
+ 
+ */
 @Component
 public class ControladorMainWindow implements Initializable {
 

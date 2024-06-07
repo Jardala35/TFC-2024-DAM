@@ -1,7 +1,11 @@
 package com.tfc.v1.auth;
 
 import com.tfc.v1.modelo.entidades.usuario.Rol;
-
+/**
+ * Clase que contiene los datos para hacer el registro
+ * 
+ * @author Pablo Navarro Duro 
+ */
 public class RegisterRequest {
 	private String nomUsr;
 	private String pass;

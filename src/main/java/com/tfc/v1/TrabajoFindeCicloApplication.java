@@ -14,7 +14,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
+/**
+ * Clase principal, inicializa el contexto de spring y muestra la ventana del login
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ */
 @SpringBootApplication(scanBasePackages = "com.tfc.v1")
 public class TrabajoFindeCicloApplication extends Application {
     private ConfigurableApplicationContext contexto;
@@ -61,7 +65,14 @@ public class TrabajoFindeCicloApplication extends Application {
         contexto.close();
         System.exit(0);
     }
-    
+    /**
+     * 
+     * @param stage
+     * @throws Exception
+     * 
+     * metodo para cerrar la aplicación.
+     * se pide confirmacion atraves de una alerta
+     */
     public void salir(Stage stage) throws Exception {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Salir");

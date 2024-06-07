@@ -49,7 +49,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-
+/**
+ * Controlador para la vista de inventario.
+ * 
+ * @author Sergio Rubio Núñez 
+ * @author Pablo Navarro Duro 
+ * 
+ * @see Tabla.fxml
+ * 
+ */
 @Component
 public class ControladorTabla implements Initializable {
 	@Autowired

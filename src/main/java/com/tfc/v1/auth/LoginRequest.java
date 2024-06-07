@@ -1,5 +1,9 @@
 package com.tfc.v1.auth;
 
+/**
+ * Clase que contiene los datos para hacer el login
+ * @author Pablo Navarro Duro 
+ */
 public class LoginRequest {
 	private String username;
 	private String password;

@@ -26,7 +26,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ * Controlador para la vista de registro.
+ * 
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ * 
+ * @see Registro.fxml
+ 
+ */
 @Component
 public class ControladorRegistro implements Initializable {
 	private Stage stage;

@@ -13,9 +13,22 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Entidad que representa una sección de productos en el almacén.
+ * 
+ * <p>Esta clase define los atributos y métodos asociados con una sección
+ * de productos en el almacén, como el nombre de la sección y la lista de productos
+ * asociados a ella.</p>
+ * 
+ * @author Pablo Navarro Duro 
+ */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nombre"})})
 public class Seccion implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int id;
@@ -23,14 +36,30 @@ public class Seccion implements Serializable {
 	private String nombre;
 	@OneToMany(mappedBy = "seccion", cascade=CascadeType.ALL)
 	private List<Producto> productos;
+	/**
+     * Constructor por defecto.
+     *     
+     */
 	public Seccion() {
 		
 		
 	}
+	/**
+     * Constructor con parámetros.
+     * 
+     * @param nom El nombre de la sección.
+     */
 	public Seccion(String nom) {
 		super();
 		this.nombre = nom;
 	}
+	/**
+     * Constructor con parámetros.
+     * 
+     * @param id El ID de la sección.
+     * @param nom El nombre de la sección.
+     * @param productos La lista de productos asociados a la sección.
+     */
 	public Seccion(int id, String nom,  List<Producto> productos) {
 		super();
 		this.id = id;

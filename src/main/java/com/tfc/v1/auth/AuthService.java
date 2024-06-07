@@ -1,5 +1,8 @@
 package com.tfc.v1.auth;
-
+/**
+ * 
+ * 
+ */
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +14,15 @@ import com.tfc.v1.modelo.entidades.usuario.Rol;
 import com.tfc.v1.modelo.entidades.usuario.Usuario;
 import com.tfc.v1.modelo.persistencia.RepositorioUsuario;
 
+/**
+ * Servicio que maneja el login y el registro de un usuario.
+ * gestiona la llamada al repositorio
+ * 
+ * @author Pablo Navarro Duro
+ * 
+ * @see RepositorioUsuario
+ * @see JwtService
+ */
 @Service
 public class AuthService {
 
@@ -31,7 +43,11 @@ public class AuthService {
     public RepositorioUsuario getRepositorioUsuario() {
     	return this.userRepository;
     }
-
+    /**
+     * Metodo para el login de un usuario
+     * @param request
+     * @return AuthResponse
+     */
 	public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails user=userRepository.findByNomUsr(request.getUsername()).orElseThrow();
@@ -39,7 +55,11 @@ public class AuthService {
         return new AuthResponse(token);
 
     }
-
+	/**
+     * Metodo para el registro de un usuario
+     * @param request
+     * @return AuthResponse
+     */
     public AuthResponse register(RegisterRequest request) {
     	Usuario usr = new Usuario(request.getNomUsr(), passwordEncoder.encode( request.getPass()), 
     			request.getNombre(), request.getApellido(), request.getEmail(), request.getRol());

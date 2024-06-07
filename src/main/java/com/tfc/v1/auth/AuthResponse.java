@@ -1,5 +1,10 @@
 package com.tfc.v1.auth;
 
+/**
+ * clase auxiliar para la autenticacion, maneja el token de JWT despues de un login o registro
+ * @author Pablo Navarro Duro 
+ * @see AuthService
+ */
 public class AuthResponse {
     String token;
 

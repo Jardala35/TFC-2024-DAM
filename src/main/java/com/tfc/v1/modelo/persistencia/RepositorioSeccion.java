@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.tfc.v1.modelo.entidades.Seccion;
 
 import jakarta.transaction.Transactional;
-
+/**
+ * Interfaz para la persistencia de secciones en la base de datos.
+ * 
+ * @author Pablo Navarro Duro 
+ */
 @Repository
 public interface RepositorioSeccion extends JpaRepository<Seccion, Integer> {
 		public Seccion findByNombre(String nombre);

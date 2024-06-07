@@ -62,7 +62,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+/**
+ * Controlador para la vista de graficos.
+ *  
+ * @author Sergio Rubio Núñez 
+ * 
+ * @see informes.fxml
+ */
 @Component
 public class ControladorInformes implements Initializable {
     @Autowired

@@ -69,7 +69,18 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-
+/**
+ * Controlador para la vista de movimientos.
+ * 
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ * 
+ * @see movimientos2.fxml
+ * @see panel_mov_hist.fxml
+ * @see panel_mov_tblmov.fxml
+ * @see panel_mov_tblprod.fxml
+ *
+ */
 @Component
 public class ControladorMovimientos implements Initializable {
 	@Autowired

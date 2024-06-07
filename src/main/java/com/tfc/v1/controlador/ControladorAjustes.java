@@ -52,6 +52,19 @@ import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LocalDateTimeStringConverter;
 
+/**
+ * Controlador para la vista de ajustes.
+ * 
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ * 
+ * @see ajustes.fxml
+ * @see panel_conf_ini.fxml
+ * @see panel_conf_relsecprod.fxml
+ * @see panel_conf_tabla.fxml
+ * @see panel_conf_tabla2.fxml
+ * @see panel_usuarios.fxml
+ */
 @Component
 public class ControladorAjustes implements Initializable {
 

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.time.LocalDateTime;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.springframework.http.ResponseEntity;
 
@@ -13,7 +11,14 @@ import com.tfc.v1.auth.AuthResponse;
 import com.tfc.v1.auth.LoginRequest;
 import com.tfc.v1.modelo.entidades.Movimiento;
 import com.tfc.v1.negocio.Gestor;
-
+/**
+ * Clase que maneja la conexión de un cliente a través de un socket.
+ * Implementa la interfaz Runnable para permitir su ejecución en un hilo separado.
+ * Maneja la autenticación del cliente, así como la recepción y envío de objetos Movimiento.
+ * 
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ */
 public class HiloSocket implements Runnable {
     private Socket socketCliente;
     private Gestor gestor;
@@ -25,7 +30,19 @@ public class HiloSocket implements Runnable {
     private int cont = 0;
     
     private volatile boolean running = true;
-    
+    /**
+     * Constructor de la clase HiloSocket.
+     * 
+     * @param socketCliente El socket conectado al cliente.
+     * @param gestor El gestor que maneja la lógica de negocio.
+     * @param cm Cola de movimientos para enviar al cliente.
+     * @param clm Cola de movimientos leídos desde el cliente.
+     * @param uc Información de usuarios conectados.
+     * 
+     * @see ColaMovimientos
+     * @see ColaLeeMovimientos
+     * @see UsuarioConectado
+     */
     public HiloSocket(Socket socketCliente, Gestor gestor, ColaMovimientos cm, ColaLeeMovimientos clm, UsuarioConectado uc) {
         this.socketCliente = socketCliente;
         this.gestor = gestor;
@@ -34,7 +51,9 @@ public class HiloSocket implements Runnable {
         this.uc = uc;
     }    
 
-
+    /**
+     * Maneja la entrada del cliente. Lee los movimientos enviados por el cliente y los procesa.
+     */
     private void handleClientInput() {
     	try {	
     		while (running) { 
@@ -52,7 +71,9 @@ public class HiloSocket implements Runnable {
             stop();
         }
     }
-
+    /**
+     * Maneja la salida al cliente. Envía movimientos al cliente si hay disponibles en la cola.
+     */
     private void handleClientOutput() {
     	try {
             while (running) {  	
@@ -71,7 +92,9 @@ public class HiloSocket implements Runnable {
             stop();
         }
     }
-
+    /**
+     * Detiene la ejecución del hilo y cierra el socket del cliente.
+     */
     public void stop() {
         running = false;
         try {
@@ -83,7 +106,9 @@ public class HiloSocket implements Runnable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Maneja la autenticación del cliente. Lee las credenciales y las valida.
+     */
     private void handleAuthentication() {
         try {
             boolean flag = false;
@@ -109,7 +134,10 @@ public class HiloSocket implements Runnable {
             stop();
         }
     }
-
+    /**
+     * Método run. Se ejecuta al iniciar el hilo.
+     * Maneja la autenticación y lanza dos hilos uno para manejar la entrada y otro para salida del cliente.
+     */
     @Override
     public void run() {
         try {

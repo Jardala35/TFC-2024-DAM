@@ -1,7 +1,6 @@
 package com.tfc.v1.modelo.entidades;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,6 +10,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 
+/**
+ * Entidad que representa un movimiento de productos.
+ * 
+ * <p>Esta clase define los atributos y métodos asociados con un movimiento
+ * realizado en el almacen.</p>
+ * 
+ * @author Pablo Navarro Duro 
+ */
 @Entity
 public class Movimiento implements Serializable {
     private static final long serialVersionUID = 1L;

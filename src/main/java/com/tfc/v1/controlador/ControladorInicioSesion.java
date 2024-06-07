@@ -24,7 +24,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ * Controlador para la vista de inicio de sesion.
+ * 
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ * 
+ * @see ini_sesion.fxml
+ 
+ */
 @Component
 public class ControladorInicioSesion implements Initializable {
 

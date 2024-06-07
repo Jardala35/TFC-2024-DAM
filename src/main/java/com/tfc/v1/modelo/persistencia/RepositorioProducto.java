@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.tfc.v1.modelo.entidades.Producto;
 
 import jakarta.transaction.Transactional;
-
+/**
+ * Interfaz para la persistencia de productos en la base de datos.
+ * 
+ * @author Pablo Navarro Duro 
+ */
 @Repository
 public interface RepositorioProducto extends JpaRepository<Producto, Integer> {
 	@Modifying

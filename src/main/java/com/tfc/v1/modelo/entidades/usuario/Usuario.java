@@ -18,6 +18,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Clase que representa a un usuario.
+ * 
+ * <p>Esta clase define los atributos y métodos asociados con un usuario
+ * , incluyendo su nombre de usuario, contraseña, nombre, apellido,
+ * correo electrónico, fecha de alta y rol.</p>
+ * 
+ * @author Pablo Navarro Duro 
+ */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"nomUsr"})})
 public class Usuario implements UserDetails {
@@ -38,12 +47,23 @@ public class Usuario implements UserDetails {
 	private LocalDateTime fecha_alta;
 	@Enumerated(EnumType.STRING)
 	private Rol rol;
-	
+	/**
+	 * Constructor por defecto.
+	 */
 	public Usuario() {
 		super();
 	}
 	
-
+	/**
+     * Constructor con parámetros.
+     * 
+     * @param nomUsr El nombre de usuario.
+     * @param pass La contraseña.
+     * @param nombre El nombre del usuario.
+     * @param apellido El apellido del usuario.
+     * @param email El correo electrónico del usuario.
+     * @param rol El rol del usuario.
+     */
 	public Usuario(String nomUsr, String pass, String nombre, String apellido, String email, Rol rol) {
 		super();
 		this.nomUsr = nomUsr;
@@ -55,7 +75,7 @@ public class Usuario implements UserDetails {
 		this.fecha_alta = LocalDateTime.now();
 	}
 
-
+	// Métodos de UserDetails
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority((rol.name())));

@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXMLLoader;
 
+/**
+ * Clase para integrar el contexto de javafx en spring
+ * @author Pablo Navarro Duro 
+ * @author Sergio Rubio Núñez 
+ */
 @Component
 public class SpringFXMLLoader {
     private final ApplicationContext context;
