@@ -411,7 +411,7 @@ public class ControladorAjustes implements Initializable {
                     tblProductos.getColumns().addAll(nombreColumn, precioColumn, cantidadColumn, pesoColumn, descColumn);
                     firstLine = false;
                 } else {
-                    Producto producto = new Producto(key, data[0], Double.parseDouble(data[1]), Integer.parseInt(data[2]), Double.parseDouble(data[3]), data[4], null);
+                    Producto producto = new Producto(key, data[0], Double.parseDouble(data[1]), Integer.parseInt(data[3]), Double.parseDouble(data[2]), data[4], null);
                     tblProductos.getItems().add(producto);
                     key++;
                 }
